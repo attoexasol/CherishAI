@@ -7,6 +7,8 @@ import '../../presentation/auth/views/auth_screen.dart';
 import '../../presentation/onboarding/views/user_type_screen.dart';
 import '../../presentation/onboarding/views/individual_step1_profile_screen.dart';
 import '../../presentation/onboarding/views/individual_step2_add_loved_one_screen.dart';
+import '../../presentation/onboarding/views/individual_step3_relationship_goals_screen.dart';
+import '../../presentation/onboarding/views/individual_step4_secondary_goals_screen.dart';
 import '../bindings/initial_binding.dart';
 import '../bindings/auth_binding.dart';
 
@@ -17,6 +19,8 @@ abstract class AppRoutes {
   static const String userType = '/user-type';
   static const String individualUserInfo = '/individual/user-info';
   static const String individualAddLovedOne = '/individual/add-loved-one';
+  static const String individualRelationshipGoals = '/individual/relationship-goals';
+  static const String individualSecondaryGoals = '/individual/secondary-goals';
   static const String businessSplash = '/business/splash';
 
   static List<GetPage> get pages => [
@@ -48,6 +52,16 @@ abstract class AppRoutes {
         GetPage(
           name: individualAddLovedOne,
           page: () => const IndividualStep2AddLovedOneScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: individualRelationshipGoals,
+          page: () => const IndividualStep3RelationshipGoalsScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: individualSecondaryGoals,
+          page: () => const IndividualStep4SecondaryGoalsScreen(),
           binding: InitialBinding(),
         ),
         GetPage(

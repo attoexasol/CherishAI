@@ -34,8 +34,7 @@ class IndividualStep2AddLovedOneController extends GetxController {
     isSubmitting.value = true;
     Future.delayed(const Duration(milliseconds: 400), () {
       isSubmitting.value = false;
-      // Same as React: next step or submit. Replace with actual route when step 3 exists.
-      Get.toNamed(AppRoutes.individualUserInfo);
+      Get.toNamed(AppRoutes.individualRelationshipGoals);
     });
   }
 }

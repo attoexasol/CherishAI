@@ -253,4 +253,28 @@ abstract class AppGradients {
   );
   /// Step 2: Save & Continue CTA (same as onboarding continue)
   static const LinearGradient lovedOneCta = onboardingContinueBtn;
+
+  /// Individual Step 3: page background (light pink -> near white)
+  static const LinearGradient goalsPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFDF5F8),
+      Color(0xFFFAFAFA),
+    ],
+  );
+  /// Step 3: Save button enabled (same as onboarding continue)
+  static const LinearGradient goalsSaveEnabled = onboardingContinueBtn;
+
+  /// Individual Step 4: page background (white -> light pink)
+  static const LinearGradient secGoalsPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFFFFFF),
+      Color(0xFFFDF2F8),
+    ],
+  );
+  /// Step 4: CTA enabled (same as onboarding continue)
+  static const LinearGradient secGoalsCtaEnabled = onboardingContinueBtn;
 }

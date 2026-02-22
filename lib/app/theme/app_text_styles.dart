@@ -449,4 +449,109 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.white,
   );
+
+  // --- Individual Step 3 (Your relationship goals) ---
+  static const TextStyle goalsTitle = TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.goalsTitle,
+  );
+  static const TextStyle goalsDescription = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    color: AppColors.goalsDescription,
+  );
+  static const TextStyle goalsSectionLabel = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.4,
+    color: AppColors.goalsSectionLabel,
+  );
+  static const TextStyle goalsCardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.3,
+    color: AppColors.goalsCardTitle,
+  );
+  static const TextStyle goalsCardSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.goalsCardSubtitle,
+  );
+  static const TextStyle goalsSaveButton = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.goalsSaveEnabledText,
+  );
+  static const TextStyle goalsSaveDisabled = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.goalsSaveDisabledText,
+  );
+  static const TextStyle goalsFooter = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.goalsFooterText,
+  );
+
+  // --- Individual Step 4 (Secondary goals) ---
+  static const TextStyle secGoalsTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.secGoalsTitle,
+  );
+  static const TextStyle secGoalsTitleOptional = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.secGoalsTitle,
+  );
+  static const TextStyle secGoalsSubtitle = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1.4,
+    color: AppColors.secGoalsSubtitle,
+  );
+  static const TextStyle secGoalsDescription = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.secGoalsDescription,
+  );
+  static const TextStyle secGoalsPill = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.secGoalsPillText,
+  );
+  static const TextStyle secGoalsSectionTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.4,
+    color: AppColors.secGoalsSectionTitle,
+  );
+  static const TextStyle secGoalsOptionText = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1.4,
+    color: AppColors.secGoalsOptionText,
+  );
+  static const TextStyle secGoalsCta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
+  static const TextStyle secGoalsCtaDisabled = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.secGoalsCtaDisabledText,
+  );
+  static const TextStyle secGoalsSkipLink = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    color: AppColors.secGoalsSkipLink,
+  );
 }

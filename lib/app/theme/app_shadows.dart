@@ -345,4 +345,82 @@ abstract class AppShadows {
   ];
   /// Step 2: CTA button
   static const List<BoxShadow> lovedOneCta = onboardingContinueBtn;
+
+  /// Individual Step 3: back button (white circle)
+  static const List<BoxShadow> goalsBackButton = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Step 3: target icon circle
+  static const List<BoxShadow> goalsTargetCircle = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x33BE185D),
+    ),
+  ];
+  /// Step 3: goal card
+  static const List<BoxShadow> goalsCard = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Step 3: goal card selected
+  static const List<BoxShadow> goalsCardSelected = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x26FB7185),
+    ),
+  ];
+  /// Step 3: Save button enabled
+  static const List<BoxShadow> goalsSaveEnabled = onboardingContinueBtn;
+
+  /// Individual Step 4: back button
+  static const List<BoxShadow> secGoalsBackButton = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Step 4: selected pill
+  static const List<BoxShadow> secGoalsPill = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Step 4: section icon bubble
+  static const List<BoxShadow> secGoalsSectionBubble = [
+    BoxShadow(
+      offset: Offset(0, 1),
+      blurRadius: 4,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Step 4: option card
+  static const List<BoxShadow> secGoalsOptionCard = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Step 4: CTA enabled
+  static const List<BoxShadow> secGoalsCtaEnabled = onboardingContinueBtn;
 }

@@ -126,4 +126,59 @@ abstract class AppColors {
   static const Color lovedOneTileText = Color(0xFF374151);
   static const Color lovedOneTileSelectedBg = Color(0xFFFFF2F6);
   static const Color lovedOneTileSelectedBorder = Color(0xFFFB7185);
+
+  // --- Individual Step 3 (Your relationship goals) ---
+  static const Color goalsBgTop = Color(0xFFFDF5F8);
+  static const Color goalsBgBottom = Color(0xFFFAFAFA);
+  static const Color goalsBackBtnBg = Color(0xFFFFFFFF);
+  static const Color goalsBackBtnIcon = Color(0xFF374151);
+  static const Color goalsTargetCircleBg = Color(0xFFBE185D);
+  static const Color goalsTargetIcon = Color(0xFFFFFFFF);
+  static const Color goalsTitle = Color(0xFF1E293B);
+  static const Color goalsDescription = Color(0xFF6B7280);
+  static const Color goalsSectionLabel = Color(0xFF1E293B);
+  static const Color goalsCardBg = Color(0xFFFFFFFF);
+  static const Color goalsCardTitle = Color(0xFF1E293B);
+  static const Color goalsCardSubtitle = Color(0xFF6B7280);
+  static const Color goalsSaveDisabledBg = Color(0xFFE5E7EB);
+  static const Color goalsSaveDisabledText = Color(0xFF9CA3AF);
+  static const Color goalsSaveEnabledText = Color(0xFFFFFFFF);
+  static const Color goalsFooterText = Color(0xFF9CA3AF);
+  static const Color goalsCardIconBgPink = Color(0xFFFFE4EC);
+  static const Color goalsCardIconPink = Color(0xFFFB7185);
+  static const Color goalsCardIconBgOrange = Color(0xFFFFEDD5);
+  static const Color goalsCardIconOrange = Color(0xFFF97316);
+  static const Color goalsCardIconBgBlue = Color(0xFFDBEAFE);
+  static const Color goalsCardIconBlue = Color(0xFF3B82F6);
+  static const Color goalsCardIconBgPurple = Color(0xFFE9D5FF);
+  static const Color goalsCardIconPurple = Color(0xFFA855F7);
+  static const Color goalsCardIconBgYellow = Color(0xFFFEF3C7);
+  static const Color goalsCardIconYellow = Color(0xFFF59E0B);
+  static const Color goalsCardIconBgRed = Color(0xFFFEE2E2);
+  static const Color goalsCardIconRed = Color(0xFFEF4444);
+
+  // --- Individual Step 4 (Secondary Relationship Goals) ---
+  static const Color secGoalsBgTop = Color(0xFFFFFFFF);
+  static const Color secGoalsBgBottom = Color(0xFFFDF2F8);
+  static const Color secGoalsBackBtnBg = Color(0xFFF9FAFB);
+  static const Color secGoalsBackBtnIcon = Color(0xFFA855F7);
+  static const Color secGoalsTitle = Color(0xFF1E293B);
+  static const Color secGoalsSubtitle = Color(0xFFE11D48);
+  static const Color secGoalsDescription = Color(0xFF6B7280);
+  static const Color secGoalsPillBg = Color(0xFFFFFFFF);
+  static const Color secGoalsPillBorder = Color(0xFFFBCFE8);
+  static const Color secGoalsPillText = Color(0xFF1E293B);
+  static const Color secGoalsSectionBubbleBeige = Color(0xFFFEF3C7);
+  static const Color secGoalsSectionBubbleBlue = Color(0xFFDBEAFE);
+  static const Color secGoalsSectionBubblePink = Color(0xFFFFE4EC);
+  static const Color secGoalsSectionBubbleYellow = Color(0xFFFEF9C3);
+  static const Color secGoalsSectionTitle = Color(0xFF1E293B);
+  static const Color secGoalsOptionCardBg = Color(0xFFFFFFFF);
+  static const Color secGoalsOptionCardBorder = Color(0xFFFBCFE8);
+  static const Color secGoalsOptionText = Color(0xFF6B7280);
+  static const Color secGoalsSelectorBorder = Color(0xFFD1D5DB);
+  static const Color secGoalsSelectorSelected = Color(0xFFFB7185);
+  static const Color secGoalsCtaDisabledBg = Color(0xFFE5E7EB);
+  static const Color secGoalsCtaDisabledText = Color(0xFF9CA3AF);
+  static const Color secGoalsSkipLink = Color(0xFFA855F7);
 }
