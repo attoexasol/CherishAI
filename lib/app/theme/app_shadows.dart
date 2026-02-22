@@ -249,4 +249,100 @@ abstract class AppShadows {
       color: Color(0x26000000),
     ),
   ];
+
+  /// Individual Profile Step 1: back button
+  static const List<BoxShadow> profileStep1BackButton = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x26FB7185),
+    ),
+  ];
+  /// Profile Step 1: avatar circle
+  static const List<BoxShadow> profileStep1Avatar = [
+    BoxShadow(
+      offset: Offset(0, 6),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x33FB7185),
+    ),
+  ];
+  /// Profile Step 1: form card
+  static const List<BoxShadow> profileStep1Card = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Profile Step 1: camera badge
+  static const List<BoxShadow> profileStep1CameraBadge = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x33FB7185),
+    ),
+  ];
+  /// Profile Step 1: CTA button (reuse onboarding continue)
+  static const List<BoxShadow> profileStep1Cta = onboardingContinueBtn;
+
+  /// Individual Step 2: back button
+  static const List<BoxShadow> lovedOneBackButton = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x26FB7185),
+    ),
+  ];
+  /// Step 2: heart circle
+  static const List<BoxShadow> lovedOneHeartCircle = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x40FB7185),
+    ),
+  ];
+  /// Step 2: photo circle
+  static const List<BoxShadow> lovedOnePhotoCircle = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x1AFB7185),
+    ),
+  ];
+  /// Step 2: section card
+  static const List<BoxShadow> lovedOneSectionCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Step 2: tile (unselected)
+  static const List<BoxShadow> lovedOneTile = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Step 2: tile selected
+  static const List<BoxShadow> lovedOneTileSelected = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x33FB7185),
+    ),
+  ];
+  /// Step 2: CTA button
+  static const List<BoxShadow> lovedOneCta = onboardingContinueBtn;
 }

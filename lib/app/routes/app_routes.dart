@@ -5,6 +5,8 @@ import '../../presentation/splash/views/splash_screen.dart';
 import '../../presentation/onboarding/views/onboarding_intro_screen.dart';
 import '../../presentation/auth/views/auth_screen.dart';
 import '../../presentation/onboarding/views/user_type_screen.dart';
+import '../../presentation/onboarding/views/individual_step1_profile_screen.dart';
+import '../../presentation/onboarding/views/individual_step2_add_loved_one_screen.dart';
 import '../bindings/initial_binding.dart';
 import '../bindings/auth_binding.dart';
 
@@ -14,6 +16,7 @@ abstract class AppRoutes {
   static const String onboardingIntro = '/onboarding-intro';
   static const String userType = '/user-type';
   static const String individualUserInfo = '/individual/user-info';
+  static const String individualAddLovedOne = '/individual/add-loved-one';
   static const String businessSplash = '/business/splash';
 
   static List<GetPage> get pages => [
@@ -39,7 +42,12 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: individualUserInfo,
-          page: () => const _PlaceholderScreen(title: 'User Info'),
+          page: () => const IndividualStep1ProfileScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: individualAddLovedOne,
+          page: () => const IndividualStep2AddLovedOneScreen(),
           binding: InitialBinding(),
         ),
         GetPage(

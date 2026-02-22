@@ -77,4 +77,53 @@ abstract class AppColors {
   static const Color userTypeCardBorderSelected = Color(0xB3FB7185);
   static const Color userTypeCardBorderBusiness = Color(0x99C4B5FD);
   static const Color userTypeCardBorderBusinessSelected = Color(0xB3A78BFA);
+
+  // --- Individual Profile Step 1 (Tell Cherish AI about yourself) ---
+  static const Color profileStep1BgTop = Color(0xFFFBEFFF);
+  static const Color profileStep1BgMid = Color(0xFFFDF5F8);
+  static const Color profileStep1BgBottom = Color(0xFFFCEEF3);
+  static const Color profileStep1BackBtnBg = Color(0xFFFFF2F6);
+  static const Color profileStep1BackBtnIcon = Color(0xFFFB7185);
+  static const Color profileStep1StepPillText = Color(0xFFFB7185);
+  static const Color profileStep1Title = Color(0xFF1E293B);
+  static const Color profileStep1Subtitle = Color(0xFF6B7280);
+  static const Color profileStep1Label = Color(0xFF6B7280);
+  static const Color profileStep1CardBg = Color(0xFFFFFFFF);
+  static const Color profileStep1CardLabel = Color(0xFF1E293B);
+  static const Color profileStep1RequiredAsterisk = Color(0xFFDC2626);
+  static const Color profileStep1Helper = Color(0xFF9CA3AF);
+  static const Color profileStep1InputBg = Color(0xFFFFFFFF);
+  static const Color profileStep1InputBorder = Color(0xFFE5E7EB);
+  static const Color profileStep1InputPlaceholder = Color(0xFF9CA3AF);
+  static const Color profileStep1ChipText = Color(0xFF374151);
+  static const Color profileStep1ChipBorder = Color(0xFFE5E7EB);
+  static const Color profileStep1ChipSelectedBg = Color(0xFFFB7185);
+  static const Color profileStep1PhotoCircleBorder = Color(0xFFFFC0CB);
+  static const Color profileStep1PhotoCircleInner = Color(0xFFFFF2F6);
+  static const Color profileStep1PhotoIcon = Color(0xFFFB7185);
+  static const Color profileStep1RequiredHint = Color(0xFFDC2626);
+
+  // --- Individual Step 2 (Add a loved one) ---
+  static const Color lovedOneBgTop = Color(0xFFFDF2F8);
+  static const Color lovedOneBgBottom = Color(0xFFFCE7F3);
+  static const Color lovedOneBackBtnBg = Color(0xFFFFF2F6);
+  static const Color lovedOneBackBtnIcon = Color(0xFFFB7185);
+  static const Color lovedOneHeartCircleBg = Color(0xFFFB7185);
+  static const Color lovedOneTitle = Color(0xFF1E293B);
+  static const Color lovedOneSubtitle = Color(0xFFE11D48);
+  static const Color lovedOnePhotoLabel = Color(0xFFFB7185);
+  static const Color lovedOnePhotoCircleBg = Color(0xFFFFF2F6);
+  static const Color lovedOnePhotoCircleBorder = Color(0xFFF9A8D4);
+  static const Color lovedOnePhotoIcon = Color(0xFF64748B);
+  static const Color lovedOneCardLabel = Color(0xFF1E293B);
+  static const Color lovedOneRequiredAsterisk = Color(0xFFDC2626);
+  static const Color lovedOneInputBg = Color(0xFFFFF2F6);
+  static const Color lovedOneInputBorder = Color(0xFFE5E7EB);
+  static const Color lovedOneInputPlaceholder = Color(0xFF9CA3AF);
+  static const Color lovedOneSectionCardBg = Color(0xFFF8F8F8);
+  static const Color lovedOneTileBg = Color(0xFFFFFFFF);
+  static const Color lovedOneTileBorder = Color(0xFFE5E7EB);
+  static const Color lovedOneTileText = Color(0xFF374151);
+  static const Color lovedOneTileSelectedBg = Color(0xFFFFF2F6);
+  static const Color lovedOneTileSelectedBorder = Color(0xFFFB7185);
 }

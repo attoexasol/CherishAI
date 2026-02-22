@@ -332,4 +332,121 @@ abstract class AppTextStyles {
     height: 1.6,
     color: AppColors.userTypeCardDesc,
   );
+
+  // --- Individual Profile Step 1 ---
+  static const TextStyle profileStep1StepPill = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileStep1StepPillText,
+  );
+  static const TextStyle profileStep1Title = TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.profileStep1Title,
+  );
+  static const TextStyle profileStep1Subtitle = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.profileStep1Subtitle,
+  );
+  static const TextStyle profileStep1SectionLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileStep1Label,
+  );
+  static const TextStyle profileStep1CardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.4,
+    color: AppColors.profileStep1CardLabel,
+  );
+  static const TextStyle profileStep1Helper = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.profileStep1Helper,
+  );
+  static const TextStyle profileStep1Input = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileStep1CardLabel,
+  );
+  static const TextStyle profileStep1InputPlaceholder = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileStep1InputPlaceholder,
+  );
+  static const TextStyle profileStep1Chip = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    color: AppColors.profileStep1ChipText,
+  );
+  static const TextStyle profileStep1ChipSelected = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    color: AppColors.white,
+  );
+  static const TextStyle profileStep1AddPhoto = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileStep1PhotoIcon,
+  );
+  static const TextStyle profileStep1Cta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
+  static const TextStyle profileStep1RequiredHint = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileStep1RequiredHint,
+  );
+
+  // --- Individual Step 2 (Add a loved one) ---
+  static const TextStyle lovedOneTitle = TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.lovedOneTitle,
+  );
+  static const TextStyle lovedOneSubtitle = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.lovedOneSubtitle,
+  );
+  static const TextStyle lovedOnePhotoLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lovedOnePhotoLabel,
+  );
+  static const TextStyle lovedOneCardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.4,
+    color: AppColors.lovedOneCardLabel,
+  );
+  static const TextStyle lovedOneInput = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneCardLabel,
+  );
+  static const TextStyle lovedOneInputPlaceholder = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneInputPlaceholder,
+  );
+  static const TextStyle lovedOneTileLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.35,
+    color: AppColors.lovedOneTileText,
+  );
+  static const TextStyle lovedOneCta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
 }

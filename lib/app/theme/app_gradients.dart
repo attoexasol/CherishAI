@@ -218,4 +218,39 @@ abstract class AppGradients {
       Color(0xEBFEF2F8),
     ],
   );
+
+  /// Individual Profile Step 1: page background (light purple-pink -> rosy)
+  static const LinearGradient profileStep1PageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFBEFFF),
+      Color(0xFFFDF5F8),
+      Color(0xFFFCEEF3),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Profile Step 1: avatar circle (90deg pink -> purple-pink)
+  static const LinearGradient profileStep1Avatar = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFFB7185),
+      Color(0xFFF472B6),
+    ],
+  );
+  /// Profile Step 1: CTA button (same as onboarding continue)
+  static const LinearGradient profileStep1Cta = onboardingContinueBtn;
+
+  /// Individual Step 2 (Add loved one): page background
+  static const LinearGradient lovedOnePageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFDF2F8),
+      Color(0xFFFCE7F3),
+    ],
+  );
+  /// Step 2: Save & Continue CTA (same as onboarding continue)
+  static const LinearGradient lovedOneCta = onboardingContinueBtn;
 }
