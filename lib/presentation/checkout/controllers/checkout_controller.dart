@@ -69,7 +69,7 @@ class CheckoutController extends GetxController {
     // Hook to existing payment flow exactly like React. Do NOT implement here.
     Future.delayed(const Duration(milliseconds: 1500), () {
       isSubmitting.value = false;
-      Get.offAllNamed(AppRoutes.choosePlan);
+      Get.offAllNamed(AppRoutes.home);
     });
   }
 }

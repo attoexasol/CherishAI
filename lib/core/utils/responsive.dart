@@ -11,6 +11,9 @@ abstract class Breakpoints {
   static const double xl = 1280;
 }
 
+/// Max content width for centered layouts (Tailwind max-w-6xl = 72rem = 1152px).
+const double kMaxContentWidth = 1152;
+
 extension ResponsiveContext on BuildContext {
   double get width => MediaQuery.sizeOf(this).width;
 

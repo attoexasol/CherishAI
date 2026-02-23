@@ -16,11 +16,11 @@ const double _kCardRadius = 24;
 const double _kCardPadding = 24;
 const double _kIconSquareSize = 40;
 const double _kInputRadius = 12;
-const double _kPaymentTileHeight = 100;
 const double _kPaymentTileRadius = 16;
 const double _kPaymentDotSize = 8;
 const double _kCtaHeight = 52;
 const double _kCtaRadius = 16;
+const double _kCtaSectionHeight = 148; // CTA block height for scroll padding (top + button + footer rows + bottom)
 const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
 const double _kDetailsCardIconSize = 72;
@@ -47,34 +47,39 @@ class CheckoutScreen extends StatelessWidget {
                     left: _kHorizontalPadding,
                     right: _kHorizontalPadding,
                     top: 24,
-                    bottom: _kCtaHeight + 80,
+                    bottom: _kCtaSectionHeight + MediaQuery.paddingOf(context).bottom,
                   ),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _buildHeader(context),
-                          const SizedBox(height: 32),
-                          _buildContactCard(context),
-                          const SizedBox(height: 24),
-                          _buildPaymentMethodCard(context),
-                          const SizedBox(height: 24),
-                          Obx(() {
-                            final c = Get.find<CheckoutController>();
-                            final method = c.selectedPaymentMethod.value;
-                            if (method == 'card') return _buildCardInfoCard(context);
-                            if (method == 'apple') return _buildApplePayDetailsCard(context);
-                            if (method == 'google') return _buildGooglePayDetailsCard(context);
-                            return const SizedBox.shrink();
-                          }),
-                          const SizedBox(height: 24),
-                          _buildOrderSummaryCard(context),
-                        ],
-                      ),
-                    ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Align(
+                        alignment: Alignment.topCenter,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _buildHeader(context),
+                              const SizedBox(height: 32),
+                              _buildContactCard(context),
+                              const SizedBox(height: 24),
+                              _buildPaymentMethodCard(context),
+                              const SizedBox(height: 24),
+                              Obx(() {
+                                final c = Get.find<CheckoutController>();
+                                final method = c.selectedPaymentMethod.value;
+                                if (method == 'card') return _buildCardInfoCard(context);
+                                if (method == 'apple') return _buildApplePayDetailsCard(context);
+                                if (method == 'google') return _buildGooglePayDetailsCard(context);
+                                return const SizedBox.shrink();
+                              }),
+                              const SizedBox(height: 24),
+                              _buildOrderSummaryCard(context),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -268,6 +273,7 @@ class CheckoutScreen extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text('Select Payment Method', style: AppTextStyles.checkoutSectionTitle),
           const SizedBox(height: 16),
@@ -275,47 +281,48 @@ class CheckoutScreen extends StatelessWidget {
             final selected = c.selectedPaymentMethod.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
                   width: double.infinity,
                   child: _buildPaymentTile(
-                        context,
-                        key: 'card',
-                        icon: Icons.credit_card,
-                        label: 'Credit Card',
-                        isSelected: selected == 'card',
-                        onTap: () => c.onSelectPaymentMethod('card'),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: _buildPaymentTile(
-                        context,
-                        key: 'google',
-                        label: 'Google Pay',
-                        isGooglePay: true,
-                        isSelected: selected == 'google',
-                        onTap: () => c.onSelectPaymentMethod('google'),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: _buildPaymentTile(
-                        context,
-                        key: 'apple',
-                        label: 'Apple Pay',
-                        isApplePay: true,
-                        isSelected: selected == 'apple',
-                        onTap: () => c.onSelectPaymentMethod('apple'),
-                      ),
-                    ),
-                  ],
-                );
-              }),
-            ],
-          ),
+                    context,
+                    key: 'card',
+                    icon: Icons.credit_card,
+                    label: 'Credit Card',
+                    isSelected: selected == 'card',
+                    onTap: () => c.onSelectPaymentMethod('card'),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: _buildPaymentTile(
+                    context,
+                    key: 'google',
+                    label: 'Google Pay',
+                    isGooglePay: true,
+                    isSelected: selected == 'google',
+                    onTap: () => c.onSelectPaymentMethod('google'),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: _buildPaymentTile(
+                    context,
+                    key: 'apple',
+                    label: 'Apple Pay',
+                    isApplePay: true,
+                    isSelected: selected == 'apple',
+                    onTap: () => c.onSelectPaymentMethod('apple'),
+                  ),
+                ),
+              ],
+            );
+          }),
+        ],
+      ),
     );
   }
 
@@ -336,7 +343,6 @@ class CheckoutScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(_kPaymentTileRadius),
         child: Container(
           width: double.infinity,
-          height: _kPaymentTileHeight,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.checkoutPaymentTileSelectedBg : AppColors.checkoutCardBg,
@@ -348,6 +354,7 @@ class CheckoutScreen extends StatelessWidget {
             boxShadow: isSelected ? AppShadows.checkoutCard : null,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (icon != null)

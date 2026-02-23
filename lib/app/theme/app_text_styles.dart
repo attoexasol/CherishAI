@@ -939,4 +939,374 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.checkoutFooterText,
   );
+
+  // --- Home (Individual Home Dashboard) ---
+  static const TextStyle homeGreetingTitle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.homeGreetingTitle,
+  );
+  static const TextStyle homeGreetingSubtitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.homeGreetingSubtitle,
+  );
+  static const TextStyle homePill = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.homePillText,
+  );
+  static const TextStyle homeSectionTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.homeSectionTitle,
+  );
+  static const TextStyle homeSectionSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.homeSectionSubtitle,
+  );
+  static const TextStyle homeSwipeHint = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.homeSwipeHint,
+  );
+  static const TextStyle homeMessageCardTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.homeSectionTitle,
+  );
+  static const TextStyle homeMessageCardRelation = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.homeSectionSubtitle,
+  );
+  static const TextStyle homeMessageLink = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.homeSwipeHint,
+  );
+  static const TextStyle homeMessageBody = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    height: 1.5,
+    color: AppColors.homeSectionTitle,
+  );
+  static const TextStyle homePrevNext = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.homePrevNextText,
+  );
+  static const TextStyle homeRegenerateBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+  static const TextStyle homeLikeDislike = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.homeSectionSubtitle,
+  );
+  static const TextStyle homeEventTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.homeSectionTitle,
+  );
+  static const TextStyle homeEventDate = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.homeSectionSubtitle,
+  );
+  static const TextStyle homeEventDays = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.homeEventDaysText,
+  );
+  static const TextStyle homeUrgentBadge = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  );
+  static const TextStyle homeGiftIdeasBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+  static const TextStyle homeInspirationQuote = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    fontStyle: FontStyle.italic,
+    height: 1.5,
+    color: AppColors.homeSectionTitle,
+  );
+  static const TextStyle homeInspirationAuthor = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.homeSectionSubtitle,
+  );
+  static const TextStyle homeInspirationLikeShare = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.homeInspirationLikeInactive,
+  );
+  static const TextStyle homeBottomNavLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.homeBottomNavActiveText,
+  );
+  static const TextStyle homeBottomNavLabelInactive = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.homeBottomNavInactiveText,
+  );
+
+  // --- Notifications list ---
+  static const TextStyle notifBack = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.notifBackText,
+  );
+  static const TextStyle notifMarkAllRead = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+  static const TextStyle notifTitle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+  );
+  static const TextStyle notifSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.notifSubtitle,
+  );
+  static const TextStyle notifTab = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
+  static const TextStyle notifCardTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.notifCardTitle,
+  );
+  static const TextStyle notifCardTime = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.notifCardTime,
+  );
+  static const TextStyle notifCardBody = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    color: AppColors.notifCardBody,
+  );
+  static const TextStyle notifTagPill = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.notifTagPillText,
+  );
+  static const TextStyle notifMarkReadBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+  static const TextStyle notifDeleteBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.notifDeleteBtnText,
+  );
+  static const TextStyle notifEmptyTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.notifEmptyTitle,
+  );
+  static const TextStyle notifEmptyBody = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.notifEmptyBody,
+  );
+
+  // --- Profile (User Profile view/edit) ---
+  static const TextStyle profileTitle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.profileTitleText,
+  );
+  static const TextStyle profileUsername = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.profileUsernameText,
+  );
+  static const TextStyle profileMembership = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.3,
+    color: AppColors.profileMembershipText,
+  );
+  static const TextStyle profileStatLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileStatLabel,
+  );
+  static const TextStyle profileStatCount = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    color: AppColors.profileStatCount,
+  );
+  static const TextStyle profileStatDelta = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.profileStatDelta,
+  );
+  static const TextStyle profileInfoSectionTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.profileInfoTitle,
+  );
+  static const TextStyle profileInfoRowLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileInfoLabel,
+  );
+  static const TextStyle profileInfoRowValue = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    color: AppColors.profileInfoValue,
+  );
+  static const TextStyle profileFormLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.profileInfoLabel,
+  );
+  static const TextStyle profileFormInput = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileInfoValue,
+  );
+  static const TextStyle profileFormPlaceholder = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.profileInputPlaceholder,
+  );
+  static const TextStyle profileSaveBtn = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+  static const TextStyle profileManageSubBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.profileManageSubText,
+  );
+  static const TextStyle profileLogoutBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.profileLogoutText,
+  );
+
+  // --- Search (Individual Search screen) ---
+  static const TextStyle searchTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    height: 1.25,
+    color: AppColors.searchTitleText,
+  );
+  static const TextStyle searchBarInput = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.searchBarText,
+  );
+  static const TextStyle searchBarPlaceholder = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.searchBarPlaceholder,
+  );
+  static const TextStyle searchSectionTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.searchSectionTitle,
+  );
+  static const TextStyle searchQuickTileLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.searchQuickTileLabel,
+  );
+  static const TextStyle searchTrendingTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.searchTrendingTitle,
+  );
+  static const TextStyle searchTrendingSubtitle = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.searchTrendingSubtitle,
+  );
+  static const TextStyle searchRecentChip = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.searchRecentChipText,
+  );
+  // --- Loved Ones list screen ---
+  static const TextStyle lovedOnesTitle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.lovedOnesTitle,
+  );
+  static const TextStyle lovedOnesSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOnesSubtitle,
+  );
+  static const TextStyle lovedOnesAddLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOnesAddLabel,
+  );
+  static const TextStyle lovedOnesCardName = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.lovedOnesName,
+  );
+  static const TextStyle lovedOnesCardRelationship = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lovedOnesRelationship,
+  );
+  // --- Account Settings modal ---
+  static const TextStyle accountSettingsTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    height: 1.25,
+    color: AppColors.accountSettingsTitle,
+  );
+  static const TextStyle accountSettingsSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.accountSettingsSubtitle,
+  );
+  static const TextStyle accountSettingsRowTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.25,
+    color: AppColors.accountSettingsRowTitle,
+  );
+  static const TextStyle accountSettingsRowSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.accountSettingsRowSubtitle,
+  );
 }

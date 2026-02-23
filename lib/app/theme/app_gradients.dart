@@ -364,4 +364,353 @@ abstract class AppGradients {
     ],
     stops: [0.0, 0.5, 1.0],
   );
+
+  /// Home: page background (rose-50 -> pink-50 -> purple-50)
+  static const LinearGradient homePageBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFFF1F2),
+      Color(0xFFFDF2F8),
+      Color(0xFFFAF5FF),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Home: top bar heart icon
+  static const LinearGradient homeHeartIcon = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFE11D48),
+      Color(0xFFA855F7),
+    ],
+  );
+  /// Home: Regenerate Message / Gift Ideas button (rose -> pink -> purple)
+  static const LinearGradient homeRegenerateBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFE11D48),
+      Color(0xFFEC4899),
+      Color(0xFFA855F7),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Home: URGENT badge
+  static const LinearGradient homeUrgentBadge = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFE11D48),
+      Color(0xFFEC4899),
+    ],
+  );
+  /// Home: event card icon square (rose -> purple)
+  static const LinearGradient homeEventIconSquare = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFE11D48),
+      Color(0xFFA855F7),
+    ],
+  );
+  /// Home: inspiration icon square (purple -> pink)
+  static const LinearGradient homeInspirationIcon = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFA855F7),
+      Color(0xFFEC4899),
+    ],
+  );
+  /// Home: inspiration card background
+  static const LinearGradient homeInspirationCardBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFAF5FF),
+      Color(0xFFFDF2F8),
+      Color(0xFFFFF1F2),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Home: inspiration Like button when active
+  static const LinearGradient homeInspirationLikeActive = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFE11D48),
+      Color(0xFFEC4899),
+    ],
+  );
+  /// Home: bottom nav active pill
+  static const LinearGradient homeBottomNavActivePill = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFECDD3),
+      Color(0xFFFBCFE8),
+      Color(0xFFFFF1F2),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+
+  /// Notifications: page background (same as home)
+  static const LinearGradient notifPageBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFFF1F2),
+      Color(0xFFFDF2F8),
+      Color(0xFFFAF5FF),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Notifications: header bell icon + Mark All Read + tab active + Mark as Read button
+  static const LinearGradient notifPrimaryBtn = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFE91E63),
+      Color(0xFFF06292),
+    ],
+  );
+  /// Notifications: title gradient text
+  static const LinearGradient notifTitleGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFE11D48),
+      Color(0xFFEC4899),
+      Color(0xFFA855F7),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Notifications: tag pill background
+  static const LinearGradient notifTagPillBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFFF5F8),
+      Color(0xFFFFE4EC),
+    ],
+  );
+  /// Notifications: unread left bar
+  static const LinearGradient notifUnreadBar = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFE91E63),
+      Color(0xFFF06292),
+    ],
+  );
+  /// Notifications: empty state icon
+  static const LinearGradient notifEmptyIconBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFF6A6C1),
+      Color(0xFFFAD0DC),
+    ],
+  );
+  /// Notifications: card icon by type (rose-pink)
+  static const LinearGradient notifIconReminder = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFB7185), Color(0xFFF472B6)],
+  );
+  static const LinearGradient notifIconInspiration = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFA78BFA), Color(0xFFF472B6)],
+  );
+  static const LinearGradient notifIconSuggestionPink = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFF472B6), Color(0xFFFB7185)],
+  );
+  static const LinearGradient notifIconAchievement = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFBBF24), Color(0xFFFB923C)],
+  );
+  static const LinearGradient notifIconEvent = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFF87171), Color(0xFFF472B6)],
+  );
+  static const LinearGradient notifIconSuggestionBlue = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF60A5FA), Color(0xFF22D3EE)],
+  );
+  static const LinearGradient notifIconTip = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
+  );
+
+  /// Profile (User Profile): header gradient (rose-400 -> pink-400 -> purple-400)
+  static const LinearGradient profileHeader = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.profileHeaderStart,
+      AppColors.profileHeaderMid,
+      AppColors.profileHeaderEnd,
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Profile: edit button when active (edit mode)
+  static const LinearGradient profileEditBtnActive = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.profileEditBtnActiveStart,
+      AppColors.profileEditBtnActiveEnd,
+    ],
+  );
+  /// Profile: Save Changes button (rose -> pink -> purple)
+  static const LinearGradient profileSaveBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      AppColors.profileSaveBtnStart,
+      AppColors.profileSaveBtnMid,
+      AppColors.profileSaveBtnEnd,
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Profile: stat card decorative gradient (rose-100/50 -> pink-100/50)
+  static const LinearGradient profileCardDeco = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.profileCardBgGradientStart,
+      AppColors.profileCardBgGradientEnd,
+    ],
+  );
+  /// Profile: Manage Subscription button background
+  static const LinearGradient profileManageSubBtn = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.profileManageSubBgStart,
+      AppColors.profileManageSubBgEnd,
+    ],
+  );
+  /// Profile: Log Out button background
+  static const LinearGradient profileLogoutBtn = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.profileLogoutBgStart,
+      AppColors.profileLogoutBgEnd,
+    ],
+  );
+
+  /// Search: header (purple-400 -> purple-500 -> indigo-500)
+  static const LinearGradient searchHeader = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.searchHeaderStart,
+      AppColors.searchHeaderMid,
+      AppColors.searchHeaderEnd,
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Search: Quick Access Loved Ones (rose-400 -> pink-400)
+  static const LinearGradient searchQuickLovedOnes = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.searchQuickTileLovedOnesStart, AppColors.searchQuickTileLovedOnesEnd],
+  );
+  /// Search: Quick Access Gift Ideas (purple-400 -> indigo-400)
+  static const LinearGradient searchQuickGift = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.searchQuickTileGiftStart, AppColors.searchQuickTileGiftEnd],
+  );
+  /// Search: Quick Access Events (blue-400 -> cyan-400)
+  static const LinearGradient searchQuickEvents = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.searchQuickTileEventsStart, AppColors.searchQuickTileEventsEnd],
+  );
+  /// Search: Quick Access Old Messages (pink-400 -> rose-400)
+  static const LinearGradient searchQuickMessages = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.searchQuickTileMessagesStart, AppColors.searchQuickTileMessagesEnd],
+  );
+  /// Search: Trending card icon bubble (purple-100 -> pink-100)
+  static const LinearGradient searchTrendingBubble = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.searchTrendingBubbleStart, AppColors.searchTrendingBubbleEnd],
+  );
+  /// Loved Ones list: page background (rose-50 -> pink-50 -> purple-50)
+  static const LinearGradient lovedOnesPageBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.lovedOnesPageBgStart,
+      AppColors.lovedOnesPageBgMid,
+      AppColors.lovedOnesPageBgEnd,
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Loved Ones list: Add button (rose-500 -> pink-500 -> purple-500)
+  static const LinearGradient lovedOnesAddBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFF43F5E),  // rose-500
+      Color(0xFFEC4899),  // pink-500
+      Color(0xFFA855F7),  // purple-500
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Loved Ones list: avatar tile (rose-100 -> pink-100)
+  static const LinearGradient lovedOnesAvatarBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.lovedOnesAvatarBgStart, AppColors.lovedOnesAvatarBgEnd],
+  );
+  /// Account Settings modal: header (rose-400 -> pink-500 -> purple-500)
+  static const LinearGradient accountSettingsHeader = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFB7185),  // rose-400
+      Color(0xFFEC4899),  // pink-500
+      Color(0xFFA855F7),  // purple-500
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Account Settings: row 1 icon bubble (purple-400 -> indigo-400)
+  static const LinearGradient accountSettingsRow1Bubble = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFA78BFA), Color(0xFF818CF8)],
+  );
+  /// Account Settings: row 2 icon bubble (blue-400 -> cyan-400)
+  static const LinearGradient accountSettingsRow2Bubble = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF60A5FA), Color(0xFF22D3EE)],
+  );
+  /// Account Settings: row 3 icon bubble (green-400 -> emerald-400)
+  static const LinearGradient accountSettingsRow3Bubble = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF34D399), Color(0xFF10B981)],
+  );
+  /// Account Settings: row 4 icon bubble (gray-400 -> slate-400)
+  static const LinearGradient accountSettingsRow4Bubble = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF9CA3AF), Color(0xFF94A3B8)],
+  );
 }

@@ -14,6 +14,11 @@ import '../../presentation/dislikes/views/dislikes_screen.dart';
 import '../../presentation/personal_note/views/personal_note_screen.dart';
 import '../../presentation/subscription/views/choose_plan_screen.dart';
 import '../../presentation/checkout/views/checkout_screen.dart';
+import '../../presentation/home/views/home_screen.dart';
+import '../../presentation/notifications/views/notifications_screen.dart';
+import '../../presentation/profile/views/profile_screen.dart';
+import '../../presentation/search/views/search_screen.dart';
+import '../../presentation/loved_ones/views/loved_ones_screen.dart';
 import '../bindings/initial_binding.dart';
 import '../bindings/auth_binding.dart';
 
@@ -32,6 +37,21 @@ abstract class AppRoutes {
   static const String choosePlan = '/choose-plan';
   static const String checkout = '/checkout';
   static const String businessSplash = '/business/splash';
+
+  /// Individual post-onboarding home (after Complete Process)
+  static const String home = '/individual/home';
+  static const String notificationsList = '/individual/notifications-list';
+  static const String profile = '/individual/user-profile';
+  static const String giftIdeas = '/individual/gift-ideas';
+  static const String search = '/individual/search';
+  static const String lovedOnesList = '/individual/loved-ones-list';
+  static const String lovedOneDetails = '/individual/loved-one-details';
+  static const String editLovedOne = '/individual/edit-loved-one';
+  static const String allUpcomingEvents = '/individual/all-upcoming-events';
+  static const String oldMessages = '/individual/old-messages';
+  static const String yourApproach = '/individual/your-approach';
+  static const String manageSubscription = '/individual/manage-subscription';
+  static const String helpFeedback = '/help-feedback';
 
   static List<GetPage> get pages => [
         GetPage(
@@ -97,6 +117,71 @@ abstract class AppRoutes {
         GetPage(
           name: checkout,
           page: () => const CheckoutScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: home,
+          page: () => const HomeScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: notificationsList,
+          page: () => const NotificationsScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: profile,
+          page: () => const ProfileScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: giftIdeas,
+          page: () => const _PlaceholderScreen(title: 'Gift Ideas'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: search,
+          page: () => const SearchScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: lovedOnesList,
+          page: () => const LovedOnesScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: lovedOneDetails,
+          page: () => const _PlaceholderScreen(title: 'Loved One Details'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: editLovedOne,
+          page: () => const _PlaceholderScreen(title: 'Edit Loved One'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: allUpcomingEvents,
+          page: () => const _PlaceholderScreen(title: 'Upcoming Events'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: oldMessages,
+          page: () => const _PlaceholderScreen(title: 'Old Messages'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: yourApproach,
+          page: () => const _PlaceholderScreen(title: 'Your Approach'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: manageSubscription,
+          page: () => const ChoosePlanScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: helpFeedback,
+          page: () => const _PlaceholderScreen(title: 'Help & Feedback'),
           binding: InitialBinding(),
         ),
         GetPage(

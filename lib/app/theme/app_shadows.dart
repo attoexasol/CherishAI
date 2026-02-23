@@ -544,4 +544,293 @@ abstract class AppShadows {
       color: Color(0x26FB7185),
     ),
   ];
+
+  /// Home: greeting card, message cards, event cards
+  static const List<BoxShadow> homeCard = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Home: message card hover / prominent
+  static const List<BoxShadow> homeMessageCard = [
+    BoxShadow(
+      offset: Offset(0, 20),
+      blurRadius: 60,
+      spreadRadius: 0,
+      color: Color(0x66F472B6),
+    ),
+  ];
+  /// Home: Regenerate / Gift Ideas button
+  static const List<BoxShadow> homeRegenerateBtn = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x40E11D48),
+    ),
+  ];
+  /// Home: inspiration card
+  static const List<BoxShadow> homeInspirationCard = [
+    BoxShadow(
+      offset: Offset(0, 20),
+      blurRadius: 40,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Home: bottom nav bar
+  static const List<BoxShadow> homeBottomNav = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 60,
+      spreadRadius: 0,
+      color: Color(0x26F43F5E),
+    ),
+    BoxShadow(
+      offset: Offset(0, -5),
+      blurRadius: 30,
+      spreadRadius: 0,
+      color: Color(0x1AFFB6C1),
+    ),
+  ];
+  /// Home: bottom nav active tab pill
+  static const List<BoxShadow> homeBottomNavActivePill = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 20,
+      spreadRadius: 0,
+      color: Color(0x40F43F5E),
+    ),
+  ];
+
+  /// Notifications: Mark All Read + tab active
+  static const List<BoxShadow> notifPrimaryBtn = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x4DE91E63),
+    ),
+  ];
+  /// Notifications: header bell icon
+  static const List<BoxShadow> notifBellIcon = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x66E91E63),
+    ),
+  ];
+  /// Notifications: card read
+  static const List<BoxShadow> notifCardRead = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x1AF6A6C1),
+    ),
+  ];
+  /// Notifications: card unread
+  static const List<BoxShadow> notifCardUnread = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x33E91E63),
+    ),
+  ];
+  /// Notifications: card icon square
+  static const List<BoxShadow> notifCardIcon = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x4DF6A6C1),
+    ),
+  ];
+  /// Notifications: tab inactive
+  static const List<BoxShadow> notifTabInactive = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x1AF6A6C1),
+    ),
+  ];
+  /// Notifications: empty state icon
+  static const List<BoxShadow> notifEmptyIcon = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x4DF6A6C1),
+    ),
+  ];
+
+  /// Profile: edit button (view mode white, edit mode gradient)
+  static const List<BoxShadow> profileEditButton = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x33000000),
+    ),
+  ];
+  /// Profile: avatar circle
+  static const List<BoxShadow> profileAvatar = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x33FB7185),
+    ),
+  ];
+  /// Profile: stat cards + personal info card (RomanticCard: 0 8px 30px rgba(0,0,0,0.08))
+  static const List<BoxShadow> profileCard = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 30,
+      spreadRadius: 0,
+      color: Color(0x14000000),
+    ),
+  ];
+  /// Profile: Save Changes button
+  static const List<BoxShadow> profileSaveBtn = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x50F472B6),
+    ),
+  ];
+  /// Search: search bar (shadow-lg ≈ 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05))
+  static const List<BoxShadow> searchBar = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: -3,
+      color: Color(0x1A000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: -2,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Search: Quick Access tile (shadow-lg)
+  static const List<BoxShadow> searchQuickTile = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: -3,
+      color: Color(0x1A000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: -2,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Search: RomanticCard-style card (0 8px 30px rgba(0,0,0,0.08))
+  static const List<BoxShadow> searchCard = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 30,
+      spreadRadius: 0,
+      color: Color(0x14000000),
+    ),
+  ];
+  /// Search: Recent chip (shadow-sm)
+  static const List<BoxShadow> searchRecentChip = [
+    BoxShadow(
+      offset: Offset(0, 1),
+      blurRadius: 2,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Loved Ones list: back button
+  static const List<BoxShadow> lovedOnesBackBtn = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Loved Ones list: Add + button (shadow-lg)
+  static const List<BoxShadow> lovedOnesAddBtn = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: -3,
+      color: Color(0x1A000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: -2,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Loved Ones list: card (shadow-lg)
+  static const List<BoxShadow> lovedOnesCard = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: -3,
+      color: Color(0x1A000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: -2,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Loved Ones list: avatar tile (shadow-md)
+  static const List<BoxShadow> lovedOnesAvatar = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Loved Ones list: edit/delete icon buttons (shadow-sm)
+  static const List<BoxShadow> lovedOnesIconBtn = [
+    BoxShadow(
+      offset: Offset(0, 1),
+      blurRadius: 2,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Account Settings modal: dialog (shadow-2xl)
+  static const List<BoxShadow> accountSettingsDialog = [
+    BoxShadow(
+      offset: Offset(0, 25),
+      blurRadius: 50,
+      spreadRadius: -12,
+      color: Color(0x40000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 12),
+      blurRadius: 24,
+      spreadRadius: -6,
+      color: Color(0x20000000),
+    ),
+  ];
 }
+
