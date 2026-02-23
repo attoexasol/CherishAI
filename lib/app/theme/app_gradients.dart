@@ -277,4 +277,91 @@ abstract class AppGradients {
   );
   /// Step 4: CTA enabled (same as onboarding continue)
   static const LinearGradient secGoalsCtaEnabled = onboardingContinueBtn;
+
+  /// Loved One Preferences: page background
+  static const LinearGradient prefsPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFDF5F8),
+      Color(0xFFF5F3FF),
+    ],
+  );
+  /// Loved One Preferences: Continue CTA
+  static const LinearGradient prefsCta = onboardingContinueBtn;
+
+  /// Dislikes: page background
+  static const LinearGradient dislikesPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFDF8F9),
+      Color(0xFFFAFAF9),
+    ],
+  );
+  /// Dislikes: Continue CTA
+  static const LinearGradient dislikesCta = onboardingContinueBtn;
+
+  /// Personal Note: page background
+  static const LinearGradient notePageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFDF5F8),
+      Color(0xFFFFFFFF),
+    ],
+  );
+  /// Personal Note: Continue CTA enabled
+  static const LinearGradient noteCtaEnabled = onboardingContinueBtn;
+
+  /// Subscription: page background
+  static const LinearGradient subPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFDF5F8),
+      Color(0xFFFFFFFF),
+    ],
+  );
+  /// Subscription: header heart icon + plan card icon + Recommended pill + CTA buttons
+  static const LinearGradient subAccent = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFB7185),
+      Color(0xFFF472B6),
+    ],
+  );
+  /// Subscription: CTA button (pink–purple)
+  static const LinearGradient subCta = onboardingContinueBtn;
+
+  /// Checkout: page background
+  static const LinearGradient checkoutPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFDF5F8),
+      Color(0xFFFFFFFF),
+    ],
+  );
+  /// Checkout: header check icon + order summary sparkle + Due Today amount
+  static const LinearGradient checkoutAccent = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFB7185),
+      Color(0xFFA855F7),
+    ],
+  );
+  /// Checkout: Complete Purchase CTA
+  static const LinearGradient checkoutCta = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFF43F5E),
+      Color(0xFFEC4899),
+      Color(0xFFA855F7),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
 }

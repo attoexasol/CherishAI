@@ -554,4 +554,389 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.secGoalsSkipLink,
   );
+
+  // --- Loved One Preferences ---
+  static const TextStyle prefsTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.prefsTitle,
+  );
+  static const TextStyle prefsSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.prefsSubtitle,
+  );
+  static const TextStyle prefsOptionalPill = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+    color: AppColors.prefsOptionalPillText,
+  );
+  static const TextStyle prefsSectionTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    height: 1.3,
+    color: AppColors.prefsSectionTitle,
+  );
+  static const TextStyle prefsSectionDesc = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.prefsSectionDesc,
+  );
+  static const TextStyle prefsAddButton = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    color: AppColors.prefsAddButtonText,
+  );
+  static const TextStyle prefsCategoryTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    height: 1.3,
+    color: AppColors.prefsSectionTitle,
+  );
+  static const TextStyle prefsChip = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.prefsChipText,
+  );
+  static const TextStyle prefsChipSelected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.prefsChipSelectedBorder,
+  );
+  static const TextStyle prefsCta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
+
+  // --- Dislikes screen ---
+  static const TextStyle dislikesBack = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.dislikesBackText,
+  );
+  static const TextStyle dislikesFinalPill = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+    color: AppColors.dislikesFinalPillText,
+  );
+  static const TextStyle dislikesTitle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+    letterSpacing: 0.5,
+    color: AppColors.dislikesTitle,
+  );
+  static const TextStyle dislikesDesc = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    color: AppColors.dislikesDesc,
+  );
+  static const TextStyle dislikesOptional = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.dislikesOptional,
+  );
+  static const TextStyle dislikesCategoryTitle = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w700,
+    height: 1.3,
+    color: AppColors.dislikesCategoryTitle,
+  );
+  static const TextStyle dislikesChip = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.dislikesChipText,
+  );
+  static const TextStyle dislikesChipSelected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.dislikesChipSelectedBorder,
+  );
+  static const TextStyle dislikesCta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
+  static const TextStyle dislikesHelper = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.dislikesHelperText,
+  );
+  static const TextStyle dislikesAddButton = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColors.dislikesAddButtonText,
+  );
+
+  // --- Personal Note ---
+  static const TextStyle noteBack = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.noteBackText,
+  );
+  static const TextStyle noteLogo = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.noteLogoText,
+  );
+  static const TextStyle noteSkip = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.noteSkipText,
+  );
+  static const TextStyle noteStepLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.noteStepLabel,
+  );
+  static const TextStyle noteTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.noteTitle,
+  );
+  static const TextStyle noteSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.noteSubtitle,
+  );
+  static const TextStyle noteLabel = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    color: AppColors.noteLabelText,
+  );
+  static const TextStyle noteInput = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    color: AppColors.noteLabelText,
+  );
+  static const TextStyle noteInputPlaceholder = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColors.noteInputPlaceholder,
+  );
+  static const TextStyle noteCounter = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.noteCounter,
+  );
+  static const TextStyle noteHelper = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.noteHelperText,
+  );
+  static const TextStyle noteSeeMore = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.noteSeeMoreText,
+  );
+  static const TextStyle noteCta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.noteCtaText,
+  );
+
+  // --- Subscription (Choose your plan) ---
+  static const TextStyle subBack = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.subBackText,
+  );
+  static const TextStyle subTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.subTitle,
+  );
+  static const TextStyle subSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.subSubtitle,
+  );
+  static const TextStyle subActiveLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0.5,
+    color: AppColors.subActiveLabel,
+  );
+  static const TextStyle subActivePlanName = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.subActivePlanName,
+  );
+  static const TextStyle subActiveRenewal = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.subActiveRenewal,
+  );
+  static const TextStyle subCurrentBadge = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.subCurrentBadgeText,
+  );
+  static const TextStyle subCancelLink = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.subCancelLink,
+  );
+  static const TextStyle subPlanName = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.subPlanName,
+  );
+  static const TextStyle subPlanSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.subPlanSubtitle,
+  );
+  static const TextStyle subPriceMain = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+    color: AppColors.subPriceMain,
+  );
+  static const TextStyle subPricePeriod = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.subPricePeriod,
+  );
+  static const TextStyle subSectionLabel = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0.5,
+    color: AppColors.subSectionLabel,
+  );
+  static const TextStyle subIncludeItem = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.subIncludeText,
+  );
+  static const TextStyle subIncludeDetail = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.subIncludeDetail,
+  );
+  static const TextStyle subBestFor = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.subBestFor,
+  );
+  static const TextStyle subCta = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.subCtaText,
+  );
+  static const TextStyle subRecPill = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.subRecPillText,
+  );
+
+  // --- Checkout ---
+  static const TextStyle checkoutBack = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.checkoutBackText,
+  );
+  static const TextStyle checkoutSecure = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.checkoutSecureText,
+  );
+  static const TextStyle checkoutTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.checkoutTitle,
+  );
+  static const TextStyle checkoutSubtitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.checkoutSubtitle,
+  );
+  static const TextStyle checkoutSectionTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.checkoutSectionTitle,
+  );
+  static const TextStyle checkoutInput = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColors.checkoutSectionTitle,
+  );
+  static const TextStyle checkoutInputPlaceholder = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColors.checkoutInputPlaceholder,
+  );
+  static const TextStyle checkoutPaymentLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.checkoutPaymentTileUnselectedText,
+  );
+  static const TextStyle checkoutPaymentLabelSelected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.checkoutPaymentTileSelectedText,
+  );
+  static const TextStyle checkoutSecurityTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.checkoutSecurityBoxTitle,
+  );
+  static const TextStyle checkoutSecurityDesc = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.checkoutSecurityBoxDesc,
+  );
+  static const TextStyle checkoutOrderPlanName = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.checkoutOrderPlanName,
+  );
+  static const TextStyle checkoutOrderPrice = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+    color: AppColors.subPriceMain,
+  );
+  static const TextStyle checkoutOrderPricePeriod = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.checkoutOrderPricePeriod,
+  );
+  static const TextStyle checkoutLineItem = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.checkoutOrderPlanName,
+  );
+  static const TextStyle checkoutDueTodayLabel = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.checkoutDueTodayLabel,
+  );
+  static const TextStyle checkoutDisclaimer = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.checkoutDisclaimerText,
+  );
+  static const TextStyle checkoutCta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.checkoutCtaText,
+  );
+  static const TextStyle checkoutFooter = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.checkoutFooterText,
+  );
 }

@@ -423,4 +423,125 @@ abstract class AppShadows {
   ];
   /// Step 4: CTA enabled
   static const List<BoxShadow> secGoalsCtaEnabled = onboardingContinueBtn;
+
+  /// Loved One Preferences: back button
+  static const List<BoxShadow> prefsBackButton = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x1AA855F7),
+    ),
+  ];
+  /// Loved One Preferences: optional pill
+  static const List<BoxShadow> prefsOptionalPill = [
+    BoxShadow(
+      offset: Offset(0, 1),
+      blurRadius: 4,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Loved One Preferences: section icon bubble
+  static const List<BoxShadow> prefsSectionBubble = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 6,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Loved One Preferences: category card
+  static const List<BoxShadow> prefsCategoryCard = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Loved One Preferences: Continue CTA
+  static const List<BoxShadow> prefsCta = onboardingContinueBtn;
+
+  /// Dislikes: Final Step pill
+  static const List<BoxShadow> dislikesFinalPill = [
+    BoxShadow(
+      offset: Offset(0, 1),
+      blurRadius: 4,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Dislikes: category card
+  static const List<BoxShadow> dislikesCard = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Dislikes: Continue CTA
+  static const List<BoxShadow> dislikesCta = onboardingContinueBtn;
+  /// Dislikes: Add Custom Dislike button
+  static const List<BoxShadow> dislikesAddButton = [
+    BoxShadow(
+      offset: Offset(0, 1),
+      blurRadius: 4,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+
+  /// Personal Note: icon bubble
+  static const List<BoxShadow> noteBubble = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x1AA855F7),
+    ),
+  ];
+  /// Personal Note: main card
+  static const List<BoxShadow> noteCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Personal Note: Continue CTA enabled
+  static const List<BoxShadow> noteCtaEnabled = onboardingContinueBtn;
+
+  /// Subscription: active card + plan cards
+  static const List<BoxShadow> subCard = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Subscription: CTA button
+  static const List<BoxShadow> subCta = onboardingContinueBtn;
+
+  /// Checkout: cards
+  static const List<BoxShadow> checkoutCard = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  /// Checkout: CTA button
+  static const List<BoxShadow> checkoutCta = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x26FB7185),
+    ),
+  ];
 }

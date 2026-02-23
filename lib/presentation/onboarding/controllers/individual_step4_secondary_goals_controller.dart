@@ -30,7 +30,7 @@ class IndividualStep4SecondaryGoalsController extends GetxController {
     isSubmitting.value = true;
     Future.delayed(const Duration(milliseconds: 400), () {
       isSubmitting.value = false;
-      Get.toNamed(AppRoutes.individualUserInfo);
+      Get.toNamed(AppRoutes.lovedOnePreferences);
     });
   }
 
