@@ -1309,4 +1309,297 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.accountSettingsRowSubtitle,
   );
+  // --- Manage Subscription screen ---
+  static const TextStyle manageSubAppBarTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.manageSubAppBarTitle,
+  );
+  static const TextStyle manageSubCurrentPlanLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.manageSubCurrentPlanLabel,
+  );
+  static const TextStyle manageSubPlanName = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.manageSubPlanName,
+  );
+  static const TextStyle manageSubUpgradeBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.manageSubUpgradeBtnText,
+  );
+  static const TextStyle manageSubUnsubscribeLink = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.manageSubUnsubscribeLink,
+  );
+  static const TextStyle manageSubChooseTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.manageSubChooseTitle,
+  );
+  static const TextStyle manageSubChooseSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.manageSubChooseSubtitle,
+  );
+  static const TextStyle manageSubBadge = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w600,
+    color: AppColors.manageSubBadgeCurrentText,
+  );
+  static const TextStyle manageSubCtaDisabled = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.manageSubCtaDisabledText,
+  );
+  // --- Before you go dialog ---
+  static const TextStyle beforeYouGoTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.beforeYouGoTitle,
+  );
+  static const TextStyle beforeYouGoSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.beforeYouGoSubtitle,
+  );
+  static const TextStyle beforeYouGoCardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.beforeYouGoTitle,
+  );
+  static const TextStyle beforeYouGoCardSubtitle = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.beforeYouGoSubtitle,
+  );
+  static const TextStyle beforeYouGoCancelBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.beforeYouGoCancelBtnText,
+  );
+  static const TextStyle beforeYouGoKeepLink = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.beforeYouGoKeepLinkText,
+  );
+  // --- Help & Feedback ---
+  static const TextStyle helpFeedbackTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.helpFeedbackTitle,
+  );
+  static const TextStyle helpFeedbackSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.helpFeedbackSubtitle,
+  );
+  static const TextStyle helpFeedbackSectionTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.helpFeedbackSectionTitle,
+  );
+  static const TextStyle helpFeedbackOptionText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.helpFeedbackOptionText,
+  );
+  static const TextStyle helpFeedbackPlaceholder = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.helpFeedbackPlaceholder,
+  );
+  static const TextStyle helpFeedbackCounter = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.helpFeedbackCounter,
+  );
+  static const TextStyle helpFeedbackCheckboxLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.helpFeedbackCheckboxLabel,
+  );
+  static const TextStyle helpFeedbackSubmit = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.manageSubUpgradeBtnText,
+  );
+  static const TextStyle helpFeedbackFooter = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.helpFeedbackFooterText,
+  );
+  // --- Gift Ideas screen ---
+  static const TextStyle giftIdeasGreeting = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasGreeting,
+  );
+  static const TextStyle giftIdeasTitle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+    color: AppColors.giftIdeasTitle,
+  );
+  static const TextStyle giftIdeasSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasSubtitle,
+  );
+  static const TextStyle giftIdeasStatNumber = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasStatNumber,
+  );
+  static const TextStyle giftIdeasStatLabel = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasStatLabel,
+  );
+  static const TextStyle giftIdeasViewAllBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.giftIdeasUrgentBadgeText,
+  );
+  static const TextStyle giftIdeasSectionTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasEventTitle,
+  );
+  static const TextStyle giftIdeasEventTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.giftIdeasEventTitle,
+  );
+  static const TextStyle giftIdeasEventDate = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasEventDate,
+  );
+  static const TextStyle giftIdeasCountdown = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasCountdownNormal,
+  );
+  static const TextStyle giftIdeasCountdownUrgent = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasCountdownUrgent,
+  );
+  static const TextStyle giftIdeasUrgentBadge = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasUrgentBadgeText,
+  );
+  static const TextStyle giftIdeasViewGiftBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.giftIdeasUrgentBadgeText,
+  );
+  // --- All Upcoming Events screen ---
+  static const TextStyle eventsBackText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.eventsBackText,
+  );
+  static const TextStyle eventsTitle = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.eventsTitle,
+  );
+  static const TextStyle eventsSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.eventsSubtitle,
+  );
+  static const TextStyle eventsSortLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.eventsSortLabel,
+  );
+  static const TextStyle eventsSortSelected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.eventsSortSelectedText,
+  );
+  static const TextStyle eventsSortUnselected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.eventsSortUnselectedText,
+  );
+  static const TextStyle eventsCardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.eventsTitle,
+  );
+  static const TextStyle eventsCardRelationship = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.eventsRelationship,
+  );
+  static const TextStyle eventsCardDate = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.eventsSubtitle,
+  );
+  static const TextStyle eventsBadge = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w700,
+    color: AppColors.eventsBadgeText,
+  );
+  static const TextStyle eventsCountdownPill = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.eventsCountdownPill,
+  );
+  static const TextStyle eventsViewGiftBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.eventsBadgeText,
+  );
+  static const TextStyle eventsStayPrepared = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.eventsStayPreparedText,
+  );
+  // --- Old Messages screen ---
+  static const TextStyle oldMessagesBack = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.oldMessagesBackIcon,
+  );
+  static const TextStyle oldMessagesTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.oldMessagesTitle,
+  );
+  static const TextStyle oldMessagesChipSelected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.oldMessagesChipSelectedText,
+  );
+  static const TextStyle oldMessagesChipUnselected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.oldMessagesChipUnselectedText,
+  );
+  static const TextStyle oldMessagesCardName = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.oldMessagesCardName,
+  );
+  static const TextStyle oldMessagesCardCount = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.oldMessagesCardCount,
+  );
 }

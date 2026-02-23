@@ -713,4 +713,101 @@ abstract class AppGradients {
     end: Alignment.bottomRight,
     colors: [Color(0xFF9CA3AF), Color(0xFF94A3B8)],
   );
+  /// Manage Subscription: Upgrade button (collapsed) + Hide Plans (expanded) - pink
+  static const LinearGradient manageSubUpgradeBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFF06292),
+      Color(0xFFFF69B4),
+    ],
+  );
+  /// Manage Subscription: Upgrade to Unlimited CTA (blue-purple)
+  static const LinearGradient manageSubUpgradeUnlimited = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFF6366F1),
+      Color(0xFFA855F7),
+    ],
+  );
+  /// Manage Subscription: Downgrade CTA (dark gray)
+  static const LinearGradient manageSubDowngradeBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFF374151),
+      Color(0xFF111827),
+    ],
+  );
+  /// Before you go: (cards use solid colors; no gradient)
+  /// Help & Feedback: Submit button (pink -> purple)
+  static const LinearGradient helpFeedbackSubmitBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFEC4899),
+      Color(0xFFA855F7),
+    ],
+  );
+  /// Gift Ideas: back button (purple -> pink)
+  static const LinearGradient giftIdeasBackBtn = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFA78BFA), Color(0xFFEC4899)],
+  );
+  /// Gift Ideas: stat card icons + View All + View Gift Ideas buttons (pink -> purple)
+  static const LinearGradient giftIdeasStatIcon1 = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFF472B6), Color(0xFFA855F7)],
+  );
+  static const LinearGradient giftIdeasStatIcon2 = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFD8B4FE), Color(0xFFF472B6)],
+  );
+  static const LinearGradient giftIdeasViewAllBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFEC4899), Color(0xFFA855F7)],
+  );
+  /// Gift Ideas: event card icon gradients (birthday, mother's day, friendship, father's day)
+  static const LinearGradient giftIdeasEventIconBirthday = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFF472B6), Color(0xFFA855F7)],
+  );
+  static const LinearGradient giftIdeasEventIconFlower = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFB923C), Color(0xFFF472B6)],
+  );
+  static const LinearGradient giftIdeasEventIconHandshake = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFBBF24), Color(0xFFFB923C)],
+  );
+  static const LinearGradient giftIdeasEventIconGift = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF60A5FA), Color(0xFFA855F7)],
+  );
+  /// All Upcoming Events: sort selected + View Gift Ideas button
+  static const LinearGradient eventsSortSelected = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFEC4899), Color(0xFFA855F7)],
+  );
+  static const LinearGradient eventsViewGiftBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFEC4899), Color(0xFFA855F7)],
+  );
+  /// Old Messages: selected chip (pink -> purple)
+  static const LinearGradient oldMessagesChipSelected = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFF43F5E), Color(0xFFA855F7)],
+  );
 }

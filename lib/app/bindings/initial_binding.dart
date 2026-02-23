@@ -19,6 +19,11 @@ import '../../presentation/profile/controllers/profile_controller.dart';
 import '../../presentation/search/controllers/search_controller.dart';
 import '../../presentation/loved_ones/controllers/loved_ones_controller.dart';
 import '../../presentation/account_settings/controllers/account_settings_controller.dart';
+import '../../presentation/subscription_manage/controllers/manage_subscription_controller.dart';
+import '../../presentation/help_feedback/controllers/help_feedback_controller.dart';
+import '../../presentation/gift_ideas/controllers/gift_ideas_controller.dart';
+import '../../presentation/events/controllers/all_upcoming_events_controller.dart';
+import '../../presentation/old_messages/controllers/old_messages_controller.dart';
 
 /// Registers global/splash/onboarding/auth dependencies. Extend when adding more screens.
 class InitialBinding extends Bindings {
@@ -43,5 +48,10 @@ class InitialBinding extends Bindings {
     Get.lazyPut<SearchController>(() => SearchController());
     Get.lazyPut<LovedOnesController>(() => LovedOnesController());
     Get.lazyPut<AccountSettingsController>(() => AccountSettingsController());
+    Get.lazyPut<ManageSubscriptionController>(() => ManageSubscriptionController());
+    Get.lazyPut<HelpFeedbackController>(() => HelpFeedbackController());
+    Get.lazyPut<GiftIdeasController>(() => GiftIdeasController());
+    Get.lazyPut<AllUpcomingEventsController>(() => AllUpcomingEventsController());
+    Get.lazyPut<OldMessagesController>(() => OldMessagesController());
   }
 }

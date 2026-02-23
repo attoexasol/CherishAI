@@ -832,5 +832,87 @@ abstract class AppShadows {
       color: Color(0x20000000),
     ),
   ];
+  /// Manage Subscription: current plan card + plan cards
+  static const List<BoxShadow> manageSubCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Before you go: dialog (shadow-2xl)
+  static const List<BoxShadow> beforeYouGoDialog = [
+    BoxShadow(
+      offset: Offset(0, 25),
+      blurRadius: 50,
+      spreadRadius: -12,
+      color: Color(0x40000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 12),
+      blurRadius: 24,
+      spreadRadius: -6,
+      color: Color(0x20000000),
+    ),
+  ];
+  /// Help & Feedback: cards + Submit button
+  static const List<BoxShadow> helpFeedbackCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  static const List<BoxShadow> helpFeedbackSubmitBtn = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x40EC4899),
+    ),
+  ];
+  /// Gift Ideas / Events / Old Messages: cards
+  static const List<BoxShadow> giftIdeasCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  static const List<BoxShadow> giftIdeasBackBtn = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x33A78BFA),
+    ),
+  ];
+  static const List<BoxShadow> giftIdeasViewAllBtn = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x40EC4899),
+    ),
+  ];
+  static const List<BoxShadow> eventsCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 16,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
+  static const List<BoxShadow> oldMessagesCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x0D000000),
+    ),
+  ];
 }
 

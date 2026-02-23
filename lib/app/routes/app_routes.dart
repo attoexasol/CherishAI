@@ -12,7 +12,12 @@ import '../../presentation/onboarding/views/individual_step4_secondary_goals_scr
 import '../../presentation/loved_one_preferences/views/loved_one_preferences_screen.dart';
 import '../../presentation/dislikes/views/dislikes_screen.dart';
 import '../../presentation/personal_note/views/personal_note_screen.dart';
+import '../../presentation/gift_ideas/views/gift_ideas_screen.dart';
+import '../../presentation/events/views/all_upcoming_events_screen.dart';
+import '../../presentation/old_messages/views/old_messages_screen.dart';
 import '../../presentation/subscription/views/choose_plan_screen.dart';
+import '../../presentation/subscription_manage/views/manage_subscription_screen.dart';
+import '../../presentation/help_feedback/views/help_feedback_screen.dart';
 import '../../presentation/checkout/views/checkout_screen.dart';
 import '../../presentation/home/views/home_screen.dart';
 import '../../presentation/notifications/views/notifications_screen.dart';
@@ -136,7 +141,7 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: giftIdeas,
-          page: () => const _PlaceholderScreen(title: 'Gift Ideas'),
+          page: () => const GiftIdeasScreen(),
           binding: InitialBinding(),
         ),
         GetPage(
@@ -161,12 +166,12 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: allUpcomingEvents,
-          page: () => const _PlaceholderScreen(title: 'Upcoming Events'),
+          page: () => const AllUpcomingEventsScreen(),
           binding: InitialBinding(),
         ),
         GetPage(
           name: oldMessages,
-          page: () => const _PlaceholderScreen(title: 'Old Messages'),
+          page: () => const OldMessagesScreen(),
           binding: InitialBinding(),
         ),
         GetPage(
@@ -176,12 +181,12 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: manageSubscription,
-          page: () => const ChoosePlanScreen(),
+          page: () => const ManageSubscriptionScreen(),
           binding: InitialBinding(),
         ),
         GetPage(
           name: helpFeedback,
-          page: () => const _PlaceholderScreen(title: 'Help & Feedback'),
+          page: () => const HelpFeedbackScreen(),
           binding: InitialBinding(),
         ),
         GetPage(
