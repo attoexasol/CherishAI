@@ -44,7 +44,7 @@ class ChoosePlanScreen extends StatelessWidget {
                     left: _kHorizontalPadding,
                     right: _kHorizontalPadding,
                     top: 16,
-                    bottom: _kCtaHeight + _kCtaBottomPadding + 24,
+                    bottom: 24 + MediaQuery.paddingOf(context).bottom,
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
@@ -65,6 +65,8 @@ class ChoosePlanScreen extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: _buildPlanCard(context, plan),
                                 )),
+                            const SizedBox(height: 24),
+                            _buildBottomCta(context),
                           ],
                         );
                       }),
@@ -72,7 +74,6 @@ class ChoosePlanScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              _buildBottomCta(context),
             ],
           ),
         ),
@@ -364,24 +365,8 @@ class ChoosePlanScreen extends StatelessWidget {
 
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<ChoosePlanController>();
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(
-        left: _kHorizontalPadding,
-        right: _kHorizontalPadding,
-        top: _kCtaBottomPadding,
-        bottom: _kCtaBottomPadding + MediaQuery.paddingOf(context).bottom,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, -2),
-            blurRadius: 8,
-            color: const Color(0x0D000000),
-          ),
-        ],
-      ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       child: Obx(() {
         final loading = c.isLoadingPurchase.value;
         final label = c.bottomCtaLabel;

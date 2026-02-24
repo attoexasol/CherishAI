@@ -45,7 +45,7 @@ class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kTopInset + _kBackBtnSize + _kScrollTopPadding,
-                  bottom: _kCtaHeight + _kCtaBottomPadding + _kFooterTop + 24,
+                  bottom: 24 + MediaQuery.paddingOf(context).bottom,
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -69,7 +69,8 @@ class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: _kCardGap),
                               child: _buildGoalCard(context, opt),
                             )),
-                        const SizedBox(height: 8),
+                        SizedBox(height: _kDescToSectionGap),
+                        _buildBottomSection(context),
                       ],
                     ),
                   ),
@@ -79,12 +80,6 @@ class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
                 top: _kTopInset,
                 left: _kHorizontalPadding,
                 child: _buildBackButton(context),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: _buildBottomSection(context),
               ),
             ],
           ),
@@ -189,13 +184,8 @@ class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
 
   Widget _buildBottomSection(BuildContext context) {
     final c = Get.find<IndividualStep3RelationshipGoalsController>();
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-        _kHorizontalPadding,
-        12,
-        _kHorizontalPadding,
-        _kCtaBottomPadding + MediaQuery.paddingOf(context).bottom,
-      ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

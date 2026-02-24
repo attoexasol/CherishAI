@@ -128,10 +128,16 @@ class UserTypeScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: _kTitleSubtitleGap),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Text('Choose the path that\'s right for you ', style: AppTextStyles.userTypeSubtitle),
+            Text(
+              'Choose the path that\'s right for you ',
+              style: AppTextStyles.userTypeSubtitle,
+              textAlign: TextAlign.center,
+              softWrap: true,
+            ),
             Icon(Icons.favorite_rounded, size: 20, color: AppColors.userTypeSubtitle),
           ],
         ),

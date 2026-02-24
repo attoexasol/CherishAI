@@ -20,7 +20,6 @@ const double _kPaymentTileRadius = 16;
 const double _kPaymentDotSize = 8;
 const double _kCtaHeight = 52;
 const double _kCtaRadius = 16;
-const double _kCtaSectionHeight = 148; // CTA block height for scroll padding (top + button + footer rows + bottom)
 const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
 const double _kDetailsCardIconSize = 72;
@@ -47,7 +46,7 @@ class CheckoutScreen extends StatelessWidget {
                     left: _kHorizontalPadding,
                     right: _kHorizontalPadding,
                     top: 24,
-                    bottom: _kCtaSectionHeight + MediaQuery.paddingOf(context).bottom,
+                    bottom: 24 + MediaQuery.paddingOf(context).bottom,
                   ),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -75,6 +74,8 @@ class CheckoutScreen extends StatelessWidget {
                               }),
                               const SizedBox(height: 24),
                               _buildOrderSummaryCard(context),
+                              const SizedBox(height: 24),
+                              _buildBottomCta(context),
                             ],
                           ),
                         ),
@@ -83,7 +84,6 @@ class CheckoutScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              _buildBottomCta(context),
             ],
           ),
         ),
@@ -752,24 +752,8 @@ class CheckoutScreen extends StatelessWidget {
 
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<CheckoutController>();
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(
-        left: _kHorizontalPadding,
-        right: _kHorizontalPadding,
-        top: 16,
-        bottom: 16 + MediaQuery.paddingOf(context).bottom,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, -2),
-            blurRadius: 8,
-            color: const Color(0x0D000000),
-          ),
-        ],
-      ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -54,7 +54,6 @@ class DislikesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
-    final bottomSectionHeight = _kCtaHeight + _kCtaBottomPadding + _kHelperTop + 20 + bottomPadding;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -68,7 +67,7 @@ class DislikesScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kTopInset + 40 + _kScrollTopPadding,
-                  bottom: bottomSectionHeight,
+                  bottom: 24 + bottomPadding,
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -93,6 +92,8 @@ class DislikesScreen extends StatelessWidget {
                             )),
                         SizedBox(height: _kSectionGap),
                         _buildAddCustomDislikeSection(context),
+                        SizedBox(height: _kSectionGap),
+                        _buildBottomSection(context),
                       ],
                     ),
                   ),
@@ -103,12 +104,6 @@ class DislikesScreen extends StatelessWidget {
                 left: _kHorizontalPadding,
                 right: _kHorizontalPadding,
                 child: _buildTopBar(context),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: _buildBottomSection(context),
               ),
             ],
           ),
@@ -390,23 +385,8 @@ class DislikesScreen extends StatelessWidget {
 
   Widget _buildBottomSection(BuildContext context) {
     final c = Get.find<DislikesController>();
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-        _kHorizontalPadding,
-        12,
-        _kHorizontalPadding,
-        _kCtaBottomPadding + MediaQuery.paddingOf(context).bottom,
-      ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.dislikesBgBottom.withValues(alpha: 0),
-            AppColors.dislikesBgBottom,
-          ],
-        ),
-      ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

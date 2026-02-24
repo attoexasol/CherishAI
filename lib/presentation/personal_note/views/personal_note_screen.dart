@@ -45,7 +45,7 @@ class PersonalNoteScreen extends StatelessWidget {
                     left: _kHorizontalPadding,
                     right: _kHorizontalPadding,
                     top: 24,
-                    bottom: _kCtaHeight + 24,
+                    bottom: 24 + MediaQuery.paddingOf(context).bottom,
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
@@ -69,13 +69,14 @@ class PersonalNoteScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 24),
                           _buildCard(context),
+                          const SizedBox(height: 24),
+                          _buildBottomCta(context),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              _buildBottomCta(context),
             ],
           ),
         ),
@@ -305,24 +306,8 @@ class PersonalNoteScreen extends StatelessWidget {
 
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<PersonalNoteController>();
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(
-        left: _kHorizontalPadding,
-        right: _kHorizontalPadding,
-        top: 16,
-        bottom: 16 + MediaQuery.paddingOf(context).bottom,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, -2),
-            blurRadius: 8,
-            color: const Color(0x0D000000),
-          ),
-        ],
-      ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       child: Obx(() {
         final enabled = c.canContinue.value && !c.isSubmitting.value;
         return Material(

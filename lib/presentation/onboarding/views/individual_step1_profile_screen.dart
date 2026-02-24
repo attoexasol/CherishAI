@@ -52,7 +52,7 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kBackBtnInset + _kBackBtnSize + 12,
-                  bottom: _kCtaHeight + _kCtaBottomPadding + _kRequiredHintTop + 24,
+                  bottom: 24 + MediaQuery.paddingOf(context).bottom,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -72,6 +72,8 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
                     _buildAddressCard(context),
                     SizedBox(height: _kSectionGap),
                     _buildPhoneCard(context),
+                    SizedBox(height: _kSectionGap),
+                    _buildBottomCta(context),
                   ],
                 ),
               ),
@@ -79,12 +81,6 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
                 top: _kBackBtnInset,
                 left: _kHorizontalPadding,
                 child: _buildBackButton(context),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: _buildBottomCta(context),
               ),
             ],
           ),
@@ -554,11 +550,8 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
 
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<IndividualStep1ProfileController>();
-    return Container(
-      padding: EdgeInsets.fromLTRB(_kHorizontalPadding, 12, _kHorizontalPadding, _kCtaBottomPadding + MediaQuery.paddingOf(context).bottom),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-      ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

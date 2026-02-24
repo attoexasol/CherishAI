@@ -58,7 +58,7 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kTopBarHeight + _kScrollTopPadding,
-                  bottom: _kCtaHeight + _kCtaBottomPadding + 24,
+                  bottom: 24 + MediaQuery.paddingOf(context).bottom,
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -79,7 +79,8 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: _kCardGap),
                               child: _buildSectionCard(context, cat),
                             )),
-                        const SizedBox(height: 8),
+                        SizedBox(height: _kPhotoToNameGap),
+                        _buildBottomCta(context),
                       ],
                     ),
                   ),
@@ -90,12 +91,6 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
                 left: _kHorizontalPadding,
                 right: _kHorizontalPadding,
                 child: _buildHeader(context),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: _buildBottomCta(context),
               ),
             ],
           ),
@@ -356,38 +351,27 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
 
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<IndividualStep2AddLovedOneController>();
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-        _kHorizontalPadding,
-        12,
-        _kHorizontalPadding,
-        _kCtaBottomPadding + MediaQuery.paddingOf(context).bottom,
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
-          child: Obx(() => Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: c.isSubmitting.value ? null : c.onSaveAndContinue,
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      child: Obx(() => Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: c.isSubmitting.value ? null : c.onSaveAndContinue,
+              borderRadius: BorderRadius.circular(999),
+              child: Container(
+                height: _kCtaHeight,
+                width: double.infinity,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: c.isSubmitting.value ? null : AppGradients.lovedOneCta,
+                  color: c.isSubmitting.value ? AppColors.lovedOneTileBorder : null,
                   borderRadius: BorderRadius.circular(999),
-                  child: Container(
-                    height: _kCtaHeight,
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      gradient: c.isSubmitting.value ? null : AppGradients.lovedOneCta,
-                      color: c.isSubmitting.value ? AppColors.lovedOneTileBorder : null,
-                      borderRadius: BorderRadius.circular(999),
-                      boxShadow: AppShadows.lovedOneCta,
-                    ),
-                    child: Text('Save & Continue', style: AppTextStyles.lovedOneCta),
-                  ),
+                  boxShadow: AppShadows.lovedOneCta,
                 ),
-              )),
-        ),
-      ),
+                child: Text('Save & Continue', style: AppTextStyles.lovedOneCta),
+              ),
+            ),
+          )),
     );
   }
 }

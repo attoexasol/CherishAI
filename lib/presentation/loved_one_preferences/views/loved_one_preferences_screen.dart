@@ -57,7 +57,7 @@ class LovedOnePreferencesScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kTopInset + _kBackBtnSize + _kScrollTopPadding,
-                  bottom: _kCtaHeight + _kCtaBottomPadding + 24,
+                  bottom: 24 + MediaQuery.paddingOf(context).bottom,
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -73,7 +73,8 @@ class LovedOnePreferencesScreen extends StatelessWidget {
                         _buildSpecialOccasionsSection(context),
                         SizedBox(height: _kSectionGap),
                         _buildHobbiesSection(context),
-                        const SizedBox(height: 12),
+                        SizedBox(height: _kSectionGap),
+                        _buildBottomCta(context),
                       ],
                     ),
                   ),
@@ -88,12 +89,6 @@ class LovedOnePreferencesScreen extends StatelessWidget {
                 top: _kTopInset,
                 right: _kHorizontalPadding,
                 child: _buildProgressIndicator(context),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: _buildBottomCta(context),
               ),
             ],
           ),
@@ -378,37 +373,26 @@ class LovedOnePreferencesScreen extends StatelessWidget {
 
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<LovedOnePreferencesController>();
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-        _kHorizontalPadding,
-        12,
-        _kHorizontalPadding,
-        _kCtaBottomPadding + MediaQuery.paddingOf(context).bottom,
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
-          child: Obx(() => Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: c.isSubmitting.value ? null : c.onContinue,
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      child: Obx(() => Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: c.isSubmitting.value ? null : c.onContinue,
+              borderRadius: BorderRadius.circular(999),
+              child: Container(
+                height: _kCtaHeight,
+                width: double.infinity,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: AppGradients.prefsCta,
                   borderRadius: BorderRadius.circular(999),
-                  child: Container(
-                    height: _kCtaHeight,
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      gradient: AppGradients.prefsCta,
-                      borderRadius: BorderRadius.circular(999),
-                      boxShadow: AppShadows.prefsCta,
-                    ),
-                    child: Text('Continue', style: AppTextStyles.prefsCta),
-                  ),
+                  boxShadow: AppShadows.prefsCta,
                 ),
-              )),
-        ),
-      ),
+                child: Text('Continue', style: AppTextStyles.prefsCta),
+              ),
+            ),
+          )),
     );
   }
 }
