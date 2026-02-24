@@ -168,7 +168,7 @@ class OnboardingIntroScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
           color: const Color(0xFFFFF0F5),
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
               offset: Offset(0, 2),
