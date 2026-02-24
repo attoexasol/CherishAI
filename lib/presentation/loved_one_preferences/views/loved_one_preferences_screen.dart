@@ -178,7 +178,7 @@ class LovedOnePreferencesScreen extends StatelessWidget {
         ),
         SizedBox(height: _kSubtitleGap),
         Text(
-          'For a more personalized experience, let\'s Cherish AI get to know more',
+          'For a more personalized experience, let CherishAI get to know more',
           style: AppTextStyles.prefsSubtitle,
           textAlign: TextAlign.center,
         ),

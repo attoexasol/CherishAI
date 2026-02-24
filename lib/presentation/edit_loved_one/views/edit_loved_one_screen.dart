@@ -40,7 +40,6 @@ const double _kChipPaddingH = 12;
 const double _kChipPaddingV = 6;
 const double _kChipRadius = 999;
 const double _kChipGap = 8;
-const double _kBottomSaveHeight = 80;
 const double _kBottomSavePadding = 24;
 
 class EditLovedOneScreen extends StatelessWidget {
@@ -66,7 +65,7 @@ class EditLovedOneScreen extends StatelessWidget {
                     left: paddingH,
                     right: paddingH,
                     top: _kPaddingTop,
-                    bottom: _kBottomSaveHeight + _kBottomSavePadding + bottomPadding,
+                    bottom: _kBottomSavePadding + bottomPadding,
                   ),
                   child: Center(
                     child: ConstrainedBox(
@@ -87,13 +86,14 @@ class EditLovedOneScreen extends StatelessWidget {
                           _buildHobbies(context, c),
                           const SizedBox(height: _kSectionGap),
                           _buildDislikes(context, c),
+                          const SizedBox(height: _kSectionGap),
+                          _buildBottomSave(context, c, bottomPadding),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              _buildBottomSave(context, c, bottomPadding),
             ],
           ),
         ),
@@ -710,16 +710,23 @@ class EditLovedOneScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text.rich(
-                TextSpan(
-                  text: '💕 Primary Goal ',
-                  style: AppTextStyles.editLovedOneLabel,
-                  children: [TextSpan(text: '(Choose 1)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
-                ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      text: '💕 Primary Goal ',
+                      style: AppTextStyles.editLovedOneLabel,
+                      children: [TextSpan(text: '(Choose 1)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
+                    ),
+                    softWrap: true,
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               Obx(() => DropdownButtonFormField<String>(
-                initialValue: c.primaryGoalKey.value.isEmpty ? null : c.primaryGoalKey.value,
+                value: c.primaryGoalKey.value.isEmpty ? null : c.primaryGoalKey.value,
+                isExpanded: true,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -731,8 +738,8 @@ class EditLovedOneScreen extends StatelessWidget {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
                 items: [
-                  DropdownMenuItem(value: null, child: Text('Select your primary goal', style: AppTextStyles.editLovedOneInputPlaceholder)),
-                  ...c.primaryGoalOptions.map((g) => DropdownMenuItem(value: g.key, child: Text(g.title))),
+                  DropdownMenuItem(value: null, child: Text('Select your primary goal', style: AppTextStyles.editLovedOneInputPlaceholder, overflow: TextOverflow.ellipsis)),
+                  ...c.primaryGoalOptions.map((g) => DropdownMenuItem(value: g.key, child: Text(g.title, overflow: TextOverflow.ellipsis))),
                 ],
                 onChanged: (v) => c.onSelectPrimaryGoal(v ?? ''),
               )),
@@ -745,7 +752,7 @@ class EditLovedOneScreen extends StatelessWidget {
                 if (found == null) return const SizedBox.shrink();
                 return Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: Text(found.subtitle, style: AppTextStyles.editLovedOneSecondaryRowCategory),
+                  child: Text(found.subtitle, style: AppTextStyles.editLovedOneSecondaryRowCategory, softWrap: true),
                 );
               }),
             ],
@@ -885,14 +892,19 @@ class EditLovedOneScreen extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text.rich(
-                    TextSpan(
-                      text: '🎨 Hobbies & Interests ',
-                      style: AppTextStyles.editLovedOneLabel,
-                      children: [TextSpan(text: '(Select up to 8 total, 1 per category)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        text: '🎨 Hobbies & Interests ',
+                        style: AppTextStyles.editLovedOneLabel,
+                        children: [TextSpan(text: '(Select up to 8 total, 1 per category)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
+                      ),
+                      softWrap: true,
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Obx(() => Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
@@ -1163,7 +1175,7 @@ class EditLovedOneScreen extends StatelessWidget {
                   gradient: c.isSaving.value ? null : AppGradients.profileSaveBtn,
                   color: c.isSaving.value ? AppColors.editLovedOnePlaceholder.withValues(alpha: 0.5) : null,
                   borderRadius: BorderRadius.circular(_kDashedBtnRadius),
-                  boxShadow: c.isSaving.value ? null : AppShadows.profileSaveBtn,
+                 
                 ),
                 child: c.isSaving.value
                     ? const Center(child: SizedBox(

@@ -65,7 +65,12 @@ class ChoosePlanScreen extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: _buildPlanCard(context, plan),
                                 )),
-                            const SizedBox(height: 24),
+                            if (!c.hasActiveSubscription.value) ...[
+                              const SizedBox(height: 24),
+                              _buildTrialSection(context),
+                              const SizedBox(height: 32),
+                            ],
+                            if (c.hasActiveSubscription.value) const SizedBox(height: 24),
                             _buildBottomCta(context),
                           ],
                         );
@@ -173,16 +178,28 @@ class ChoosePlanScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Text('ACTIVE SUBSCRIPTION', style: AppTextStyles.subActiveLabel),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.subCurrentBadgeBg,
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: AppColors.subActiveCardBorder),
+              Expanded(
+                child: Text('ACTIVE SUBSCRIPTION', style: AppTextStyles.subActiveLabel),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppColors.subCurrentBadgeBg,
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(color: AppColors.subActiveCardBorder),
+                    ),
+                    child: Text(
+                      'Current plan',
+                      style: AppTextStyles.subCurrentBadge,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
                 ),
-                child: Text('Current Plan', style: AppTextStyles.subCurrentBadge),
               ),
             ],
           ),
@@ -201,6 +218,36 @@ class ChoosePlanScreen extends StatelessWidget {
                 child: Text('Cancel subscription', style: AppTextStyles.subCancelLink),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 4-Day Free Trial info section for new users (no active subscription).
+  /// Placed at bottom of page content, below plan cards and above the CTA.
+  Widget _buildTrialSection(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(_kCardPadding),
+      decoration: BoxDecoration(
+        color: AppColors.subCardBg,
+        borderRadius: BorderRadius.circular(_kCardRadius),
+        border: Border.all(color: AppColors.subCardBorder, width: 1),
+        boxShadow: AppShadows.subCard,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Start your 4-Day Free Trial',
+            style: AppTextStyles.subPlanName,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Experience how thoughtful care can feel when the effort is handled for you. '
+            'Try Cherish AI with one loved one - cancel any time before the trial ends, '
+            'and you won\'t be charged',
+            style: AppTextStyles.subSubtitle,
           ),
         ],
       ),

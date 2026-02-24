@@ -74,24 +74,25 @@ class SearchScreen extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       padding: EdgeInsets.only(
-                        left: paddingH,
-                        right: paddingH,
                         bottom: _kBottomNavHeight + _kScrollBottomPadding + bottomPadding,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _buildHeader(context, c, paddingH),
+                          _buildHeader(context, c),
                           SizedBox(height: _kContentPaddingTop),
-                          Obx(() {
-                            if (c.isSearching.value) {
-                              return _buildLoading(context);
-                            }
-                            if (c.query.value.trim().isNotEmpty) {
-                              return _buildSearchResultsOrEmpty(context, c);
-                            }
-                            return _buildDefaultContent(context, c);
-                          }),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: paddingH),
+                            child: Obx(() {
+                              if (c.isSearching.value) {
+                                return _buildLoading(context);
+                              }
+                              if (c.query.value.trim().isNotEmpty) {
+                                return _buildSearchResultsOrEmpty(context, c);
+                              }
+                              return _buildDefaultContent(context, c);
+                            }),
+                          ),
                         ],
                       ),
                     ),
@@ -106,19 +107,27 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, search_feature.SearchController c, double paddingH) {
+  Widget _buildHeader(BuildContext context, search_feature.SearchController c) {
     return Container(
-      padding: EdgeInsets.fromLTRB(paddingH, _kHeaderPaddingTop, paddingH, _kHeaderPaddingBottom),
+      width: double.infinity,
       decoration: const BoxDecoration(
         gradient: AppGradients.searchHeader,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text('Search', style: AppTextStyles.searchTitle),
-          SizedBox(height: _kTitleSearchGap),
-          _buildSearchBar(context, c),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          _kHeaderPaddingH,
+          _kHeaderPaddingTop,
+          _kHeaderPaddingH,
+          _kHeaderPaddingBottom,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Search', style: AppTextStyles.searchTitle),
+            SizedBox(height: _kTitleSearchGap),
+            _buildSearchBar(context, c),
+          ],
+        ),
       ),
     );
   }

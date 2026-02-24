@@ -42,14 +42,13 @@ class UserTypeScreen extends StatelessWidget {
             SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(_kHorizontalPadding, _kBackBtnInset + _kBackBtnSize + 16, _kHorizontalPadding, 32),
+                  padding: const EdgeInsets.fromLTRB(_kHorizontalPadding,  16, _kHorizontalPadding, 32),
                   child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
                       child: Column(
                         children: [
                           _buildLogoSection(),
-                          SizedBox(height: _kSectionBottomMargin),
                           _buildTitleSection(),
                           SizedBox(height: _kCardsGap + 8),
                           _buildCards(context, c),
@@ -122,21 +121,22 @@ class UserTypeScreen extends StatelessWidget {
             style: AppTextStyles.userTypeTitle,
             children: [
               const TextSpan(text: 'How would you like to use '),
-              TextSpan(text: 'Cherish AI', style: AppTextStyles.userTypeTitleAccent),
+              TextSpan(text: 'CherishAI', style: AppTextStyles.userTypeTitleAccent),
               const TextSpan(text: '?'),
             ],
           ),
         ),
         const SizedBox(height: _kTitleSubtitleGap),
-        Wrap(
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Choose the path that\'s right for you ',
-              style: AppTextStyles.userTypeSubtitle,
-              textAlign: TextAlign.center,
-              softWrap: true,
+            Expanded(
+              child: Text(
+                'Choose the path that\'s right for you ',
+                style: AppTextStyles.userTypeSubtitle,
+                textAlign: TextAlign.center,
+                softWrap: true,
+              ),
             ),
             Icon(Icons.favorite_rounded, size: 20, color: AppColors.userTypeSubtitle),
           ],

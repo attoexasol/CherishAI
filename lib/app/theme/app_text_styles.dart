@@ -1867,4 +1867,114 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.editLovedOnePlaceholder,
   );
+
+  // --- Loved One Details screen ---
+  static const TextStyle lovedOneDetailsName = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lovedOneDetailsName,
+    height: 1.25,
+  );
+  static const TextStyle lovedOneDetailsRelationship = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneDetailsRelationship,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsCardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lovedOneDetailsCardTitle,
+    height: 1.4,
+  );
+  static const TextStyle lovedOneDetailsRowLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneDetailsRowLabel,
+    height: 1.4,
+  );
+  static const TextStyle lovedOneDetailsRowValue = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lovedOneDetailsRowValue,
+    height: 1.4,
+  );
+  static const TextStyle lovedOneDetailsContactLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneDetailsRowLabel,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsContactValue = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lovedOneDetailsRowValue,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsPrimaryGoalLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lovedOneDetailsPrimaryGoalLabel,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsPrimaryGoalDesc = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneDetailsPrimaryGoalDesc,
+    height: 1.5,
+  );
+  static const TextStyle lovedOneDetailsSecondaryPill = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lovedOneDetailsSecondaryPillText,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsSecondaryRowTitle = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lovedOneDetailsRowValue,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsSecondaryRowTitleSelected = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.editLovedOneSecondaryRowText,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsSecondaryRowCategory = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneDetailsRowLabel,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsChip = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lovedOneDetailsChipText,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsCtaBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsPremiumTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lovedOneDetailsPremiumTitle,
+    height: 1.3,
+  );
+  static const TextStyle lovedOneDetailsPremiumSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.lovedOneDetailsPremiumSubtitle,
+    height: 1.5,
+  );
+  static const TextStyle lovedOneDetailsPremiumHint = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lovedOneDetailsPremiumHintText,
+    height: 1.3,
+  );
 }

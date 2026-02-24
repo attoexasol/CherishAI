@@ -53,35 +53,41 @@ class NotificationsScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _buildHeader(context, c),
                   Expanded(
                     child: SingleChildScrollView(
                       padding: EdgeInsets.only(
-                        left: _kHeaderPaddingH,
-                        right: _kHeaderPaddingH,
-                        top: 24,
                         bottom: _kBottomNavHeight + 24 + bottomPadding,
                       ),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: contentMaxWidth),
-                          child: Obx(() {
-                            final list = c.filteredItems;
-                            if (list.isEmpty) {
-                              return _buildEmptyState(context, c);
-                            }
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: List.generate(
-                                list.length,
-                                (i) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 16),
-                                  child: _buildNotificationCard(context, c, list[i]),
-                                ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildHeader(context, c),
+                          const SizedBox(height: 24),
+                          Center(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: contentMaxWidth),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: _kHeaderPaddingH),
+                                child: Obx(() {
+                                  final list = c.filteredItems;
+                                  if (list.isEmpty) {
+                                    return _buildEmptyState(context, c);
+                                  }
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: List.generate(
+                                      list.length,
+                                      (i) => Padding(
+                                        padding: const EdgeInsets.only(bottom: 16),
+                                        child: _buildNotificationCard(context, c, list[i]),
+                                      ),
+                                    ),
+                                  );
+                                }),
                               ),
-                            );
-                          }),
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

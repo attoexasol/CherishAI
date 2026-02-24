@@ -1,6 +1,7 @@
 // lib/presentation/auth/views/auth_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_gradients.dart';
@@ -17,6 +18,10 @@ class AuthScreen extends StatelessWidget {
   static const double _segmentRadius = 26;
   static const double _socialHeight = 56;
   static const double _socialRadius = 14;
+  /// Google icon size matching React AuthScreen (w-5 h-5 = 20px).
+  static const double _googleIconSize = 20;
+  /// Gap between social icon and label matching React (gap-3 = 12px).
+  static const double _socialIconLabelGap = 12;
   static const double _inputHeight = 56;
   static const double _inputRadius = 14;
   static const double _backSize = 48;
@@ -46,9 +51,7 @@ class AuthScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
                   child: Column(
                     children: [
-                      const SizedBox(height: 16),
                       _buildLogoSection(),
-                      const SizedBox(height: 32),
                       _buildWelcome(),
                       const SizedBox(height: 28),
                       _buildSegmentControl(context),
@@ -104,26 +107,17 @@ class AuthScreen extends StatelessWidget {
 
   Widget _buildLogoSection() {
     return SizedBox(
-      height: 80,
+      height: 200,
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             AssetImageWithFallback(
               assetPath: AppAssets.cherishLogo,
-              width: 56,
-              height: 56,
+              width: 200,
+              height: 200,
               fit: BoxFit.contain,
               placeholder: Icon(Icons.favorite, size: 40, color: AppColors.pinkAccent),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'CherishAI',
-              style: AppTextStyles.authSubtitle.copyWith(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFF6A4A9B),
-              ),
             ),
           ],
         ),
@@ -280,14 +274,12 @@ class AuthScreen extends StatelessWidget {
   }
 
   Widget _googleIcon() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(width: 6, height: 24, color: const Color(0xFF4285F4)),
-        Container(width: 6, height: 24, color: const Color(0xFFEA4335)),
-        Container(width: 6, height: 24, color: const Color(0xFFFBBC05)),
-        Container(width: 6, height: 24, color: const Color(0xFF34A853)),
-      ],
+    return SvgPicture.asset(
+      AppAssetsIcons.googleIconSvg,
+      width: _googleIconSize,
+      height: _googleIconSize,
+      fit: BoxFit.contain,
+      clipBehavior: Clip.antiAlias,
     );
   }
 
@@ -312,7 +304,7 @@ class AuthScreen extends StatelessWidget {
           child: Row(
             children: [
               leading,
-              const SizedBox(width: 14),
+              const SizedBox(width: _socialIconLabelGap),
               Text(label, style: AppTextStyles.authSocialButton),
             ],
           ),

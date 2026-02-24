@@ -860,4 +860,53 @@ abstract class AppGradients {
     end: Alignment.centerRight,
     colors: [Color(0xFFF43F5E), Color(0xFFA855F7)],
   );
+  /// Loved One Details: header (rose-400 -> pink-400, React bg-gradient-to-br)
+  static const LinearGradient lovedOneDetailsHeader = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.lovedOneDetailsHeaderStart,
+      AppColors.lovedOneDetailsHeaderEnd,
+    ],
+  );
+  /// Loved One Details: View Gift Ideas + View Subscription Plans (rose-500 -> pink-500 -> purple-500)
+  static const LinearGradient lovedOneDetailsCtaBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFE11D48),
+      Color(0xFFEC4899),
+      Color(0xFFA855F7),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Loved One Details: premium card crown bubble (purple-400 -> pink-500)
+  static const LinearGradient lovedOneDetailsPremiumCrown = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.lovedOneDetailsPremiumCrownBgStart,
+      AppColors.lovedOneDetailsPremiumCrownBgEnd,
+    ],
+  );
+  /// Loved One Details: premium card background (purple-50 -> pink-50 -> rose-50)
+  static const LinearGradient lovedOneDetailsPremiumCardBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.lovedOneDetailsPremiumCardBgStart,
+      AppColors.lovedOneDetailsPremiumCardBgMid,
+      AppColors.lovedOneDetailsPremiumCardBgEnd,
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Loved One Details: secondary goal row selected (rose-50 -> pink-50)
+  static const LinearGradient lovedOneDetailsSecondaryRowSelected = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      AppColors.lovedOneDetailsSecondaryRowSelectedBgStart,
+      AppColors.lovedOneDetailsSecondaryRowSelectedBgEnd,
+    ],
+  );
 }

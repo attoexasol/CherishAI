@@ -100,17 +100,6 @@ class OnboardingIntroScreen extends StatelessWidget {
               const SizedBox(height: 28),
               const Center(child: _AnimatedHeroLogo()),
               const SizedBox(height: 20),
-              Center(
-                child: Text(
-                  'CherishAI',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.onboardingNotCoach.copyWith(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.onboardingHeadline,
-                  ),
-                ),
-              ),
               const SizedBox(height: 6),
               Center(
                 child: Text(

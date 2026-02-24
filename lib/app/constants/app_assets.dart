@@ -51,3 +51,10 @@ abstract class AppAssets {
   static const String chooseHigherTier = '$_base/choose_higher_tier.png';
   static const String placeholderError = '$_base/placeholder_error.png';
 }
+
+/// Icons (SVG/PNG) under assets/icons/ — matches React auth social icons.
+abstract class AppAssetsIcons {
+  static const String _iconsBase = 'assets/icons';
+  /// Google "G" logo SVG (same as React AuthScreen.tsx inline SVG).
+  static const String googleIconSvg = '$_iconsBase/google.svg';
+}

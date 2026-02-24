@@ -948,5 +948,32 @@ abstract class AppShadows {
       color: Color(0x0D000000),
     ),
   ];
+  /// Loved One Details: content cards (RomanticCard 0 8px 30px rgba(0,0,0,0.08))
+  static const List<BoxShadow> lovedOneDetailsCard = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 30,
+      spreadRadius: 0,
+      color: Color(0x14000000),
+    ),
+  ];
+  /// Loved One Details: edit button (top right)
+  static const List<BoxShadow> lovedOneDetailsEditBtn = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x33000000),
+    ),
+  ];
+  /// Loved One Details: View Gift Ideas / View Subscription Plans button
+  static const List<BoxShadow> lovedOneDetailsCtaBtn = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x50F472B6),
+    ),
+  ];
 }
 

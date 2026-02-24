@@ -9,8 +9,8 @@ import '../../../core/utils/responsive.dart';
 import '../controllers/profile_controller.dart';
 
 const double _kHeaderPaddingH = 24;
-const double _kHeaderPaddingV = 24;
-const double _kHeaderHeight = 248;
+const double _kHeaderPaddingTop = 48;
+const double _kHeaderPaddingBottom = 80;
 const double _kEditBtnSize = 40;
 const double _kEditBtnIconSize = 20;
 const double _kEditBtnBorderWidth = 1.5;
@@ -39,7 +39,8 @@ const double _kBottomNavPaddingV = 12;
 const double _kBottomNavHeight = 72;
 const double _kBottomNavHideLabelWidth = 280;
 const double _kMaxContentWidth = 480;
-const double _kHeaderToCardsGap = 16;
+/// Overlap of content over header gradient (React -mt-12). Cards may overlap gradient only.
+const double _kContentOverlapHeader = 32;
 const double _kScrollBottomPadding = 24;
 
 class ProfileScreen extends StatelessWidget {
@@ -65,35 +66,41 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        left: paddingH,
-                        right: paddingH,
-                        bottom: _kBottomNavHeight + _kScrollBottomPadding + bottomPadding,
-                      ),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: _kMaxContentWidth.clamp(0, screenWidth - paddingH * 2),
+                      padding: EdgeInsets.only(bottom: _kBottomNavHeight + _kScrollBottomPadding + bottomPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildHeader(context, c),
+                          Transform.translate(
+                            offset: Offset(0, -_kContentOverlapHeader),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: paddingH),
+                              child: Center(
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxWidth: _kMaxContentWidth.clamp(0, screenWidth - paddingH * 2),
+                                  ),
+                                  child: Obx(() => Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      _buildStatsCardsSection(context, c),
+                                      SizedBox(height: _kSectionGap + _kContentOverlapHeader),
+                                      _buildPersonalInfo(context, c),
+                                      const SizedBox(height: _kSectionGap),
+                                      if (c.isEditMode.value) ...[
+                                        _buildSaveButton(context, c),
+                                        const SizedBox(height: 16),
+                                      ],
+                                      _buildManageSubscriptionButton(context, c),
+                                      const SizedBox(height: 12),
+                                      _buildLogoutButton(context, c),
+                                    ],
+                                  )),
+                                ),
+                              ),
+                            ),
                           ),
-                          child: Obx(() => Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _buildHeader(context, c),
-                              const SizedBox(height: _kHeaderToCardsGap),
-                              _buildStatsCardsSection(context, c),
-                              const SizedBox(height: _kSectionGap),
-                              _buildPersonalInfo(context, c),
-                              const SizedBox(height: _kSectionGap),
-                              if (c.isEditMode.value) ...[
-                                _buildSaveButton(context, c),
-                                const SizedBox(height: 16),
-                              ],
-                              _buildManageSubscriptionButton(context, c),
-                              const SizedBox(height: 12),
-                              _buildLogoutButton(context, c),
-                            ],
-                          )),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -175,13 +182,19 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context, ProfileController c) {
     return Container(
-      height: _kHeaderHeight,
-      padding: EdgeInsets.fromLTRB(_kHeaderPaddingH, _kHeaderPaddingV, _kHeaderPaddingH, 16),
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(
+        _kHeaderPaddingH,
+        _kHeaderPaddingTop,
+        _kHeaderPaddingH,
+        _kHeaderPaddingBottom,
+      ),
       decoration: const BoxDecoration(
         gradient: AppGradients.profileHeader,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,7 +204,7 @@ class ProfileScreen extends StatelessWidget {
               Obx(() => _buildEditButton(c)),
             ],
           ),
-          const Spacer(),
+          const SizedBox(height: 24),
           Center(
             child: Column(
               children: [
@@ -305,7 +318,7 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.all(_kCardPadding),
           decoration: BoxDecoration(
             color: AppColors.profileCardBg,
-            borderRadius: BorderRadius.circular(_kCardRadius),
+            borderRadius: BorderRadius.circular(20),
             boxShadow: AppShadows.profileCard,
           ),
           child: Column(

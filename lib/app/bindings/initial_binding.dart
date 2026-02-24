@@ -26,6 +26,7 @@ import '../../presentation/gift_ideas/controllers/gift_ideas_controller.dart';
 import '../../presentation/gift_ideas_detail/controllers/gift_ideas_detail_controller.dart';
 import '../../presentation/events/controllers/all_upcoming_events_controller.dart';
 import '../../presentation/old_messages/controllers/old_messages_controller.dart';
+import '../../presentation/loved_one_details/controllers/loved_one_details_controller.dart';
 
 /// Registers global/splash/onboarding/auth dependencies. Extend when adding more screens.
 class InitialBinding extends Bindings {
@@ -57,5 +58,6 @@ class InitialBinding extends Bindings {
     Get.lazyPut<GiftIdeasDetailController>(() => GiftIdeasDetailController());
     Get.lazyPut<AllUpcomingEventsController>(() => AllUpcomingEventsController());
     Get.lazyPut<OldMessagesController>(() => OldMessagesController());
+    Get.lazyPut<LovedOneDetailsController>(() => LovedOneDetailsController());
   }
 }

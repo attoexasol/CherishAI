@@ -748,7 +748,45 @@ abstract class AppColors {
   static const Color editLovedOneCustomDislikeChipBorder = Color(0xFFFECACA);
   static const Color editLovedOneAddCustomDislikeBg = Color(0x80FEF2F2); // red-50/50
   static const Color editLovedOneAddCustomDislikeBorder = Color(0x80FECACA);
+
+  // --- Loved One Details screen (React LovedOneDetailsScreen) ---
+  static const Color lovedOneDetailsHeaderStart = Color(0xFFFB7185);   // rose-400
+  static const Color lovedOneDetailsHeaderEnd = Color(0xFFF472B6);     // pink-400
+  static const Color lovedOneDetailsBackIcon = Color(0xFFFFFFFF);
+  static const Color lovedOneDetailsAvatarBg = Color(0x33FFFFFF);       // white/20
+  static const Color lovedOneDetailsName = Color(0xFFFFFFFF);
+  static const Color lovedOneDetailsRelationship = Color(0xCCFFFFFF);  // white/80
+  static const Color lovedOneDetailsEditBtnBg = Color(0x33FFFFFF);      // white/20
+  static const Color lovedOneDetailsEditIcon = Color(0xFFFFFFFF);
+  static const Color lovedOneDetailsCardBg = Color(0xCCFFFFFF);         // white/80 (RomanticCard)
+  static const Color lovedOneDetailsCardTitle = Color(0xFF374151);      // gray-700
+  static const Color lovedOneDetailsSectionIcon = Color(0xFFFB7185);   // rose-400
+  static const Color lovedOneDetailsRowLabel = Color(0xFF6B7280);      // gray-500
+  static const Color lovedOneDetailsRowValue = Color(0xFF1F2937);      // gray-800
+  static const Color lovedOneDetailsContactBubbleBg = Color(0xFFF3F4F6); // gray-100
+  static const Color lovedOneDetailsContactBubbleIcon = Color(0xFF4B5563);
+  static const Color lovedOneDetailsPrimaryGoalLabel = Color(0xFF4B5563);
+  static const Color lovedOneDetailsPrimaryGoalBorder = Color(0xFFFBCFE8); // pink-200
+  static const Color lovedOneDetailsPrimaryGoalDesc = Color(0xFF6B7280);
+  static const Color lovedOneDetailsSecondaryPillBg = Color(0xFFF3E8FF);   // purple-100
+  static const Color lovedOneDetailsSecondaryPillText = Color(0xFF7C3AED);  // purple-700
+  static const Color lovedOneDetailsSecondaryRowSelectedBorder = Color(0xFFFB7185);
+  static const Color lovedOneDetailsSecondaryRowSelectedBgStart = Color(0xFFFFF1F2);
+  static const Color lovedOneDetailsSecondaryRowSelectedBgEnd = Color(0xFFFDF2F8);
+  static const Color lovedOneDetailsSecondaryRowUnselectedBorder = Color(0xFFFBCFE8);
+  static const Color lovedOneDetailsSecondaryRowDisabledBg = Color(0xFFF9FAFB);
+  static const Color lovedOneDetailsChipBg = Color(0xFFFFF1F2);        // rose-50
+  static const Color lovedOneDetailsChipText = Color(0xFFBE185D);       // rose-700
+  static const Color lovedOneDetailsChipBorderSelected = Color(0xFFFB7185);
+  static const Color lovedOneDetailsChipBorderUnselected = Color(0xFFE5E7EB);
+  static const Color lovedOneDetailsPremiumCardBgStart = Color(0xFFFAF5FF);
+  static const Color lovedOneDetailsPremiumCardBgMid = Color(0xFFFDF2F8);
+  static const Color lovedOneDetailsPremiumCardBgEnd = Color(0xFFFFF1F2);
+  static const Color lovedOneDetailsPremiumCardBorder = Color(0xFFE9D5FF);
+  static const Color lovedOneDetailsPremiumCrownBgStart = Color(0xFFA78BFA);
+  static const Color lovedOneDetailsPremiumCrownBgEnd = Color(0xFFEC4899);
+  static const Color lovedOneDetailsPremiumTitle = Color(0xFF1F2937);
+  static const Color lovedOneDetailsPremiumSubtitle = Color(0xFF6B7280);
+  static const Color lovedOneDetailsPremiumHintBg = Color(0xFFF3F4F6);
+  static const Color lovedOneDetailsPremiumHintText = Color(0xFF374151);
 }
-
-
-
