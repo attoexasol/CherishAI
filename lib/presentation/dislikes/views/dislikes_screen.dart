@@ -33,10 +33,18 @@ const double _kChipRadius = 999;
 const double _kCategoryGap = 16;
 const double _kAddButtonHeight = 48;
 const double _kAddButtonRadius = 12;
+const double _kFormCardRadius = 16;
+const double _kFormCardPadding = 20;
+const double _kFormTitleBottom = 16;
+const double _kFormFieldGap = 16;
+const double _kFormInputRadius = 12;
+const double _kFormInputHeight = 48;
+const double _kFormButtonHeight = 48;
+const double _kFormButtonRadius = 12;
+const double _kFormButtonGap = 12;
 const double _kCtaHeight = 56;
 const double _kCtaBottomPadding = 10;
 const double _kHelperTop = 8;
-const double _kAddButtonTop = 12;
 const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
 
@@ -45,6 +53,8 @@ class DislikesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomSectionHeight = _kCtaHeight + _kCtaBottomPadding + _kHelperTop + 20 + bottomPadding;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -58,7 +68,7 @@ class DislikesScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kTopInset + 40 + _kScrollTopPadding,
-                  bottom: _kCtaHeight + _kCtaBottomPadding + _kHelperTop + 24 + _kAddButtonHeight + _kAddButtonTop + 24,
+                  bottom: bottomSectionHeight,
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -67,8 +77,6 @@ class DislikesScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                       // _buildFinalStepPill(context),
-                      //  SizedBox(height: _kTitleTop),
                         Text('DISLIKES', style: AppTextStyles.dislikesTitle, textAlign: TextAlign.center),
                         SizedBox(height: _kDescTop),
                         Text(
@@ -83,7 +91,8 @@ class DislikesScreen extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: _kCategoryGap),
                               child: _buildCategoryCard(context, cat),
                             )),
-                        const SizedBox(height: 8),
+                        SizedBox(height: _kSectionGap),
+                        _buildAddCustomDislikeSection(context),
                       ],
                     ),
                   ),
@@ -157,28 +166,6 @@ class DislikesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFinalStepPill(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: _kFinalPillPaddingV, horizontal: _kFinalPillPaddingH),
-        decoration: BoxDecoration(
-          color: AppColors.dislikesFinalPillBg,
-          borderRadius: BorderRadius.circular(_kFinalPillRadius),
-          border: Border.all(color: AppColors.dislikesFinalPillBorder, width: 1),
-          boxShadow: AppShadows.dislikesFinalPill,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.flag_outlined, size: 16, color: AppColors.dislikesFinalPillText),
-            const SizedBox(width: 8),
-            Text('Final Step', style: AppTextStyles.dislikesFinalPill),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildCategoryCard(BuildContext context, DislikeCategoryModel category) {
     final c = Get.find<DislikesController>();
     return Container(
@@ -242,6 +229,165 @@ class DislikesScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildAddCustomDislikeSection(BuildContext context) {
+    final c = Get.find<DislikesController>();
+    return Obx(() {
+      if (c.showCustomDislikeForm.value) {
+        return _buildCustomDislikeForm(context, c);
+      }
+      return _buildAddCustomDislikeButton(context, c);
+    });
+  }
+
+  Widget _buildAddCustomDislikeButton(BuildContext context, DislikesController c) {
+    final disabled = !c.canAddMoreCustomDislikes;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: disabled ? null : c.onAddCustomDislike,
+        borderRadius: BorderRadius.circular(_kAddButtonRadius),
+        child: Container(
+          height: _kAddButtonHeight,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: disabled ? AppColors.dislikesChipBorder : AppColors.dislikesAddButtonBg,
+            borderRadius: BorderRadius.circular(_kAddButtonRadius),
+            border: Border.all(color: AppColors.dislikesAddButtonBorder, width: 1),
+            boxShadow: AppShadows.dislikesAddButton,
+          ),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add, size: 22, color: disabled ? AppColors.dislikesHelperText : AppColors.dislikesAddButtonText),
+              const SizedBox(width: 8),
+              Text(
+                c.canAddMoreCustomDislikes ? 'Add Custom Dislike' : 'Add Custom Dislike (Max 2 reached)',
+                style: AppTextStyles.dislikesAddButton.copyWith(color: disabled ? AppColors.dislikesHelperText : AppColors.dislikesAddButtonText),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomDislikeForm(BuildContext context, DislikesController c) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(_kFormCardPadding),
+      decoration: BoxDecoration(
+        color: AppColors.dislikesAddButtonBg,
+        borderRadius: BorderRadius.circular(_kFormCardRadius),
+        border: Border.all(color: AppColors.dislikesFinalPillBorder),
+        boxShadow: AppShadows.dislikesCard,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Add Custom Dislike', style: AppTextStyles.prefsDialogTitle.copyWith(color: AppColors.dislikesCategoryTitle)),
+          const SizedBox(height: _kFormTitleBottom),
+          TextField(
+            controller: c.customDislikeTextController,
+            style: AppTextStyles.prefsDialogInput.copyWith(color: AppColors.dislikesCategoryTitle),
+            decoration: InputDecoration(
+              hintText: 'e.g., Strong perfumes, Horror movies, Late-night plans',
+              hintStyle: AppTextStyles.prefsDialogInputPlaceholder,
+              filled: true,
+              fillColor: AppColors.dislikesAddButtonBg,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(_kFormInputRadius),
+                borderSide: const BorderSide(color: AppColors.dislikesAddButtonBorder),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(_kFormInputRadius),
+                borderSide: const BorderSide(color: AppColors.dislikesAddButtonBorder),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(_kFormInputRadius),
+                borderSide: const BorderSide(color: AppColors.dislikesChipSelectedBorder, width: 1.5),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            ),
+          ),
+          const SizedBox(height: _kFormFieldGap),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              if (width < 280) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildAddDislikePrimaryButton(c),
+                    const SizedBox(height: _kFormButtonGap),
+                    _buildCancelButton(c),
+                  ],
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(child: _buildAddDislikePrimaryButton(c)),
+                  const SizedBox(width: _kFormButtonGap),
+                  _buildCancelButton(c),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddDislikePrimaryButton(DislikesController c) {
+    return Obx(() {
+      final text = c.customDislikeInput.value.trim();
+      final enabled = text.isNotEmpty && c.canAddMoreCustomDislikes;
+      return Opacity(
+        opacity: enabled ? 1 : 0.5,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: enabled ? c.submitCustomDislike : null,
+            borderRadius: BorderRadius.circular(_kFormButtonRadius),
+            child: Container(
+              height: _kFormButtonHeight,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: AppGradients.dislikesCta,
+                borderRadius: BorderRadius.circular(_kFormButtonRadius),
+                boxShadow: AppShadows.dislikesCta,
+              ),
+              alignment: Alignment.center,
+              child: Text('Add Dislike', style: AppTextStyles.prefsDialogPrimaryBtn),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildCancelButton(DislikesController c) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: c.cancelCustomDislikeForm,
+        borderRadius: BorderRadius.circular(_kFormButtonRadius),
+        child: Container(
+          height: _kFormButtonHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: AppColors.dislikesAddButtonBg,
+            borderRadius: BorderRadius.circular(_kFormButtonRadius),
+            border: Border.all(color: AppColors.prefsDialogCancelBorder),
+          ),
+          alignment: Alignment.center,
+          child: Text('Cancel', style: AppTextStyles.prefsDialogCancelBtn),
+        ),
+      ),
+    );
+  }
+
   Widget _buildBottomSection(BuildContext context) {
     final c = Get.find<DislikesController>();
     return Container(
@@ -250,6 +396,16 @@ class DislikesScreen extends StatelessWidget {
         12,
         _kHorizontalPadding,
         _kCtaBottomPadding + MediaQuery.paddingOf(context).bottom,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.dislikesBgBottom.withValues(alpha: 0),
+            AppColors.dislikesBgBottom,
+          ],
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -283,39 +439,6 @@ class DislikesScreen extends StatelessWidget {
             'You can skip or update these preferences later',
             style: AppTextStyles.dislikesHelper,
             textAlign: TextAlign.center,
-          ),
-          SizedBox(height: _kAddButtonTop),
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: c.onAddCustomDislike,
-                  borderRadius: BorderRadius.circular(_kAddButtonRadius),
-                  child: Container(
-                    height: _kAddButtonHeight,
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: AppColors.dislikesAddButtonBg,
-                      borderRadius: BorderRadius.circular(_kAddButtonRadius),
-                      border: Border.all(color: AppColors.dislikesAddButtonBorder, width: 1),
-                      boxShadow: AppShadows.dislikesAddButton,
-                    ),
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.add, size: 22, color: AppColors.dislikesAddButtonText),
-                        const SizedBox(width: 8),
-                        Text('Add Custom Dislike', style: AppTextStyles.dislikesAddButton),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ),
         ],
       ),
