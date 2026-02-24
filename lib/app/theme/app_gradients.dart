@@ -609,6 +609,36 @@ abstract class AppGradients {
     ],
   );
 
+  /// Edit Loved One: page background (rose-50 -> pink-50 -> purple-50)
+  static const LinearGradient editLovedOnePageBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.editLovedOnePageBgStart,
+      AppColors.editLovedOnePageBgMid,
+      AppColors.editLovedOnePageBgEnd,
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Edit Loved One: camera badge on avatar
+  static const LinearGradient editLovedOneCameraBadge = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.editLovedOneCameraBadgeStart,
+      AppColors.editLovedOneCameraBadgeEnd,
+    ],
+  );
+  /// Edit Loved One: secondary goal row selected (rose-50 -> pink-50)
+  static const LinearGradient editLovedOneSecondaryRowSelected = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      AppColors.editLovedOneSecondaryRowSelectedBgStart,
+      AppColors.editLovedOneSecondaryRowSelectedBgEnd,
+    ],
+  );
+
   /// Search: header (purple-400 -> purple-500 -> indigo-500)
   static const LinearGradient searchHeader = LinearGradient(
     begin: Alignment.topLeft,
@@ -792,6 +822,26 @@ abstract class AppGradients {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [Color(0xFF60A5FA), Color(0xFFA855F7)],
+  );
+  /// Gift Ideas Detail: event header icon + gift card icon (rose-400 -> purple-400)
+  static const LinearGradient giftIdeasDetailEventIcon = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFF43F5E), Color(0xFFA855F7)],
+  );
+  /// Gift Ideas Detail: Find Near You button (rose-500 -> pink-500 -> purple-500)
+  static const LinearGradient giftIdeasDetailFindNearYou = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFE11D48), Color(0xFFEC4899), Color(0xFFA855F7)],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Gift Ideas Detail: Regenerate All button (purple-500 -> pink-500 -> rose-500)
+  static const LinearGradient giftIdeasDetailRegenerateAll = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFA855F7), Color(0xFFEC4899), Color(0xFFE11D48)],
+    stops: [0.0, 0.5, 1.0],
   );
   /// All Upcoming Events: sort selected + View Gift Ideas button
   static const LinearGradient eventsSortSelected = LinearGradient(

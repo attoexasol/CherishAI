@@ -18,10 +18,12 @@ import '../../presentation/notifications/controllers/notifications_controller.da
 import '../../presentation/profile/controllers/profile_controller.dart';
 import '../../presentation/search/controllers/search_controller.dart';
 import '../../presentation/loved_ones/controllers/loved_ones_controller.dart';
+import '../../presentation/edit_loved_one/controllers/edit_loved_one_controller.dart';
 import '../../presentation/account_settings/controllers/account_settings_controller.dart';
 import '../../presentation/subscription_manage/controllers/manage_subscription_controller.dart';
 import '../../presentation/help_feedback/controllers/help_feedback_controller.dart';
 import '../../presentation/gift_ideas/controllers/gift_ideas_controller.dart';
+import '../../presentation/gift_ideas_detail/controllers/gift_ideas_detail_controller.dart';
 import '../../presentation/events/controllers/all_upcoming_events_controller.dart';
 import '../../presentation/old_messages/controllers/old_messages_controller.dart';
 
@@ -47,10 +49,12 @@ class InitialBinding extends Bindings {
     Get.lazyPut<ProfileController>(() => ProfileController());
     Get.lazyPut<SearchController>(() => SearchController());
     Get.lazyPut<LovedOnesController>(() => LovedOnesController());
+    Get.lazyPut<EditLovedOneController>(() => EditLovedOneController());
     Get.lazyPut<AccountSettingsController>(() => AccountSettingsController());
     Get.lazyPut<ManageSubscriptionController>(() => ManageSubscriptionController());
     Get.lazyPut<HelpFeedbackController>(() => HelpFeedbackController());
     Get.lazyPut<GiftIdeasController>(() => GiftIdeasController());
+    Get.lazyPut<GiftIdeasDetailController>(() => GiftIdeasDetailController());
     Get.lazyPut<AllUpcomingEventsController>(() => AllUpcomingEventsController());
     Get.lazyPut<OldMessagesController>(() => OldMessagesController());
   }

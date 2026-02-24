@@ -462,6 +462,15 @@ abstract class AppShadows {
   ];
   /// Loved One Preferences: Continue CTA
   static const List<BoxShadow> prefsCta = onboardingContinueBtn;
+  /// Prefs modal dialogs: container shadow (lifted modal)
+  static const List<BoxShadow> prefsDialogShadow = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 20,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
 
   /// Dislikes: Final Step pill
   static const List<BoxShadow> dislikesFinalPill = [
@@ -712,7 +721,32 @@ abstract class AppShadows {
       color: Color(0x50F472B6),
     ),
   ];
-  /// Search: search bar (shadow-lg ≈ 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05))
+  /// Edit Loved One: section card (shadow-sm)
+  static const List<BoxShadow> editLovedOneCard = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: 0,
+      color: Color(0x1A000000),
+    ),
+  ];
+  /// Edit Loved One: photo card (shadow-lg)
+  static const List<BoxShadow> editLovedOnePhotoCard = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: -3,
+      color: Color(0x1A000000),
+    ),
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 6,
+      spreadRadius: -2,
+      color: Color(0x0D000000),
+    ),
+  ];
+
+  /// Search: search bar (shadow-lg ≈ 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)) ≈ 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05))
   static const List<BoxShadow> searchBar = [
     BoxShadow(
       offset: Offset(0, 10),

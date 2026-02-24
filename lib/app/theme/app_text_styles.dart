@@ -590,6 +590,35 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.prefsAddButtonText,
   );
+  /// Prefs modal dialogs: title inside dialog
+  static const TextStyle prefsDialogTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.prefsTitle,
+  );
+  /// Prefs modal dialogs: primary button (Add Occasion / Add Hobby)
+  static const TextStyle prefsDialogPrimaryBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+  /// Prefs modal dialogs: cancel button
+  static const TextStyle prefsDialogCancelBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.prefsDialogCancelText,
+  );
+  /// Prefs modal dialogs: input text and placeholder
+  static const TextStyle prefsDialogInput = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.prefsTitle,
+  );
+  static const TextStyle prefsDialogInputPlaceholder = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.prefsDialogPlaceholder,
+  );
   static const TextStyle prefsCategoryTitle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w700,
@@ -1503,6 +1532,121 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.giftIdeasUrgentBadgeText,
   );
+  // --- Gift Ideas Detail (event-specific) ---
+  static const TextStyle giftIdeasDetailAppBarTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.giftIdeasDetailTitle,
+  );
+  static const TextStyle giftIdeasDetailEventTitle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+    color: AppColors.giftIdeasDetailTitle,
+  );
+  static const TextStyle giftIdeasDetailCountdown = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailCountdownDays = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasDetailCountdownDays,
+  );
+  static const TextStyle giftIdeasDetailEventDesc = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailFilterLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailShowing = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailShowingCount = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasDetailShowingCount,
+  );
+  static const TextStyle giftIdeasDetailSectionTitle = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasDetailTitle,
+  );
+  static const TextStyle giftIdeasDetailGiftTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasDetailTitle,
+  );
+  static const TextStyle giftIdeasDetailGiftDesc = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailPricePill = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailWhyPerfectTitle = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0.5,
+    color: AppColors.giftIdeasDetailWhyPerfectTitle,
+  );
+  static const TextStyle giftIdeasDetailWhyPerfectBody = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailFindNearYouBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+  static const TextStyle giftIdeasDetailSecondaryBtn = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.giftIdeasDetailSecondaryBtnText,
+  );
+  static const TextStyle giftIdeasDetailTipText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasDetailFilterLabel,
+  );
+  static const TextStyle giftIdeasDetailTipBold = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.giftIdeasDetailTitle,
+  );
+  static const TextStyle giftIdeasDetailRegenerateTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  );
+  static const TextStyle giftIdeasDetailRegenerateCaption = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
+  static const TextStyle giftIdeasDetailViewHistoryTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.giftIdeasDetailTitle,
+  );
+  static const TextStyle giftIdeasDetailViewHistoryCaption = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.giftIdeasDetailViewHistoryCaption,
+  );
   // --- All Upcoming Events screen ---
   static const TextStyle eventsBackText = TextStyle(
     fontSize: 14,
@@ -1601,5 +1745,126 @@ abstract class AppTextStyles {
     fontSize: 13,
     fontWeight: FontWeight.w400,
     color: AppColors.oldMessagesCardCount,
+  );
+
+  // --- Edit Loved One / Edit Profile ---
+  static const TextStyle editLovedOneTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.editLovedOneTitle,
+  );
+  static const TextStyle editLovedOneBack = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneBackText,
+  );
+  static const TextStyle editLovedOneSectionHeader = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.editLovedOneTitle,
+  );
+  static const TextStyle editLovedOneLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneLabel,
+  );
+  static const TextStyle editLovedOneInput = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.editLovedOneTitle,
+  );
+  static const TextStyle editLovedOneInputPlaceholder = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.editLovedOnePlaceholder,
+  );
+  /// Dropdown selected/item text (e.g. Relationship). React: text-base/sm, single-line with ellipsis.
+  static const TextStyle editLovedOneDropdownItem = TextStyle(
+    fontSize: 14,
+    height: 1.25,
+    fontWeight: FontWeight.w400,
+    color: AppColors.editLovedOneTitle,
+  );
+  static const TextStyle editLovedOnePhotoChange = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.editLovedOnePhotoChangeText,
+  );
+  static const TextStyle editLovedOneDashedBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneDashedBtnText,
+  );
+  static const TextStyle editLovedOneInfoCardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.editLovedOneInfoCardTitle,
+  );
+  static const TextStyle editLovedOneInfoCardBody = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    color: AppColors.editLovedOneInfoCardBody,
+  );
+  static const TextStyle editLovedOneSecondaryPill = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneSecondaryPillText,
+  );
+  static const TextStyle editLovedOneSecondaryRowTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneTitle,
+  );
+  static const TextStyle editLovedOneSecondaryRowTitleSelected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneSecondaryRowText,
+  );
+  static const TextStyle editLovedOneSecondaryRowCategory = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.editLovedOnePlaceholder,
+  );
+  static const TextStyle editLovedOneCategoryTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.editLovedOneTitle,
+  );
+  static const TextStyle editLovedOneChip = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneLabel,
+  );
+  static const TextStyle editLovedOneChipSelected = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+  static const TextStyle editLovedOnePersonalNoteHint = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    fontStyle: FontStyle.italic,
+    color: AppColors.editLovedOnePlaceholder,
+  );
+  static const TextStyle editLovedOneCounter = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOnePlaceholder,
+  );
+  static const TextStyle editLovedOneCounterWarning = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneRequiredAsterisk,
+  );
+  static const TextStyle editLovedOneCustomDislikeLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.editLovedOneLabel,
+  );
+  static const TextStyle editLovedOneAddCustomHint = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.editLovedOnePlaceholder,
   );
 }

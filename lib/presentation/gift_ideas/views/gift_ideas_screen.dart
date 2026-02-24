@@ -130,7 +130,7 @@ class GiftIdeasScreen extends StatelessWidget {
                                 Icon(Icons.show_chart, size: 18, color: AppColors.giftIdeasEventTitle),
                               ],
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 20),
                             ...events.map((event) => Padding(
                                   padding: const EdgeInsets.only(bottom: 16),
                                   child: _buildEventCard(context, c, event),

@@ -67,8 +67,8 @@ class DislikesScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        _buildFinalStepPill(context),
-                        SizedBox(height: _kTitleTop),
+                       // _buildFinalStepPill(context),
+                      //  SizedBox(height: _kTitleTop),
                         Text('DISLIKES', style: AppTextStyles.dislikesTitle, textAlign: TextAlign.center),
                         SizedBox(height: _kDescTop),
                         Text(

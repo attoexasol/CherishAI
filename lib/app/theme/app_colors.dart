@@ -211,6 +211,13 @@ abstract class AppColors {
   static const Color prefsCategoryCardAmbition = Color(0xFFEFF6FF);
   static const Color prefsCategoryCardRelationships = Color(0xFFFFF2F6);
   static const Color prefsCategoryCardTech = Color(0xFFF9FAFB);
+  /// Prefs modal dialogs (Add Special Occasion / Add Custom Hobby)
+  static const Color prefsDialogBarrier = Color(0x40000000);
+  static const Color prefsDialogBg = Color(0xFFFFFFFF);
+  static const Color prefsDialogInputBorder = Color(0xFFE5E7EB);
+  static const Color prefsDialogPlaceholder = Color(0xFF9CA3AF);
+  static const Color prefsDialogCancelBorder = Color(0xFFE5E7EB);
+  static const Color prefsDialogCancelText = Color(0xFF374151);
 
   // --- Dislikes screen ---
   static const Color dislikesBgTop = Color(0xFFFDF8F9);
@@ -634,6 +641,38 @@ abstract class AppColors {
   static const Color giftIdeasUrgentBadgeText = Color(0xFFFFFFFF);
   static const Color giftIdeasViewGiftBtnStart = Color(0xFFEC4899);
   static const Color giftIdeasViewGiftBtnEnd = Color(0xFFA855F7);
+
+  // --- Gift Ideas Detail (event-specific) ---
+  static const Color giftIdeasDetailPageBgStart = Color(0xFFFFF1F2);
+  static const Color giftIdeasDetailPageBgMid = Color(0xFFFDF2F8);
+  static const Color giftIdeasDetailPageBgEnd = Color(0xFFFAF5FF);
+  static const Color giftIdeasDetailHeaderBg = Color(0xF2FFF1F2);
+  static const Color giftIdeasDetailHeaderBorder = Color(0x80FECDD3);
+  static const Color giftIdeasDetailTitle = Color(0xFF1F2937);
+  static const Color giftIdeasDetailCardBg = Color(0xCCFFFFFF);
+  static const Color giftIdeasDetailCardBorder = Color(0x80FBCFE8);
+  static const Color giftIdeasDetailEventTitleGradientStart = Color(0xFFE11D48);
+  static const Color giftIdeasDetailEventTitleGradientMid = Color(0xFFEC4899);
+  static const Color giftIdeasDetailEventTitleGradientEnd = Color(0xFFA855F7);
+  static const Color giftIdeasDetailCountdownDays = Color(0xFFE11D48);
+  static const Color giftIdeasDetailFilterLabel = Color(0xFF374151);
+  static const Color giftIdeasDetailFilterBorder = Color(0xFFE5E7EB);
+  static const Color giftIdeasDetailShowingCount = Color(0xFFE11D48);
+  static const Color giftIdeasDetailWhyPerfectBgStart = Color(0xFFFAF5FF);
+  static const Color giftIdeasDetailWhyPerfectBgEnd = Color(0xFFFDF2F8);
+  static const Color giftIdeasDetailWhyPerfectTitle = Color(0xFF374151);
+  static const Color giftIdeasDetailSecondaryBtnBg = Color(0xFFF9FAFB);
+  static const Color giftIdeasDetailSecondaryBtnBorder = Color(0xFFE5E7EB);
+  static const Color giftIdeasDetailSecondaryBtnText = Color(0xFF374151);
+  static const Color giftIdeasDetailSavedBtnBg = Color(0xFFFFF1F2);
+  static const Color giftIdeasDetailSavedBtnBorder = Color(0xFFFECDD3);
+  static const Color giftIdeasDetailSavedBtnText = Color(0xFFBE185D);
+  static const Color giftIdeasDetailTipIcon = Color(0xFF7C3AED);
+  static const Color giftIdeasDetailRegenerateDisabledBg = Color(0xFFD1D5DB);
+  static const Color giftIdeasDetailRegenerateDisabledText = Color(0xFF9CA3AF);
+  static const Color giftIdeasDetailViewHistoryBorder = Color(0x80FBCFE8);
+  static const Color giftIdeasDetailViewHistoryCaption = Color(0xFF6B7280);
+
   // --- All Upcoming Events screen ---
   static const Color eventsPageBg = Color(0xFFFAF5FF);
   static const Color eventsBackText = Color(0xFF7C3AED);
@@ -668,6 +707,47 @@ abstract class AppColors {
   static const Color oldMessagesCardCount = Color(0xFF6B7280);
   static const Color oldMessagesAvatarBg = Color(0xFFFBCFE8);
   static const Color oldMessagesChevron = Color(0xFF9CA3AF);
+
+  // --- Edit Loved One / Edit Profile ---
+  static const Color editLovedOnePageBgStart = Color(0xFFFFF1F2); // rose-50
+  static const Color editLovedOnePageBgMid = Color(0xFFFDF2F8);    // pink-50
+  static const Color editLovedOnePageBgEnd = Color(0xFFFAF5FF);   // purple-50
+  static const Color editLovedOneHeaderBg = Color(0xF2FFF1F2);    // rose-50/95
+  static const Color editLovedOneHeaderBorder = Color(0x80FECDD3);  // rose-100/50
+  static const Color editLovedOneBackText = Color(0xFFE11D48);     // rose-600
+  static const Color editLovedOneTitle = Color(0xFF1F2937);        // gray-800
+  static const Color editLovedOneCardBg = Color(0xCCFFFFFF);       // white/80
+  static const Color editLovedOneCardBorder = Color(0x80FBCFE8);   // rose-200/50
+  static const Color editLovedOneSectionIcon = Color(0xFFE11D48);  // rose-500
+  static const Color editLovedOneLabel = Color(0xFF374151);        // gray-700
+  static const Color editLovedOneRequiredAsterisk = Color(0xFFE11D48);
+  static const Color editLovedOneInputBorder = Color(0xFFFBCFE8);  // pink-200
+  static const Color editLovedOneInputFocusBorder = Color(0xFFF9A8D4); // pink-400
+  static const Color editLovedOnePlaceholder = Color(0xFF9CA3AF);
+  static const Color editLovedOneDashedBtnBorder = Color(0xFFFDA4AF); // rose-300
+  static const Color editLovedOneDashedBtnBg = Color(0x80FFF1F2);  // rose-50/50
+  static const Color editLovedOneDashedBtnText = Color(0xFFE11D48);
+  static const Color editLovedOneInfoCardBgStart = Color(0xFFFAF5FF); // purple-50
+  static const Color editLovedOneInfoCardBgEnd = Color(0xFFFDF2F8);   // pink-50
+  static const Color editLovedOneInfoCardBorder = Color(0x80E9D5FF);  // purple-200/50
+  static const Color editLovedOneInfoCardIcon = Color(0xFFA855F7);
+  static const Color editLovedOneInfoCardTitle = Color(0xFF1F2937);
+  static const Color editLovedOneInfoCardBody = Color(0xFF4B5563);
+  static const Color editLovedOneSecondaryPillBg = Color(0xFFF3E8FF); // purple-100
+  static const Color editLovedOneSecondaryPillText = Color(0xFF7C3AED); // purple-700
+  static const Color editLovedOneSecondaryRowSelectedBgStart = Color(0xFFFFF1F2);
+  static const Color editLovedOneSecondaryRowSelectedBgEnd = Color(0xFFFDF2F8);
+  static const Color editLovedOneSecondaryRowSelectedBorder = Color(0xFFF9A8D4);
+  static const Color editLovedOneSecondaryRowText = Color(0xFFBE185D); // rose-700
+  static const Color editLovedOnePhotoChangeText = Color(0xFF4B5563);
+  static const Color editLovedOneCameraBadgeStart = Color(0xFFE11D48);
+  static const Color editLovedOneCameraBadgeEnd = Color(0xFFEC4899);
+  static const Color editLovedOneDislikesCardBorder = Color(0x80FECACA); // red-200/50
+  static const Color editLovedOneDislikesSectionIcon = Color(0xFFDC2626);
+  static const Color editLovedOneCustomDislikeChipBg = Color(0xFFFFF1F2);
+  static const Color editLovedOneCustomDislikeChipBorder = Color(0xFFFECACA);
+  static const Color editLovedOneAddCustomDislikeBg = Color(0x80FEF2F2); // red-50/50
+  static const Color editLovedOneAddCustomDislikeBorder = Color(0x80FECACA);
 }
 
 

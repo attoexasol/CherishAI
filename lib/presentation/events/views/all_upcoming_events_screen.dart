@@ -16,9 +16,14 @@ const double _kSortSegmentHeight = 40;
 const double _kSortSegmentRadius = 999;
 const double _kCardRadius = 20;
 const double _kCardPadding = 20;
+/// Badge overlays top-left; negative top so badge extends slightly above card edge (React).
+const double _kBadgeTop = -6;
+const double _kBadgeLeft = 12;
+const double _kBadgeRadius = 8;
+const double _kBadgePaddingH = 10;
+const double _kBadgePaddingV = 5;
 const double _kEventIconSize = 56;
 const double _kEventIconRadius = 14;
-const double _kBadgeRadius = 8;
 const double _kViewGiftBtnHeight = 44;
 const double _kViewGiftBtnRadius = 12;
 const double _kStayPreparedCardRadius = 16;
@@ -44,6 +49,7 @@ class AllUpcomingEventsScreen extends StatelessWidget {
                 padding: EdgeInsets.only(
                   left: _kPaddingH,
                   right: _kPaddingH,
+                  top: 14,
                   bottom: _kBottomPadding + bottomPadding,
                 ),
                 child: Align(
@@ -239,32 +245,6 @@ class AllUpcomingEventsScreen extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        if (event.isUrgent)
-          Positioned(
-            top: -4,
-            left: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: AppColors.eventsUrgentBadgeBg,
-                borderRadius: BorderRadius.circular(_kBadgeRadius),
-              ),
-              child: Text('URGENT', style: AppTextStyles.eventsBadge),
-            ),
-          ),
-        if (event.isSpecialOccasion && !event.isUrgent)
-          Positioned(
-            top: -4,
-            left: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: AppColors.eventsSpecialBadgeBg,
-                borderRadius: BorderRadius.circular(_kBadgeRadius),
-              ),
-              child: Text('Special Occasion', style: AppTextStyles.eventsBadge),
-            ),
-          ),
         Container(
           padding: const EdgeInsets.all(_kCardPadding),
           decoration: BoxDecoration(
@@ -289,26 +269,36 @@ class AllUpcomingEventsScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 14),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(event.title, style: AppTextStyles.eventsCardTitle),
-                        const SizedBox(height: 4),
-                        Text(event.relationship, style: AppTextStyles.eventsCardRelationship),
-                        const SizedBox(height: 4),
-                        Text(event.date, style: AppTextStyles.eventsCardDate),
-                        const SizedBox(height: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: AppColors.eventsCountdownPill.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(999),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            event.title,
+                            style: AppTextStyles.eventsCardTitle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          child: Text(event.countdown, style: AppTextStyles.eventsCountdownPill),
-                        ),
-                      ],
+                          const SizedBox(height: 4),
+                          Text(
+                            event.relationship,
+                            style: AppTextStyles.eventsCardRelationship,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(event.date, style: AppTextStyles.eventsCardDate),
+                          const SizedBox(height: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppColors.eventsCountdownPill.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Text(event.countdown, style: AppTextStyles.eventsCountdownPill),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -339,6 +329,32 @@ class AllUpcomingEventsScreen extends StatelessWidget {
             ],
           ),
         ),
+        if (event.isUrgent)
+          Positioned(
+            top: _kBadgeTop,
+            left: _kBadgeLeft,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: _kBadgePaddingH, vertical: _kBadgePaddingV),
+              decoration: BoxDecoration(
+                color: AppColors.eventsUrgentBadgeBg,
+                borderRadius: BorderRadius.circular(_kBadgeRadius),
+              ),
+              child: Text('URGENT', style: AppTextStyles.eventsBadge),
+            ),
+          ),
+        if (event.isSpecialOccasion && !event.isUrgent)
+          Positioned(
+            top: _kBadgeTop,
+            left: _kBadgeLeft,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: _kBadgePaddingH, vertical: _kBadgePaddingV),
+              decoration: BoxDecoration(
+                color: AppColors.eventsSpecialBadgeBg,
+                borderRadius: BorderRadius.circular(_kBadgeRadius),
+              ),
+              child: Text('✨ Special Occasion', style: AppTextStyles.eventsBadge),
+            ),
+          ),
       ],
     );
   }

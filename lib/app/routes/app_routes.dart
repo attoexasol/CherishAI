@@ -13,6 +13,7 @@ import '../../presentation/loved_one_preferences/views/loved_one_preferences_scr
 import '../../presentation/dislikes/views/dislikes_screen.dart';
 import '../../presentation/personal_note/views/personal_note_screen.dart';
 import '../../presentation/gift_ideas/views/gift_ideas_screen.dart';
+import '../../presentation/gift_ideas_detail/views/gift_ideas_detail_screen.dart';
 import '../../presentation/events/views/all_upcoming_events_screen.dart';
 import '../../presentation/old_messages/views/old_messages_screen.dart';
 import '../../presentation/subscription/views/choose_plan_screen.dart';
@@ -24,6 +25,7 @@ import '../../presentation/notifications/views/notifications_screen.dart';
 import '../../presentation/profile/views/profile_screen.dart';
 import '../../presentation/search/views/search_screen.dart';
 import '../../presentation/loved_ones/views/loved_ones_screen.dart';
+import '../../presentation/edit_loved_one/views/edit_loved_one_screen.dart';
 import '../bindings/initial_binding.dart';
 import '../bindings/auth_binding.dart';
 
@@ -48,6 +50,9 @@ abstract class AppRoutes {
   static const String notificationsList = '/individual/notifications-list';
   static const String profile = '/individual/user-profile';
   static const String giftIdeas = '/individual/gift-ideas';
+  static const String giftIdeasDetail = '/individual/gift-ideas-detail';
+  static const String businessSuggestions = '/individual/business-suggestions';
+  static const String allGiftIdeas = '/individual/all-gift-ideas';
   static const String search = '/individual/search';
   static const String lovedOnesList = '/individual/loved-ones-list';
   static const String lovedOneDetails = '/individual/loved-one-details';
@@ -145,6 +150,21 @@ abstract class AppRoutes {
           binding: InitialBinding(),
         ),
         GetPage(
+          name: giftIdeasDetail,
+          page: () => const GiftIdeasDetailScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: businessSuggestions,
+          page: () => const _PlaceholderScreen(title: 'Business Suggestions'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: allGiftIdeas,
+          page: () => const _PlaceholderScreen(title: 'Gift History'),
+          binding: InitialBinding(),
+        ),
+        GetPage(
           name: search,
           page: () => const SearchScreen(),
           binding: InitialBinding(),
@@ -161,7 +181,7 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: editLovedOne,
-          page: () => const _PlaceholderScreen(title: 'Edit Loved One'),
+          page: () => const EditLovedOneScreen(),
           binding: InitialBinding(),
         ),
         GetPage(
