@@ -31,7 +31,7 @@ class UserTypeController extends GetxController {
     isNavigating.value = true;
     Future.delayed(const Duration(milliseconds: _kDelayMs), () {
       isNavigating.value = false;
-      Get.offNamed(AppRoutes.businessSplash);
+      Get.toNamed(AppRoutes.businessSplash);
     });
   }
 }

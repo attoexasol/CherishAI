@@ -975,5 +975,86 @@ abstract class AppShadows {
       color: Color(0x50F472B6),
     ),
   ];
+  /// Business Information: back button
+  static const List<BoxShadow> businessInfoBackBtn = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x33000000),
+    ),
+  ];
+  /// Business Information: header badge
+  static const List<BoxShadow> businessInfoBadge = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: 0,
+      color: Color(0x26000000),
+    ),
+  ];
+  /// Business Information: input field (RomanticInput style)
+  static const List<BoxShadow> businessInfoInput = [
+    BoxShadow(
+      offset: Offset(0, 4),
+      blurRadius: 12,
+      spreadRadius: 0,
+      color: Color(0x33C4B5FD),
+    ),
+  ];
+  /// Business Information: delivery card selected
+  static const List<BoxShadow> businessInfoDeliveryCardSelected = [
+    BoxShadow(
+      offset: Offset(0, 2),
+      blurRadius: 8,
+      spreadRadius: 0,
+      color: Color(0x26A78BFA),
+    ),
+  ];
+  /// Business Information: upload card
+  static const List<BoxShadow> businessInfoUploadCard = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 30,
+      spreadRadius: 0,
+      color: Color(0x14000000),
+    ),
+  ];
+  /// Business Information: Continue CTA
+  static const List<BoxShadow> businessInfoCta = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: 0,
+      color: Color(0x50EC4899),
+    ),
+  ];
+  /// Business Dashboard: back button (shadow-lg)
+  static const List<BoxShadow> businessDashboardBackBtn = [
+    BoxShadow(
+      offset: Offset(0, 10),
+      blurRadius: 15,
+      spreadRadius: 0,
+      color: Color(0x26000000),
+    ),
+  ];
+  /// Business Dashboard: metrics + products + upgrade cards (0 8px 30px rgba(0,0,0,0.08))
+  static const List<BoxShadow> businessDashboardCard = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 30,
+      spreadRadius: 0,
+      color: Color(0x14000000),
+    ),
+  ];
+  /// Business Dashboard: Add Product + View Plans buttons
+  static const List<BoxShadow> businessDashboardCtaBtn = [
+    BoxShadow(
+      offset: Offset(0, 8),
+      blurRadius: 24,
+      spreadRadius: 0,
+      color: Color(0x33A78BFA),
+    ),
+  ];
 }
 

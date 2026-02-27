@@ -1977,4 +1977,184 @@ abstract class AppTextStyles {
     color: AppColors.lovedOneDetailsPremiumHintText,
     height: 1.3,
   );
+
+  // --- Business Onboarding (Business Information) ---
+  static const TextStyle businessInfoTitle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    color: AppColors.businessInfoTitle,
+    height: 1.25,
+  );
+  static const TextStyle businessInfoSubtitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessInfoSubtitle,
+    height: 1.5,
+  );
+  static const TextStyle businessInfoLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessInfoLabel,
+    height: 1.3,
+  );
+  static const TextStyle businessInfoHelper = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessInfoHelper,
+    height: 1.4,
+  );
+  static const TextStyle businessInfoInput = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessInfoInputText,
+    height: 1.5,
+  );
+  static const TextStyle businessInfoDeliveryTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessInfoDeliveryTitle,
+    height: 1.3,
+  );
+  static const TextStyle businessInfoDeliveryDesc = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessInfoDeliveryDesc,
+    height: 1.4,
+  );
+  static const TextStyle businessInfoPriceBadge = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessInfoPriceBadgeText,
+    height: 1.3,
+  );
+  static const TextStyle businessInfoUploadTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessInfoUploadText,
+    height: 1.3,
+  );
+  static const TextStyle businessInfoUploadHint = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessInfoDeliveryDesc,
+    height: 1.3,
+  );
+  static const TextStyle businessInfoCta = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+    height: 1.25,
+  );
+  static const TextStyle businessInfoAddLocation = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessInfoAddLocationText,
+    height: 1.3,
+  );
+  static const TextStyle businessInfoUpgradeText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessInfoUpgradeText,
+    height: 1.4,
+  );
+  static const TextStyle businessInfoViewPlans = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+    height: 1.25,
+  );
+  // --- Business Dashboard ---
+  static const TextStyle businessDashboardBusinessName = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: AppColors.businessDashboardStatValue,
+    height: 1.25,
+  );
+  static const TextStyle businessDashboardBadge = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessDashboardBadgeText,
+  );
+  static const TextStyle businessDashboardUsername = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessDashboardStatLabel,
+    height: 1.3,
+  );
+  static const TextStyle businessDashboardPartnerSince = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessDashboardStatLabel,
+    height: 1.3,
+  );
+  static const TextStyle businessDashboardStatBoxLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessDashboardStatLabel,
+  );
+  static const TextStyle businessDashboardStatBoxValue = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.businessDashboardStatValue,
+  );
+  static const TextStyle businessDashboardMetricLabel = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessDashboardMetricLabel,
+  );
+  static const TextStyle businessDashboardMetricValue = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: AppColors.businessDashboardMetricValue,
+  );
+  static const TextStyle businessDashboardTrend = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessDashboardTrendGreen,
+  );
+  static const TextStyle businessDashboardSectionTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.businessDashboardSectionTitle,
+  );
+  static const TextStyle businessDashboardSectionSubtitle = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessDashboardSectionSubtitle,
+  );
+  static const TextStyle businessDashboardManageLink = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessDashboardManageLink,
+  );
+  static const TextStyle businessDashboardEmptyTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.businessDashboardEmptyTitle,
+  );
+  static const TextStyle businessDashboardEmptyDesc = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessDashboardEmptyDesc,
+  );
+  static const TextStyle businessDashboardAddProductBtn = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.white,
+  );
+  static const TextStyle businessDashboardUpgradeTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.businessDashboardUpgradeTitle,
+  );
+  static const TextStyle businessDashboardUpgradeDesc = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessDashboardUpgradeDesc,
+  );
+  static const TextStyle businessDashboardViewPlansBtn = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
 }

@@ -2,98 +2,136 @@
 import 'package:get/get.dart';
 import '../../../app/routes/app_routes.dart';
 
-/// Sort mode: 0 = By Date, 1 = By Loved One
-const int sortByDate = 0;
-const int sortByLovedOne = 1;
-
-/// One event for All Upcoming Events list (placeholder; wire to API later).
+/// One event item matching React AllUpcomingEventsScreen allEvents structure.
 class AllUpcomingEventItem {
   const AllUpcomingEventItem({
     required this.id,
-    required this.title,
+    required this.lovedOneName,
+    required this.lovedOneAvatar,
     required this.relationship,
-    required this.date,
-    required this.countdown,
-    this.isUrgent = false,
-    this.isSpecialOccasion = false,
-    this.iconType = 'birthday',
+    required this.eventType,
+    required this.eventDate,
+    required this.daysUntil,
+    required this.eventIcon,
+    required this.priority,
   });
-  final String id;
-  final String title;
+  final int id;
+  final String lovedOneName;
+  final String lovedOneAvatar;
   final String relationship;
-  final String date;
-  final String countdown;
-  final bool isUrgent;
-  final bool isSpecialOccasion;
-  final String iconType;
+  final String eventType;
+  final String eventDate;
+  final int daysUntil;
+  final String eventIcon;
+  final String priority; // 'high' | 'medium' | 'low'
+
+  String get countdown => 'In $daysUntil days';
+  bool get isUrgent => priority == 'high';
+  bool get isSpecialOccasion => eventType == "Mother's Day";
+  String titleByDate() => "$lovedOneName's $eventType";
 }
 
-/// Controller for All Upcoming Events screen.
+/// Controller for All Upcoming Events screen. Sort and data match React exactly.
 class AllUpcomingEventsController extends GetxController {
-  final RxInt sortMode = sortByDate.obs;
+  final RxString sortType = 'date'.obs;
 
-  final RxList<AllUpcomingEventItem> events = <AllUpcomingEventItem>[
+  static final List<AllUpcomingEventItem> allEvents = [
     const AllUpcomingEventItem(
-      id: '1',
-      title: "Sarah's Birthday",
-      relationship: '😊 Partner',
-      date: 'January 23, 2026',
-      countdown: 'In 6 days',
-      isUrgent: true,
-      iconType: 'birthday',
+      id: 1,
+      lovedOneName: 'Sarah',
+      lovedOneAvatar: '👩',
+      relationship: 'Partner',
+      eventType: 'Birthday',
+      eventDate: 'January 23, 2026',
+      daysUntil: 6,
+      eventIcon: '🎂',
+      priority: 'high',
     ),
     const AllUpcomingEventItem(
-      id: '2',
-      title: "Jake's Friendship Anniversary",
-      relationship: '🥳 Best Friend',
-      date: 'March 20, 2026',
-      countdown: 'In 57 days',
-      iconType: 'handshake',
+      id: 4,
+      lovedOneName: 'Sarah',
+      lovedOneAvatar: '👩',
+      relationship: 'Partner',
+      eventType: 'Anniversary',
+      eventDate: 'June 14, 2026',
+      daysUntil: 148,
+      eventIcon: '💑',
+      priority: 'medium',
     ),
     const AllUpcomingEventItem(
-      id: '3',
-      title: "Mom's Mother's Day",
-      relationship: '👩‍👧 Mother',
-      date: 'May 11, 2026',
-      countdown: 'In 114 days',
-      isSpecialOccasion: true,
-      iconType: 'flower',
+      id: 2,
+      lovedOneName: 'Mom',
+      lovedOneAvatar: '👩‍🦳',
+      relationship: 'Mother',
+      eventType: "Mother's Day",
+      eventDate: 'May 11, 2026',
+      daysUntil: 114,
+      eventIcon: '🌸',
+      priority: 'medium',
     ),
     const AllUpcomingEventItem(
-      id: '4',
-      title: "Dad's Father's Day",
-      relationship: '👨‍👧 Father',
-      date: 'June 21, 2026',
-      countdown: 'In 149 days',
-      iconType: 'gift',
+      id: 5,
+      lovedOneName: 'Mom',
+      lovedOneAvatar: '👩‍🦳',
+      relationship: 'Mother',
+      eventType: 'Birthday',
+      eventDate: 'August 30, 2026',
+      daysUntil: 225,
+      eventIcon: '🎂',
+      priority: 'low',
     ),
     const AllUpcomingEventItem(
-      id: '5',
-      title: "Anniversary",
-      relationship: '😊 Partner',
-      date: 'July 15, 2026',
-      countdown: 'In 173 days',
-      iconType: 'birthday',
+      id: 3,
+      lovedOneName: 'Jake',
+      lovedOneAvatar: '👨',
+      relationship: 'Best Friend',
+      eventType: 'Friendship Anniversary',
+      eventDate: 'March 15, 2026',
+      daysUntil: 57,
+      eventIcon: '🤝',
+      priority: 'low',
     ),
     const AllUpcomingEventItem(
-      id: '6',
-      title: "Sister's Birthday",
-      relationship: '👩 Sister',
-      date: 'September 8, 2026',
-      countdown: 'In 228 days',
-      iconType: 'birthday',
+      id: 6,
+      lovedOneName: 'Jake',
+      lovedOneAvatar: '👨',
+      relationship: 'Best Friend',
+      eventType: 'Birthday',
+      eventDate: 'October 12, 2026',
+      daysUntil: 268,
+      eventIcon: '🎂',
+      priority: 'low',
     ),
-  ].obs;
+  ];
 
-  void onBackToDashboard() {
-    Get.back();
+  List<AllUpcomingEventItem> get sortedEvents {
+    final list = List<AllUpcomingEventItem>.from(allEvents);
+    if (sortType.value == 'date') {
+      list.sort((a, b) => a.daysUntil.compareTo(b.daysUntil));
+    } else {
+      list.sort((a, b) {
+        final nameCompare = a.lovedOneName.compareTo(b.lovedOneName);
+        if (nameCompare != 0) return nameCompare;
+        return a.daysUntil.compareTo(b.daysUntil);
+      });
+    }
+    return list;
   }
 
-  void onSelectSortMode(int mode) {
-    sortMode.value = mode;
+  Map<String, List<AllUpcomingEventItem>> get groupedByLovedOne {
+    final map = <String, List<AllUpcomingEventItem>>{};
+    for (final event in sortedEvents) {
+      map.putIfAbsent(event.lovedOneName, () => []).add(event);
+    }
+    return map;
   }
 
-  void onViewGiftIdeas(String eventId) {
-    Get.toNamed(AppRoutes.giftIdeasDetail, arguments: {'eventId': eventId});
+  void onBackToDashboard() => Get.back();
+
+  void setSortDate() => sortType.value = 'date';
+  void setSortLovedOne() => sortType.value = 'loved_one';
+
+  void onViewGiftIdeas(int eventId) {
+    Get.toNamed(AppRoutes.giftIdeasDetail, arguments: {'eventId': eventId.toString()});
   }
 }

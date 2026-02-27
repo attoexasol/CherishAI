@@ -226,32 +226,47 @@ class ChoosePlanScreen extends StatelessWidget {
 
   /// 4-Day Free Trial info section for new users (no active subscription).
   /// Placed at bottom of page content, below plan cards and above the CTA.
+  /// Tappable: when selected, bottom button shows "Start your 4-Days Free Trial".
   Widget _buildTrialSection(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(_kCardPadding),
-      decoration: BoxDecoration(
-        color: AppColors.subCardBg,
-        borderRadius: BorderRadius.circular(_kCardRadius),
-        border: Border.all(color: AppColors.subCardBorder, width: 1),
-        boxShadow: AppShadows.subCard,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Start your 4-Day Free Trial',
-            style: AppTextStyles.subPlanName,
+    final c = Get.find<ChoosePlanController>();
+    return Obx(() {
+      final isSelected = c.isTrialSelected.value;
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: c.onSelectTrial,
+          borderRadius: BorderRadius.circular(_kCardRadius),
+          child: Container(
+            padding: const EdgeInsets.all(_kCardPadding),
+            decoration: BoxDecoration(
+              color: AppColors.subCardBg,
+              borderRadius: BorderRadius.circular(_kCardRadius),
+              border: Border.all(
+                color: isSelected ? AppColors.subPlanName : AppColors.subCardBorder,
+                width: isSelected ? 2 : 1,
+              ),
+              boxShadow: AppShadows.subCard,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Start your 4-Day Free Trial',
+                  style: AppTextStyles.subPlanName,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Experience how thoughtful care can feel when the effort is handled for you. '
+                  'Try Cherish AI with one loved one - cancel any time before the trial ends, '
+                  'and you won\'t be charged',
+                  style: AppTextStyles.subSubtitle,
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            'Experience how thoughtful care can feel when the effort is handled for you. '
-            'Try Cherish AI with one loved one - cancel any time before the trial ends, '
-            'and you won\'t be charged',
-            style: AppTextStyles.subSubtitle,
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 
   Widget _buildPlanCard(BuildContext context, PlanModel plan) {
@@ -416,7 +431,7 @@ class ChoosePlanScreen extends StatelessWidget {
       padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
       child: Obx(() {
         final loading = c.isLoadingPurchase.value;
-        final label = c.bottomCtaLabel;
+        final label = c.dynamicButtonText;
         return Material(
           color: Colors.transparent,
           child: InkWell(
@@ -437,7 +452,12 @@ class ChoosePlanScreen extends StatelessWidget {
                       height: 24,
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
-                  : Text(label, style: AppTextStyles.subCta),
+                  : Text(
+                      label,
+                      style: AppTextStyles.subCta,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
             ),
           ),
         );

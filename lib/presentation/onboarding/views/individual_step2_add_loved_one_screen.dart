@@ -18,6 +18,7 @@ const double _kPhotoLabelBottom = 10;
 const double _kPhotoToNameGap = 24;
 const double _kNameLabelBottom = 8;
 const double _kNameToRelationshipGap = 24;
+const double _kSectionVerticalGap = 24;
 const double _kRelationshipLabelBottom = 12;
 const double _kCardGap = 16;
 const double _kPhotoCircleSize = 100;
@@ -72,7 +73,11 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
                         _buildPhotoSection(context),
                         SizedBox(height: _kPhotoToNameGap),
                         _buildNameSection(context),
-                        SizedBox(height: _kNameToRelationshipGap),
+                        SizedBox(height: _kSectionVerticalGap),
+                        _buildAgeRangeSection(context),
+                        SizedBox(height: _kSectionVerticalGap),
+                        _buildGenderSection(context),
+                        SizedBox(height: _kSectionVerticalGap),
                         _buildRelationshipTypeLabel(context),
                         SizedBox(height: _kRelationshipLabelBottom),
                         ...LovedOneRelationshipData.categories.map((cat) => Padding(
@@ -237,6 +242,118 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  static const List<String> _kAgeRangeOptions = [
+    '0–5',
+    '6–12',
+    '13–18',
+    '19–30',
+    '31–50',
+    '51+',
+  ];
+
+  static const List<String> _kGenderOptions = ['Male', 'Female'];
+
+  Widget _buildAgeRangeSection(BuildContext context) {
+    final c = Get.find<IndividualStep2AddLovedOneController>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: AppTextStyles.lovedOneCardTitle.copyWith(color: AppColors.lovedOneCardLabel),
+            children: [
+              const TextSpan(text: 'Age range of loved one '),
+              TextSpan(
+                text: '*',
+                style: TextStyle(color: AppColors.lovedOneRequiredAsterisk, fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: _kRelationshipLabelBottom),
+        Obx(() => Wrap(
+              spacing: _kTileGap,
+              runSpacing: _kTileRunSpacing,
+              children: _kAgeRangeOptions.map((value) {
+                final selected = c.selectedAgeRange.value == value;
+                return _buildChoiceChip(
+                  context: context,
+                  label: value,
+                  selected: selected,
+                  onTap: () => c.selectAgeRange(value),
+                );
+              }).toList(),
+            )),
+      ],
+    );
+  }
+
+  Widget _buildGenderSection(BuildContext context) {
+    final c = Get.find<IndividualStep2AddLovedOneController>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: AppTextStyles.lovedOneCardTitle.copyWith(color: AppColors.lovedOneCardLabel),
+            children: [
+              const TextSpan(text: 'Gender of loved one '),
+              TextSpan(
+                text: '*',
+                style: TextStyle(color: AppColors.lovedOneRequiredAsterisk, fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: _kRelationshipLabelBottom),
+        Obx(() => Wrap(
+              spacing: _kTileGap,
+              runSpacing: _kTileRunSpacing,
+              children: _kGenderOptions.map((value) {
+                final selected = c.selectedGender.value == value;
+                return _buildChoiceChip(
+                  context: context,
+                  label: value,
+                  selected: selected,
+                  onTap: () => c.selectGender(value),
+                );
+              }).toList(),
+            )),
+      ],
+    );
+  }
+
+  Widget _buildChoiceChip({
+    required BuildContext context,
+    required String label,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(_kTileRadius),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: _kTilePaddingV, horizontal: _kTilePaddingH),
+          decoration: BoxDecoration(
+            color: selected ? AppColors.lovedOneTileSelectedBg : AppColors.lovedOneTileBg,
+            borderRadius: BorderRadius.circular(_kTileRadius),
+            border: Border.all(
+              color: selected ? AppColors.lovedOneTileSelectedBorder : AppColors.lovedOneTileBorder,
+              width: selected ? 2 : 1,
+            ),
+            boxShadow: selected ? AppShadows.lovedOneTileSelected : AppShadows.lovedOneTile,
+          ),
+          child: Text(
+            label,
+            style: AppTextStyles.lovedOneTileLabel,
+          ),
+        ),
+      ),
     );
   }
 

@@ -20,13 +20,17 @@ import '../../presentation/search/controllers/search_controller.dart';
 import '../../presentation/loved_ones/controllers/loved_ones_controller.dart';
 import '../../presentation/edit_loved_one/controllers/edit_loved_one_controller.dart';
 import '../../presentation/account_settings/controllers/account_settings_controller.dart';
-import '../../presentation/subscription_manage/controllers/manage_subscription_controller.dart';
+import '../../presentation/subscription/controllers/manage_subscription_controller.dart';
 import '../../presentation/help_feedback/controllers/help_feedback_controller.dart';
 import '../../presentation/gift_ideas/controllers/gift_ideas_controller.dart';
 import '../../presentation/gift_ideas_detail/controllers/gift_ideas_detail_controller.dart';
 import '../../presentation/events/controllers/all_upcoming_events_controller.dart';
 import '../../presentation/old_messages/controllers/old_messages_controller.dart';
 import '../../presentation/loved_one_details/controllers/loved_one_details_controller.dart';
+import '../../presentation/business_onboarding/controllers/business_information_controller.dart';
+import '../../presentation/business_onboarding/products_services/controllers/products_services_controller.dart';
+import '../../presentation/business_dashboard/controllers/business_dashboard_controller.dart';
+import '../../presentation/business_profile/controllers/business_profile_controller.dart';
 
 /// Registers global/splash/onboarding/auth dependencies. Extend when adding more screens.
 class InitialBinding extends Bindings {
@@ -59,5 +63,9 @@ class InitialBinding extends Bindings {
     Get.lazyPut<AllUpcomingEventsController>(() => AllUpcomingEventsController());
     Get.lazyPut<OldMessagesController>(() => OldMessagesController());
     Get.lazyPut<LovedOneDetailsController>(() => LovedOneDetailsController());
+    Get.lazyPut<BusinessInformationController>(() => BusinessInformationController());
+    Get.lazyPut<ProductsServicesController>(() => ProductsServicesController());
+    Get.lazyPut<BusinessDashboardController>(() => BusinessDashboardController());
+    Get.lazyPut<BusinessProfileController>(() => BusinessProfileController());
   }
 }

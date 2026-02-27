@@ -1,4 +1,6 @@
 // lib/presentation/onboarding/views/individual_step1_profile_screen.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/theme/app_colors.dart';
@@ -164,55 +166,66 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
         const SizedBox(height: 10),
         GestureDetector(
           onTap: c.onTapAddPhoto,
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: _kPhotoCircleSize,
-                height: _kPhotoCircleSize,
-                decoration: BoxDecoration(
-                  color: AppColors.profileStep1PhotoCircleInner,
-                  shape: BoxShape.circle,
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CustomPaint(
-                      size: Size(_kPhotoCircleSize, _kPhotoCircleSize),
-                      painter: _DashedCirclePainter(
-                        color: AppColors.profileStep1PhotoCircleBorder,
-                        strokeWidth: _kPhotoCircleStrokeWidth,
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.camera_alt_outlined, size: 32, color: AppColors.profileStep1PhotoIcon),
-                        const SizedBox(height: 6),
-                        Text('Add Photo', style: AppTextStyles.profileStep1AddPhoto),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                right: -4,
-                bottom: -4,
-                child: Container(
-                  width: _kCameraBadgeSize,
-                  height: _kCameraBadgeSize,
+          child: Obx(() {
+            final path = c.profileImagePath.value;
+            return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: _kPhotoCircleSize,
+                  height: _kPhotoCircleSize,
                   decoration: BoxDecoration(
-                    color: AppColors.profileStep1PhotoIcon,
+                    color: AppColors.profileStep1PhotoCircleInner,
                     shape: BoxShape.circle,
-                    boxShadow: AppShadows.profileStep1CameraBadge,
+                    image: path != null
+                        ? DecorationImage(
+                            image: FileImage(File(path)),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
-                  alignment: Alignment.center,
-                  child: Icon(Icons.camera_alt, color: AppColors.white, size: 16),
+                  child: path == null
+                      ? Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CustomPaint(
+                              size: Size(_kPhotoCircleSize, _kPhotoCircleSize),
+                              painter: _DashedCirclePainter(
+                                color: AppColors.profileStep1PhotoCircleBorder,
+                                strokeWidth: _kPhotoCircleStrokeWidth,
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.camera_alt_outlined, size: 32, color: AppColors.profileStep1PhotoIcon),
+                                const SizedBox(height: 6),
+                                Text('Add Photo', style: AppTextStyles.profileStep1AddPhoto),
+                              ],
+                            ),
+                          ],
+                        )
+                      : null,
                 ),
-              ),
-            ],
-          ),
+                Positioned(
+                  right: -4,
+                  bottom: -4,
+                  child: Container(
+                    width: _kCameraBadgeSize,
+                    height: _kCameraBadgeSize,
+                    decoration: BoxDecoration(
+                      color: AppColors.profileStep1PhotoIcon,
+                      shape: BoxShape.circle,
+                      boxShadow: AppShadows.profileStep1CameraBadge,
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(Icons.camera_alt, color: AppColors.white, size: 16),
+                  ),
+                ),
+              ],
+            );
+          }),
         ),
         SizedBox(height: _kHelperTop),
         Text(

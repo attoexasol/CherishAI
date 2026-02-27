@@ -909,4 +909,143 @@ abstract class AppGradients {
       AppColors.lovedOneDetailsSecondaryRowSelectedBgEnd,
     ],
   );
+  /// Business Information: page background
+  static const LinearGradient businessInfoPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      AppColors.businessInfoPageBgStart,
+      AppColors.businessInfoPageBgEnd,
+    ],
+  );
+  /// Business Information: header badge, View Plans button
+  static const LinearGradient businessInfoBadge = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessInfoBadgeStart,
+      AppColors.businessInfoBadgeEnd,
+    ],
+  );
+  /// Business Information: Continue CTA (rose -> pink -> purple)
+  static const LinearGradient businessInfoCta = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFF43F5E),
+      Color(0xFFEC4899),
+      Color(0xFFA855F7),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Business Information: delivery card selected
+  static const LinearGradient businessInfoDeliveryCardSelected = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessInfoDeliveryCardSelectedBgStart,
+      AppColors.businessInfoDeliveryCardSelectedBgEnd,
+    ],
+  );
+  /// Business Information: price badge
+  static const LinearGradient businessInfoPriceBadge = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessInfoPriceBadgeBgStart,
+      AppColors.businessInfoPriceBadgeBgEnd,
+    ],
+  );
+  /// Business Information: upload icon circle
+  static const LinearGradient businessInfoUploadIconBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessInfoUploadIconBgStart,
+      AppColors.businessInfoUploadIconBgEnd,
+    ],
+  );
+  /// Business Information: upgrade card
+  static const LinearGradient businessInfoUpgradeCard = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessInfoUpgradeCardBgStart,
+      AppColors.businessInfoUpgradeCardBgEnd,
+    ],
+  );
+  /// Business Information: View Plans button
+  static const LinearGradient businessInfoViewPlansBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      AppColors.businessInfoViewPlansBtnStart,
+      AppColors.businessInfoViewPlansBtnEnd,
+    ],
+  );
+  /// Business Information: slider thumb
+  static const LinearGradient businessInfoSliderThumb = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessInfoSliderThumbStart,
+      AppColors.businessInfoSliderThumbEnd,
+    ],
+  );
+
+  /// Business Dashboard: header (purple-400 -> purple-500 -> indigo-500, bg-gradient-to-br)
+  static const LinearGradient businessDashboardHeader = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.searchHeaderStart,
+      AppColors.searchHeaderMid,
+      AppColors.searchHeaderEnd,
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  /// Business Dashboard: page background (from-purple-50/30 to white)
+  static const LinearGradient businessDashboardPageBg = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      AppColors.businessDashboardPageBgStart,
+      AppColors.businessDashboardPageBgEnd,
+    ],
+  );
+  /// Business Dashboard: Add Product button (from-purple-400 to-indigo-400)
+  static const LinearGradient businessDashboardAddProductBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFFA78BFA), Color(0xFF6366F1)],
+  );
+  /// Business Dashboard: Upgrade card background (rose-100/50 to pink-100/50)
+  static const LinearGradient businessDashboardUpgradeCardBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessDashboardUpgradeCardBgStart,
+      AppColors.businessDashboardUpgradeCardBgEnd,
+    ],
+  );
+  /// Business Dashboard: crown icon bubble (amber-400 to orange-400)
+  static const LinearGradient businessDashboardCrownBubble = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.businessDashboardCrownBgStart,
+      AppColors.businessDashboardCrownBgEnd,
+    ],
+  );
+  /// Business Dashboard: View Plans button (rose-500 -> pink-500 -> purple-500)
+  static const LinearGradient businessDashboardViewPlansBtn = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFF43F5E),
+      Color(0xFFEC4899),
+      Color(0xFFA855F7),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
 }

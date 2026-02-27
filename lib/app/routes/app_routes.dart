@@ -5,6 +5,12 @@ import '../../presentation/splash/views/splash_screen.dart';
 import '../../presentation/onboarding/views/onboarding_intro_screen.dart';
 import '../../presentation/auth/views/auth_screen.dart';
 import '../../presentation/onboarding/views/user_type_screen.dart';
+import '../../presentation/onboarding/views/business_splash_screen.dart';
+import '../../presentation/business_onboarding/views/business_information_screen.dart';
+import '../../presentation/business_onboarding/products_services/views/products_services_screen.dart';
+import '../../presentation/business_dashboard/views/business_dashboard_screen.dart';
+import '../../presentation/business_profile/views/business_profile_screen.dart';
+import '../../presentation/business_profile/views/business_edit_profile_screen.dart';
 import '../../presentation/onboarding/views/individual_step1_profile_screen.dart';
 import '../../presentation/onboarding/views/individual_step2_add_loved_one_screen.dart';
 import '../../presentation/onboarding/views/individual_step3_relationship_goals_screen.dart';
@@ -17,7 +23,7 @@ import '../../presentation/gift_ideas_detail/views/gift_ideas_detail_screen.dart
 import '../../presentation/events/views/all_upcoming_events_screen.dart';
 import '../../presentation/old_messages/views/old_messages_screen.dart';
 import '../../presentation/subscription/views/choose_plan_screen.dart';
-import '../../presentation/subscription_manage/views/manage_subscription_screen.dart';
+import '../../presentation/subscription/views/manage_subscription_screen.dart';
 import '../../presentation/help_feedback/views/help_feedback_screen.dart';
 import '../../presentation/checkout/views/checkout_screen.dart';
 import '../../presentation/home/views/home_screen.dart';
@@ -45,6 +51,11 @@ abstract class AppRoutes {
   static const String choosePlan = '/choose-plan';
   static const String checkout = '/checkout';
   static const String businessSplash = '/business/splash';
+  static const String businessInformation = '/business/information';
+  static const String productsServices = '/business/products-services';
+  static const String businessDashboard = '/business/dashboard';
+  static const String businessProfile = '/business/profile';
+  static const String businessEditProfile = '/business/profile/edit';
 
   /// Individual post-onboarding home (after Complete Process)
   static const String home = '/individual/home';
@@ -212,7 +223,32 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: businessSplash,
-          page: () => const _PlaceholderScreen(title: 'Business'),
+          page: () => const BusinessSplashScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: businessInformation,
+          page: () => const BusinessInformationScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: productsServices,
+          page: () => const ProductsServicesScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: businessDashboard,
+          page: () => const BusinessDashboardScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: businessProfile,
+          page: () => const BusinessProfileScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: businessEditProfile,
+          page: () => const BusinessEditProfileScreen(),
           binding: InitialBinding(),
         ),
       ];

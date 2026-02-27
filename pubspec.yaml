@@ -41,6 +41,9 @@ dependencies:
   # SVG assets (e.g. Google logo from React auth)
   flutter_svg: ^2.0.10+1
 
+  # Profile photo: gallery & camera
+  image_picker: ^1.0.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

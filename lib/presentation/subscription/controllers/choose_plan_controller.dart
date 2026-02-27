@@ -7,6 +7,9 @@ import '../../../app/routes/app_routes.dart';
 /// Do NOT change subscription/payment logic; only call existing service methods.
 class ChoosePlanController extends GetxController {
   final RxString selectedPlanId = 'plus'.obs;
+  final RxString selectedPlanName = 'Plus'.obs;
+  final RxString selectedPlanPrice = '\$16'.obs;
+  final RxBool isTrialSelected = false.obs;
   final RxBool isLoadingPurchase = false.obs;
 
   /// When true, show active subscription card at top (from existing data source).
@@ -23,18 +26,14 @@ class ChoosePlanController extends GetxController {
   PlanModel get selectedPlan =>
       plans.firstWhere((p) => p.id == selectedPlanId.value, orElse: () => PlansData.plus);
 
-  /// Price text for selected plan, e.g. "\$9/month", "\$16/month".
-  String get selectedPlanPriceText => '${selectedPlan.price}/month';
-
-  /// Short name for selected plan (Essential / Plus / Unlimited).
-  String get selectedPlanName => selectedPlan.ctaDisplayName;
-
-  /// Bottom CTA label: for new users "Start 4-Day Free Trial — {price}/month", else subscriber CTA unchanged.
-  String get bottomCtaLabel {
-    if (!hasActiveSubscription.value) {
-      return 'Start 4-Day Free Trial — $selectedPlanPriceText';
+  String get dynamicButtonText {
+    if (isTrialSelected.value) {
+      return 'Start your 4-Days Free Trial';
     }
-    return 'Start with $selectedPlanName — $selectedPlanPriceText';
+    if (selectedPlanName.value.isEmpty) {
+      return 'Choose Plan';
+    }
+    return 'Start with ${selectedPlanName.value} - ${selectedPlanPrice.value}/month';
   }
 
   void onBack() {
@@ -42,7 +41,15 @@ class ChoosePlanController extends GetxController {
   }
 
   void onSelectPlan(String planId) {
+    isTrialSelected.value = false;
     selectedPlanId.value = planId;
+    final plan = plans.firstWhere((p) => p.id == planId, orElse: () => PlansData.plus);
+    selectedPlanName.value = plan.ctaDisplayName;
+    selectedPlanPrice.value = plan.price;
+  }
+
+  void onSelectTrial() {
+    isTrialSelected.value = true;
   }
 
   void onStartSelectedPlan() {

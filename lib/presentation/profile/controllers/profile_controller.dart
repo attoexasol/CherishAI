@@ -71,7 +71,7 @@ class ProfileController extends GetxController {
   }
 
   void onManageSubscription() {
-    Get.toNamed(AppRoutes.choosePlan);
+    Get.toNamed(AppRoutes.manageSubscription);
   }
 
   void onLogout() {

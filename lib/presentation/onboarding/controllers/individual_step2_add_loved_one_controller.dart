@@ -8,6 +8,8 @@ import '../../../app/routes/app_routes.dart';
 class IndividualStep2AddLovedOneController extends GetxController {
   final nameController = TextEditingController();
 
+  final RxString selectedAgeRange = RxString('');
+  final RxString selectedGender = RxString('');
   final RxString selectedRelationshipKey = RxString('');
   final RxBool isSubmitting = false.obs;
 
@@ -23,6 +25,14 @@ class IndividualStep2AddLovedOneController extends GetxController {
 
   void onTapAddPhoto() {
     // UI-only stub. Wire to image picker if project adds it.
+  }
+
+  void selectAgeRange(String value) {
+    selectedAgeRange.value = value;
+  }
+
+  void selectGender(String value) {
+    selectedGender.value = value;
   }
 
   void onSelectRelationship(String key) {
