@@ -409,7 +409,7 @@ class GiftIdeasDetailScreen extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => c.onFindNearYou(g.id),
+              onTap: null,
               borderRadius: BorderRadius.circular(_kFindNearYouRadius),
               child: Container(
                 width: double.infinity,
@@ -586,7 +586,7 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: c.onViewGiftHistory,
+        onTap: null,
         borderRadius: BorderRadius.circular(_kFindNearYouRadius),
         child: Container(
           width: double.infinity,

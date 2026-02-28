@@ -66,7 +66,7 @@ class GiftIdeasController extends GetxController {
   }
 
   void onViewAllGiftIdeas() {
-    Get.toNamed(AppRoutes.giftIdeas);
+    Get.toNamed(AppRoutes.allGiftIdeas);
   }
 
   void onViewGiftIdeas(String eventId) {

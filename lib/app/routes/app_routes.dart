@@ -20,6 +20,7 @@ import '../../presentation/dislikes/views/dislikes_screen.dart';
 import '../../presentation/personal_note/views/personal_note_screen.dart';
 import '../../presentation/gift_ideas/views/gift_ideas_screen.dart';
 import '../../presentation/gift_ideas_detail/views/gift_ideas_detail_screen.dart';
+import '../../presentation/all_gift_ideas/views/all_gift_ideas_screen.dart';
 import '../../presentation/events/views/all_upcoming_events_screen.dart';
 import '../../presentation/old_messages/views/old_messages_screen.dart';
 import '../../presentation/subscription/views/choose_plan_screen.dart';
@@ -178,7 +179,7 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: allGiftIdeas,
-          page: () => const _PlaceholderScreen(title: 'Gift History'),
+          page: () => const AllGiftIdeasScreen(),
           binding: InitialBinding(),
         ),
         GetPage(
