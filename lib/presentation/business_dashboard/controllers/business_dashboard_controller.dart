@@ -34,6 +34,6 @@ class BusinessDashboardController extends GetxController {
   }
 
   void onViewPlans() {
-    Get.toNamed(AppRoutes.choosePlan);
+    Get.toNamed(AppRoutes.businessChoosePlan);
   }
 }

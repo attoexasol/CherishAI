@@ -24,6 +24,8 @@ import '../../presentation/events/views/all_upcoming_events_screen.dart';
 import '../../presentation/old_messages/views/old_messages_screen.dart';
 import '../../presentation/subscription/views/choose_plan_screen.dart';
 import '../../presentation/subscription/views/manage_subscription_screen.dart';
+import '../../presentation/business_subscription/views/business_manage_subscription_screen.dart';
+import '../../presentation/business_subscription_plans/views/business_choose_plan_screen.dart';
 import '../../presentation/help_feedback/views/help_feedback_screen.dart';
 import '../../presentation/checkout/views/checkout_screen.dart';
 import '../../presentation/home/views/home_screen.dart';
@@ -73,6 +75,8 @@ abstract class AppRoutes {
   static const String oldMessages = '/individual/old-messages';
   static const String yourApproach = '/individual/your-approach';
   static const String manageSubscription = '/individual/manage-subscription';
+  static const String businessManageSubscription = '/business/manage-subscription';
+  static const String businessChoosePlan = '/business/choose-plan';
   static const String helpFeedback = '/help-feedback';
 
   static List<GetPage> get pages => [
@@ -214,6 +218,16 @@ abstract class AppRoutes {
         GetPage(
           name: manageSubscription,
           page: () => const ManageSubscriptionScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: businessManageSubscription,
+          page: () => const BusinessManageSubscriptionScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: businessChoosePlan,
+          page: () => const BusinessChoosePlanScreen(),
           binding: InitialBinding(),
         ),
         GetPage(

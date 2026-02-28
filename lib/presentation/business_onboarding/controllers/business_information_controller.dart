@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/routes/app_routes.dart';
+import '../views/dialogs/add_business_location_dialog.dart';
 
 class BusinessInformationController extends GetxController {
   final RxBool isSubmitting = false.obs;
@@ -77,11 +78,19 @@ class BusinessInformationController extends GetxController {
   }
 
   void onViewPlans() {
-    Get.toNamed(AppRoutes.choosePlan);
+    Get.toNamed(AppRoutes.businessChoosePlan);
   }
 
   void onAddLocation() {
-    // Stub: open add location modal / screen
+    Get.dialog<void>(
+      const AddBusinessLocationDialog(),
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+    );
+  }
+
+  void onSubmitAddLocation() {
+    Get.back();
   }
 
   void onUploadLogo() {

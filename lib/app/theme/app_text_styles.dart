@@ -1417,6 +1417,59 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.beforeYouGoKeepLinkText,
   );
+  // --- Business cancel flow ---
+  static const TextStyle businessCancelDialogTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.25,
+    color: AppColors.beforeYouGoTitle,
+  );
+  static const TextStyle businessCancelDialogSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    color: AppColors.beforeYouGoSubtitle,
+  );
+  static const TextStyle businessCancelLoseAccessTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.businessCancelLoseAccessTitle,
+  );
+  static const TextStyle businessCancelLoseAccessItem = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.businessCancelLoseAccessItem,
+  );
+  static const TextStyle businessCancelReasonTile = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.businessCancelLoseAccessTitle,
+  );
+  static const TextStyle businessCancelContinueBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+  static const TextStyle businessCancelContinueDisabled = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.businessCancelContinueDisabledText,
+  );
+  static const TextStyle businessCancelKeepOutlined = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.beforeYouGoCancelBtnText,
+  );
+  static const TextStyle businessCancelFeedbackLabel = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.businessCancelFeedbackLabel,
+  );
+  static const TextStyle businessCancelConfirmBtn = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
   // --- Help & Feedback ---
   static const TextStyle helpFeedbackTitle = TextStyle(
     fontSize: 24,

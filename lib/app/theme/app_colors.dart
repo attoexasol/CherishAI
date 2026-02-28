@@ -601,6 +601,31 @@ abstract class AppColors {
   static const Color beforeYouGoCancelBtnBg = Color(0xFFF3F4F6);       // gray-100
   static const Color beforeYouGoCancelBtnText = Color(0xFF374151);      // gray-700
   static const Color beforeYouGoKeepLinkText = Color(0xFF6B7280);       // gray-500
+  // --- Business cancel flow (Why are you leaving? / Final Step) ---
+  static const Color businessCancelIconBubbleWhy = Color(0xFFFFE4E6);  // rose-100
+  static const Color businessCancelIconWhy = Color(0xFFF43F5E);       // rose-500
+  static const Color businessCancelIconBubbleFinal = Color(0xFFFEE2E2); // red-100
+  static const Color businessCancelIconFinal = Color(0xFFEF4444);     // red-500
+  static const Color businessCancelLoseAccessBoxStart = Color(0xFFFFF1F2); // rose-50
+  static const Color businessCancelLoseAccessBoxEnd = Color(0xFFFDF2F8); // pink-50
+  static const Color businessCancelLoseAccessBorder = Color(0x80FECDD3);  // rose-200/50
+  static const Color businessCancelLoseAccessTitle = Color(0xFF1F2937);
+  static const Color businessCancelLoseAccessItem = Color(0xFF4B5563);
+  static const Color businessCancelLoseAccessX = Color(0xFFF43F5E);   // rose-500
+  static const Color businessCancelReasonTileBg = Color(0xFFFFF1F2);  // rose-50
+  static const Color businessCancelReasonTileBorder = Color(0xFFFECDD3); // rose-200
+  static const Color businessCancelReasonTileSelectedBg = Color(0xFFFAF5FF); // purple-50
+  static const Color businessCancelReasonTileSelectedBorder = Color(0xFFC084FC); // purple-400
+  static const Color businessCancelReasonCheckSelected = Color(0xFF9333EA); // purple-600
+  static const Color businessCancelReasonCheckUnselected = Color(0xFFD1D5DB); // gray-300
+  static const Color businessCancelContinueDisabledBg = Color(0xFFF3F4F6);
+  static const Color businessCancelContinueDisabledText = Color(0xFF9CA3AF); // gray-400
+  static const Color businessCancelKeepOutlinedBorder = Color(0xFFE5E7EB); // gray-200
+  static const Color businessCancelFeedbackBorder = Color(0xFFE5E7EB);
+  static const Color businessCancelFeedbackLabel = Color(0xFF374151);
+  static const Color businessCancelFeedbackPlaceholder = Color(0xFF9CA3AF);
+  static const Color businessCancelConfirmBtnStart = Color(0xFF6B7280);   // gray-500
+  static const Color businessCancelConfirmBtnEnd = Color(0xFF4B5563);    // gray-600
   // --- Help & Feedback ---
   static const Color helpFeedbackPageBgTop = Color(0xFFFFFFFF);
   static const Color helpFeedbackPageBgEnd = Color(0xFFFDF2F8);        // light pink-purple

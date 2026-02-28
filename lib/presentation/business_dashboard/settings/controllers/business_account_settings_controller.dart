@@ -13,7 +13,7 @@ class BusinessAccountSettingsController extends GetxController {
 
   void onTapManageSubscription() {
     closeDialog();
-    Get.toNamed(AppRoutes.manageSubscription);
+    Get.toNamed(AppRoutes.businessManageSubscription);
   }
 
   void onTapUserProfile() {

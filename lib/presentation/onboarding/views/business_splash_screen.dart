@@ -242,8 +242,7 @@ class BusinessSplashScreen extends StatelessWidget {
   }
 
   void _onSignIn() {
-    // Stub: navigate to business dashboard when route exists
-    // Get.toNamed(AppRoutes.businessDashboard);
+    Get.toNamed(AppRoutes.auth);
   }
 }
 

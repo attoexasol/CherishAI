@@ -134,7 +134,7 @@ class BusinessInformationScreen extends StatelessWidget {
         ),
         Text('Business Information', style: AppTextStyles.businessInfoTitle, textAlign: TextAlign.center),
         SizedBox(height: _kTitleMb),
-        Text('Tell Cherish AI about your business', style: AppTextStyles.businessInfoSubtitle, textAlign: TextAlign.center),
+        Text('Tell CherishAI about your business', style: AppTextStyles.businessInfoSubtitle, textAlign: TextAlign.center),
       ],
     );
   }
@@ -152,8 +152,9 @@ class BusinessInformationScreen extends StatelessWidget {
         Obx(() => _buildDropdown(
           value: c.selectedCategory.value,
           hint: 'Select a category',
+          displayLabels: BusinessInformationController.categories.map((e) => e['label']!).toList(),
           items: BusinessInformationController.categories
-              .map((e) => DropdownMenuItem<String>(value: e['value'], child: Text(e['label']!)))
+              .map((e) => DropdownMenuItem<String>(value: e['value'], child: Text(e['label']!, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)))
               .toList(),
           onChanged: (v) => c.onSelectCategory(v ?? ''),
         )),
@@ -175,8 +176,9 @@ class BusinessInformationScreen extends StatelessWidget {
         Obx(() => _buildDropdown(
           value: c.selectedCountry.value,
           hint: 'Select a country',
+          displayLabels: BusinessInformationController.countries,
           items: BusinessInformationController.countries
-              .map((e) => DropdownMenuItem<String>(value: e, child: Text(e)))
+              .map((e) => DropdownMenuItem<String>(value: e, child: Text(e, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)))
               .toList(),
           onChanged: (v) => c.onSelectCountry(v ?? ''),
         )),
@@ -291,6 +293,7 @@ class BusinessInformationScreen extends StatelessWidget {
     required String value,
     required String hint,
     required List<DropdownMenuItem<String>> items,
+    required List<String> displayLabels,
     required ValueChanged<String?> onChanged,
   }) {
     return Container(
@@ -304,10 +307,12 @@ class BusinessInformationScreen extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: value.isEmpty ? null : value,
-          hint: Text(hint, style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder)),
+          hint: Text(hint, style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder), maxLines: 1, overflow: TextOverflow.ellipsis),
           isExpanded: true,
+          isDense: true,
           items: items,
           onChanged: onChanged,
+          selectedItemBuilder: (context) => displayLabels.map((s) => Text(s, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)).toList(),
         ),
       ),
     );
