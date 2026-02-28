@@ -51,131 +51,133 @@ class LovedOneDetailsScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: AppGradients.homePageBg,
         ),
-        child: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final screenWidth = constraints.maxWidth;
-              final showBottomNavLabels = screenWidth >= _kBottomNavHideLabelWidth;
-              final paddingH = screenWidth < Breakpoints.sm ? 16.0 : _kPaddingH;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        left: paddingH,
-                        right: paddingH,
-                        top: 0,
-                        bottom: _kBottomNavHeight + _kScrollBottomPadding + bottomPadding,
-                      ),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: _kMaxContentWidth.clamp(0, screenWidth - paddingH * 2),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _buildHeader(context, c, paddingH),
-                              SizedBox(height: _kContentPaddingTop),
-                              _buildImportantDatesCard(context, c),
-                              SizedBox(height: _kCardGap),
-                              _buildContactCard(context, c),
-                              SizedBox(height: _kCardGap),
-                              _buildRelationshipGoalsCard(context, c),
-                              SizedBox(height: _kCardGap),
-                              _buildWhatTheyLoveCard(context, c),
-                              SizedBox(height: _kCardGap),
-                              _buildViewGiftIdeasButton(context, c),
-                              SizedBox(height: _kCardGap),
-                              _buildPremiumCard(context, c),
-                            ],
-                          ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = constraints.maxWidth;
+            final showBottomNavLabels = screenWidth >= _kBottomNavHideLabelWidth;
+            final paddingH = screenWidth < Breakpoints.sm ? 16.0 : _kPaddingH;
+            final topSafe = MediaQuery.paddingOf(context).top;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildHeader(context, c, paddingH, topSafe),
+                Container(width: double.infinity, height: 1, color: Colors.white),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      left: paddingH,
+                      right: paddingH,
+                      top: _kContentPaddingTop,
+                      bottom: _kBottomNavHeight + _kScrollBottomPadding + bottomPadding,
+                    ),
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: _kMaxContentWidth.clamp(0, screenWidth - paddingH * 2),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _buildImportantDatesCard(context, c),
+                            SizedBox(height: _kCardGap),
+                            _buildContactCard(context, c),
+                            SizedBox(height: _kCardGap),
+                            _buildRelationshipGoalsCard(context, c),
+                            SizedBox(height: _kCardGap),
+                            _buildWhatTheyLoveCard(context, c),
+                            SizedBox(height: _kCardGap),
+                            _buildViewGiftIdeasButton(context, c),
+                            SizedBox(height: _kCardGap),
+                            _buildPremiumCard(context, c),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  _buildBottomNav(context, c, showBottomNavLabels),
-                ],
-              );
-            },
-          ),
+                ),
+                _buildBottomNav(context, c, showBottomNavLabels),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context, LovedOneDetailsController c, double paddingH) {
+  Widget _buildHeader(BuildContext context, LovedOneDetailsController c, double paddingH, double topSafe) {
     return Container(
-      padding: EdgeInsets.fromLTRB(
-        paddingH,
-        _kHeaderPaddingTop,
-        paddingH,
-        _kHeaderPaddingBottom,
-      ),
+      width: double.infinity,
       decoration: const BoxDecoration(
         gradient: AppGradients.lovedOneDetailsHeader,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: c.onBack,
-              borderRadius: BorderRadius.circular(8),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                child: Icon(Icons.arrow_back_ios_new, size: _kBackIconSize, color: AppColors.lovedOneDetailsBackIcon),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          paddingH,
+          topSafe + _kHeaderPaddingTop,
+          paddingH,
+          _kHeaderPaddingBottom,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: c.onBack,
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  child: Icon(Icons.arrow_back_ios_new, size: _kBackIconSize, color: AppColors.lovedOneDetailsBackIcon),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: _kAvatarSize,
-                height: _kAvatarSize,
-                decoration: BoxDecoration(
-                  color: AppColors.lovedOneDetailsAvatarBg,
-                  shape: BoxShape.circle,
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: _kAvatarSize,
+                  height: _kAvatarSize,
+                  decoration: BoxDecoration(
+                    color: AppColors.lovedOneDetailsAvatarBg,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: Obx(() => Text(c.emoji.value, style: const TextStyle(fontSize: 40))),
                 ),
-                alignment: Alignment.center,
-                child: Obx(() => Text(c.emoji.value, style: const TextStyle(fontSize: 40))),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Obx(() => Text(c.name.value, style: AppTextStyles.lovedOneDetailsName)),
-                    const SizedBox(height: 4),
-                    Obx(() => Text(c.relationship.value, style: AppTextStyles.lovedOneDetailsRelationship)),
-                  ],
-                ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: c.onEditLovedOne,
-                  borderRadius: BorderRadius.circular(_kEditBtnSize / 2),
-                  child: Container(
-                    width: _kEditBtnSize,
-                    height: _kEditBtnSize,
-                    decoration: BoxDecoration(
-                      color: AppColors.lovedOneDetailsEditBtnBg,
-                      shape: BoxShape.circle,
-                      boxShadow: AppShadows.lovedOneDetailsEditBtn,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(Icons.edit_outlined, size: 20, color: AppColors.lovedOneDetailsEditIcon),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(() => Text(c.name.value, style: AppTextStyles.lovedOneDetailsName)),
+                      const SizedBox(height: 4),
+                      Obx(() => Text(c.relationship.value, style: AppTextStyles.lovedOneDetailsRelationship)),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: c.onEditLovedOne,
+                    borderRadius: BorderRadius.circular(_kEditBtnSize / 2),
+                    child: Container(
+                      width: _kEditBtnSize,
+                      height: _kEditBtnSize,
+                      decoration: BoxDecoration(
+                        color: AppColors.lovedOneDetailsEditBtnBg,
+                        shape: BoxShape.circle,
+                        boxShadow: AppShadows.lovedOneDetailsEditBtn,
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(Icons.edit_outlined, size: 20, color: AppColors.lovedOneDetailsEditIcon),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

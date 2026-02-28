@@ -35,6 +35,7 @@ import '../../presentation/search/views/search_screen.dart';
 import '../../presentation/loved_ones/views/loved_ones_screen.dart';
 import '../../presentation/edit_loved_one/views/edit_loved_one_screen.dart';
 import '../../presentation/loved_one_details/views/loved_one_details_screen.dart';
+import '../../presentation/your_approach/views/your_approach_screen.dart';
 import '../bindings/initial_binding.dart';
 import '../bindings/auth_binding.dart';
 
@@ -212,7 +213,7 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: yourApproach,
-          page: () => const _PlaceholderScreen(title: 'Your Approach'),
+          page: () => const YourApproachScreen(),
           binding: InitialBinding(),
         ),
         GetPage(

@@ -357,7 +357,7 @@ class HomeScreen extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         SizedBox(
-          height: isNarrow ? 560 : 520,
+          height: isNarrow ? 600 : 600,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -962,7 +962,10 @@ class HomeScreen extends StatelessWidget {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: c.onShareInspiration,
+                        onTap: () => c.onShareText(
+                              text: HomeController.dailyInspirationQuote,
+                              subject: 'CherishAI',
+                            ),
                         borderRadius: BorderRadius.circular(16),
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

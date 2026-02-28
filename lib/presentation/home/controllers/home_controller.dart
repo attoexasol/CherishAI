@@ -1,5 +1,6 @@
 // lib/presentation/home/controllers/home_controller.dart
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import '../models/daily_message_item.dart';
 import '../models/upcoming_event_item.dart';
 import '../../../app/routes/app_routes.dart';
@@ -22,6 +23,9 @@ class HomeController extends GetxController {
 
   /// Regenerating state for loading indicator (optional)
   final RxBool isRegenerating = false.obs;
+
+  /// App link placeholder for share (do not use as real URL)
+  static const String shareAppLinkPlaceholder = 'https://cherishai.app';
 
   /// Placeholder data: daily messages per loved one (mirrors React)
   final List<DailyMessageItem> dailyMessages = [
@@ -110,6 +114,25 @@ class HomeController extends GetxController {
   int get lovedOnesCount => dailyMessages.length;
   int get eventsSoonCount => upcomingEvents.length;
 
+  Future<void> onShareText({
+    required String text,
+    String? subject,
+    String? lovedOneName,
+  }) async {
+    final trimmed = text.trim();
+    if (trimmed.isEmpty) {
+      Get.snackbar('Nothing to share', 'There is no content to share.');
+      return;
+    }
+    final buffer = StringBuffer('CherishAI\n\n');
+    buffer.write(trimmed);
+    if (lovedOneName != null && lovedOneName.isNotEmpty) {
+      buffer.write('\n\nFor $lovedOneName');
+    }
+    buffer.write('\n\nShared via CherishAI\n$shareAppLinkPlaceholder');
+    await Share.share(buffer.toString(), subject: subject ?? 'CherishAI');
+  }
+
   void onTapBell() {
     Get.toNamed(AppRoutes.notificationsList);
   }
@@ -161,7 +184,10 @@ class HomeController extends GetxController {
   }
 
   void onShareInspiration() {
-    // Use share_plus or platform share when available
+    onShareText(
+      text: dailyInspirationQuote,
+      subject: 'CherishAI',
+    );
   }
 
   void onTapBottomNav(String tab) {

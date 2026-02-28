@@ -29,6 +29,7 @@ import '../../presentation/gift_ideas_detail/controllers/gift_ideas_detail_contr
 import '../../presentation/events/controllers/all_upcoming_events_controller.dart';
 import '../../presentation/old_messages/controllers/old_messages_controller.dart';
 import '../../presentation/loved_one_details/controllers/loved_one_details_controller.dart';
+import '../../presentation/your_approach/controllers/your_approach_controller.dart';
 import '../../presentation/business_onboarding/controllers/business_information_controller.dart';
 import '../../presentation/business_onboarding/products_services/controllers/products_services_controller.dart';
 import '../../presentation/business_dashboard/controllers/business_dashboard_controller.dart';
@@ -67,6 +68,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut<AllUpcomingEventsController>(() => AllUpcomingEventsController());
     Get.lazyPut<OldMessagesController>(() => OldMessagesController());
     Get.lazyPut<LovedOneDetailsController>(() => LovedOneDetailsController());
+    Get.lazyPut<YourApproachController>(() => YourApproachController());
     Get.lazyPut<BusinessInformationController>(() => BusinessInformationController());
     Get.lazyPut<ProductsServicesController>(() => ProductsServicesController());
     Get.lazyPut<BusinessDashboardController>(() => BusinessDashboardController());
