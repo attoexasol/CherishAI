@@ -7,6 +7,7 @@ import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_shadows.dart';
 import '../controllers/loved_one_preferences_controller.dart';
 import '../models/hobby_category_model.dart';
+import '../models/special_occasion_item.dart';
 
 const double _kBackBtnSize = 48;
 const double _kTopInset = 20;
@@ -34,6 +35,12 @@ const double _kChipPaddingH = 14;
 const double _kChipRadius = 999;
 const double _kCategoryGap = 16;
 const double _kSectionBubbleSize = 40;
+const double _kOccasionListTop = 12;
+const double _kOccasionRowPaddingV = 12;
+const double _kOccasionRowPaddingH = 14;
+const double _kOccasionRowRadius = 10;
+const double _kOccasionRowGap = 8;
+const double _kOccasionDeleteIconSize = 20;
 const double _kCtaHeight = 56;
 const double _kCtaBottomPadding = 16;
 const double _kHorizontalPadding = 24;
@@ -172,7 +179,7 @@ class LovedOnePreferencesScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Tell Cherish more about your loved one',
+          'Tell CherishAI more about your loved one',
           style: AppTextStyles.prefsTitle,
           textAlign: TextAlign.center,
         ),
@@ -213,7 +220,7 @@ class LovedOnePreferencesScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                'SPECIAL OCCASIONS (Final step)',
+                'SPECIAL OCCASIONS',
                 style: AppTextStyles.prefsSectionTitle,
               ),
             ),
@@ -227,9 +234,80 @@ class LovedOnePreferencesScreen extends StatelessWidget {
         SizedBox(height: _kSectionDescToButtonGap),
         _buildDashedAddButton(
           label: 'Add Special Occasion',
-          onTap: c.onAddSpecialOccasion,
+          onTap: c.openAddSpecialOccasionDialog,
         ),
+        SizedBox(height: _kOccasionListTop),
+        Obx(() {
+          final length = c.specialOccasions.length;
+          if (length == 0) return const SizedBox.shrink();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(length, (index) {
+              final item = c.specialOccasions[index];
+              return Padding(
+                padding: EdgeInsets.only(bottom: index < length - 1 ? _kOccasionRowGap : 0),
+                child: _buildOccasionRow(
+                  item: item,
+                  onRemove: () => c.removeOccasion(index),
+                ),
+              );
+            }),
+          );
+        }),
       ],
+    );
+  }
+
+  static const List<String> _kMonthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ];
+  static String _formatOccasionDate(DateTime d) {
+    final month = d.month >= 1 && d.month <= 12 ? _kMonthNames[d.month - 1] : '';
+    return '$month ${d.day}, ${d.year}';
+  }
+
+  Widget _buildOccasionRow({
+    required SpecialOccasionItem item,
+    required VoidCallback onRemove,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: _kOccasionRowPaddingV, horizontal: _kOccasionRowPaddingH),
+      decoration: BoxDecoration(
+        color: AppColors.prefsSectionBubbleBg,
+        borderRadius: BorderRadius.circular(_kOccasionRowRadius),
+        border: Border.all(color: AppColors.prefsDialogInputBorder),
+        boxShadow: AppShadows.prefsCategoryCard,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(item.name, style: AppTextStyles.prefsCategoryTitle),
+                const SizedBox(height: 2),
+                Text(
+                  _formatOccasionDate(item.date),
+                  style: AppTextStyles.prefsSectionDesc,
+                ),
+              ],
+            ),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onRemove,
+              borderRadius: BorderRadius.circular(999),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Icon(Icons.close, size: _kOccasionDeleteIconSize, color: AppColors.prefsSectionDesc),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -270,37 +348,95 @@ class LovedOnePreferencesScreen extends StatelessWidget {
               padding: EdgeInsets.only(bottom: _kCategoryGap),
               child: _buildCategoryCard(context, cat),
             )),
-        _buildDashedAddButton(
-          label: 'Add Custom Hobby',
-          onTap: c.onAddCustomHobby,
-        ),
+        Obx(() {
+          final length = c.customHobbies.length;
+          return Wrap(
+            spacing: _kChipGap,
+            runSpacing: _kChipRunSpacing,
+            children: List.generate(length, (index) {
+              final hobby = c.customHobbies[index];
+              return _buildCustomHobbyChip(
+                label: hobby,
+                onRemove: () => c.removeCustomHobby(hobby),
+              );
+            }),
+          );
+        }),
+        SizedBox(height: _kChipRunSpacing),
+        Obx(() {
+          final disabled = c.customHobbies.length >= 2;
+          return _buildDashedAddButton(
+            label: 'Add Custom Hobby',
+            onTap: c.onAddCustomHobby,
+            enabled: !disabled,
+          );
+        }),
       ],
     );
   }
 
-  Widget _buildDashedAddButton({required String label, required VoidCallback onTap}) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(_kAddButtonRadius),
-        child: CustomPaint(
-          painter: _DashedBorderPainter(
-            color: AppColors.prefsAddButtonBorder,
-            strokeWidth: 2,
-            radius: _kAddButtonRadius,
+  Widget _buildCustomHobbyChip({
+    required String label,
+    required VoidCallback onRemove,
+  }) {
+    return Container(
+      padding: const EdgeInsets.only(left: _kChipPaddingH, top: _kChipPaddingV, bottom: _kChipPaddingV, right: 4),
+      decoration: BoxDecoration(
+        color: AppColors.prefsChipBg,
+        borderRadius: BorderRadius.circular(_kChipRadius),
+        border: Border.all(color: AppColors.prefsChipBorder, width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label, style: AppTextStyles.prefsChip),
+          const SizedBox(width: 4),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onRemove,
+              borderRadius: BorderRadius.circular(999),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Icon(Icons.close, size: _kOccasionDeleteIconSize, color: AppColors.prefsSectionDesc),
+              ),
+            ),
           ),
-          child: Container(
-            height: _kAddButtonHeight,
-            width: double.infinity,
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add, size: 20, color: AppColors.prefsAddButtonText),
-                const SizedBox(width: 8),
-                Text(label, style: AppTextStyles.prefsAddButton),
-              ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDashedAddButton({
+    required String label,
+    required VoidCallback onTap,
+    bool enabled = true,
+  }) {
+    return Opacity(
+      opacity: enabled ? 1 : 0.5,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(_kAddButtonRadius),
+          child: CustomPaint(
+            painter: _DashedBorderPainter(
+              color: AppColors.prefsAddButtonBorder,
+              strokeWidth: 2,
+              radius: _kAddButtonRadius,
+            ),
+            child: Container(
+              height: _kAddButtonHeight,
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.add, size: 20, color: AppColors.prefsAddButtonText),
+                  const SizedBox(width: 8),
+                  Text(label, style: AppTextStyles.prefsAddButton),
+                ],
+              ),
             ),
           ),
         ),

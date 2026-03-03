@@ -21,21 +21,13 @@ class IndividualStep1ProfileController extends GetxController {
   final RxString selectedAgeRange = RxString('');
   final RxString selectedGender = RxString('');
   final RxBool isSubmitting = false.obs;
+  final RxBool countryError = false.obs;
+  final RxBool cityError = false.obs;
+  final RxBool postalCodeError = false.obs;
 
   /// Path to the selected profile photo (null until user picks one).
   final RxnString profileImagePath = RxnString();
   final ImagePicker _imagePicker = ImagePicker();
-
-  /// Static list mirroring typical React country/code list. Do not invent; if React uses API, wire later.
-  static const List<String> countryOptions = [
-    'United States',
-    'Canada',
-    'United Kingdom',
-    'Australia',
-    'Germany',
-    'France',
-    'Other',
-  ];
 
   /// Country code options for phone (e.g. +1 US/CA). Mirror React if it uses a static list.
   static const List<Map<String, String>> countryCodeOptions = [
@@ -47,6 +39,21 @@ class IndividualStep1ProfileController extends GetxController {
   ];
 
   RxString selectedCountryCode = RxString('+1 US/CA');
+
+  @override
+  void onInit() {
+    super.onInit();
+    city.addListener(_clearCityError);
+    postalCode.addListener(_clearPostalCodeError);
+  }
+
+  void _clearCityError() {
+    if (city.text.trim().isNotEmpty) cityError.value = false;
+  }
+
+  void _clearPostalCodeError() {
+    if (postalCode.text.trim().isNotEmpty) postalCodeError.value = false;
+  }
 
   static const List<String> ageRangeOptions = [
     '18-24',
@@ -61,6 +68,8 @@ class IndividualStep1ProfileController extends GetxController {
 
   @override
   void onClose() {
+    city.removeListener(_clearCityError);
+    postalCode.removeListener(_clearPostalCodeError);
     name.dispose();
     city.dispose();
     postalCode.dispose();
@@ -153,14 +162,24 @@ class IndividualStep1ProfileController extends GetxController {
 
   void onSelectCountry(String value) {
     selectedCountry.value = value;
+    countryError.value = false;
   }
 
   void onSelectCountryCode(String value) {
     selectedCountryCode.value = value;
   }
 
+  /// Validates required address fields. Returns true if valid. Sets error flags.
+  bool validateAddress() {
+    countryError.value = selectedCountry.value.isEmpty;
+    cityError.value = city.text.trim().isEmpty;
+    postalCodeError.value = postalCode.text.trim().isEmpty;
+    return !countryError.value && !cityError.value && !postalCodeError.value;
+  }
+
   void onContinue() {
     if (isSubmitting.value) return;
+    if (!validateAddress()) return;
     isSubmitting.value = true;
     Future.delayed(const Duration(milliseconds: 400), () {
       isSubmitting.value = false;

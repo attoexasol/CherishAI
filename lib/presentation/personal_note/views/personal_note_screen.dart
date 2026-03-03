@@ -20,9 +20,20 @@ const double _kCardRadius = 20;
 const double _kInputRadius = 12;
 const double _kInputMinHeight = 120;
 const double _kHelperBoxRadius = 12;
+const double _kExampleCardRadius = 12;
+const double _kExampleCardPadding = 14;
+const double _kExampleSpacing = 10;
 const double _kCtaHeight = 56;
 const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
+
+const List<String> _kExampleTexts = [
+  "John is my coworker. We get along well and I'd like to show appreciation without being too personal.",
+  "We've been together for years. I want to keep things thoughtful and meaningful.",
+  "She's my mother. I want to express how much she means to me in a way she'll really feel.",
+  "We're close friends. I want to find something that shows I pay attention to what they like.",
+  "She's my partner and we're expecting a child. I want to celebrate us and this new chapter.",
+];
 
 class PersonalNoteScreen extends StatelessWidget {
   const PersonalNoteScreen({super.key});
@@ -282,23 +293,66 @@ class PersonalNoteScreen extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: c.onSeeMoreExamples,
+              onTap: c.toggleSeeMoreExamples,
               borderRadius: BorderRadius.circular(8),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.auto_awesome, size: 16, color: AppColors.noteSeeMoreIcon),
                     const SizedBox(width: 8),
                     Text('See more examples', style: AppTextStyles.noteSeeMore),
                     const SizedBox(width: 6),
-                    Icon(Icons.keyboard_arrow_down, size: 20, color: AppColors.noteSeeMoreText),
+                    Obx(() => Icon(
+                          c.showExamples.value ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                          size: 24,
+                          color: AppColors.noteSeeMoreText,
+                        )),
                   ],
                 ),
               ),
             ),
           ),
+          Obx(() {
+            if (!c.showExamples.value) return const SizedBox.shrink();
+            return AnimatedSize(
+              duration: const Duration(milliseconds: 280),
+              curve: Curves.easeOut,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: _kExampleSpacing),
+                  ...List.generate(_kExampleTexts.length, (index) {
+                    final text = _kExampleTexts[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: index < _kExampleTexts.length - 1 ? _kExampleSpacing : 0),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => c.applyExample(text),
+                          borderRadius: BorderRadius.circular(_kExampleCardRadius),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(_kExampleCardPadding),
+                            decoration: BoxDecoration(
+                              color: AppColors.noteCardBg,
+                              borderRadius: BorderRadius.circular(_kExampleCardRadius),
+                              border: Border.all(color: AppColors.noteSeeMoreText.withOpacity(0.5), width: 1),
+                            ),
+                            child: Text(
+                              text,
+                              style: AppTextStyles.noteInput.copyWith(fontSize: 14, color: AppColors.noteLabelText),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

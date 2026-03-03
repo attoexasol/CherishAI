@@ -30,61 +30,51 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.paddingOf(context).bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
           gradient: AppGradients.checkoutPageBg,
         ),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildTopBar(context),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    left: _kHorizontalPadding,
-                    right: _kHorizontalPadding,
-                    top: 24,
-                    bottom: 24 + MediaQuery.paddingOf(context).bottom,
-                  ),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Align(
-                        alignment: Alignment.topCenter,
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _buildHeader(context),
-                              const SizedBox(height: 32),
-                              _buildContactCard(context),
-                              const SizedBox(height: 24),
-                              _buildPaymentMethodCard(context),
-                              const SizedBox(height: 24),
-                              Obx(() {
-                                final c = Get.find<CheckoutController>();
-                                final method = c.selectedPaymentMethod.value;
-                                if (method == 'card') return _buildCardInfoCard(context);
-                                if (method == 'apple') return _buildApplePayDetailsCard(context);
-                                if (method == 'google') return _buildGooglePayDetailsCard(context);
-                                return const SizedBox.shrink();
-                              }),
-                              const SizedBox(height: 24),
-                              _buildOrderSummaryCard(context),
-                              const SizedBox(height: 24),
-                              _buildBottomCta(context),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: _kHorizontalPadding,
+              right: _kHorizontalPadding,
+              top: _kTopInset,
+              bottom: 24 + bottomPadding,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildTopBar(context),
+                    const SizedBox(height: 24),
+                    _buildHeader(context),
+                    const SizedBox(height: 32),
+                    _buildContactCard(context),
+                    const SizedBox(height: 24),
+                    _buildPaymentMethodCard(context),
+                    const SizedBox(height: 24),
+                    Obx(() {
+                      final c = Get.find<CheckoutController>();
+                      final method = c.selectedPaymentMethod.value;
+                      if (method == 'card') return _buildCardInfoCard(context);
+                      if (method == 'apple') return _buildApplePayDetailsCard(context);
+                      if (method == 'google') return _buildGooglePayDetailsCard(context);
+                      return const SizedBox.shrink();
+                    }),
+                    const SizedBox(height: 24),
+                    _buildOrderSummaryCard(context),
+                    const SizedBox(height: 24),
+                    _buildBottomCta(context),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -94,47 +84,62 @@ class CheckoutScreen extends StatelessWidget {
   Widget _buildTopBar(BuildContext context) {
     final c = Get.find<CheckoutController>();
     return Padding(
-      padding: EdgeInsets.only(
-        left: _kHorizontalPadding,
-        right: _kHorizontalPadding,
-        top: _kTopInset,
-        bottom: 16,
-      ),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: c.onBackToPlans,
-              borderRadius: BorderRadius.circular(8),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.arrow_back_ios_new, size: _kBackIconSize, color: AppColors.checkoutBackText),
-                    const SizedBox(width: 8),
-                    Text('Back to Plans', style: AppTextStyles.checkoutBack),
-                  ],
+          Flexible(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: c.onBackToPlans,
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.arrow_back_ios_new, size: _kBackIconSize, color: AppColors.checkoutBackText),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          'Back to Plans',
+                          style: AppTextStyles.checkoutBack,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: BoxDecoration(
-              color: AppColors.checkoutSecureBg,
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: AppColors.checkoutSecureBorder),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.lock, size: 16, color: AppColors.checkoutSecureIcon),
-                const SizedBox(width: 8),
-                Text('Secure Checkout', style: AppTextStyles.checkoutSecure),
-              ],
+          const SizedBox(width: 12),
+          Flexible(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.checkoutSecureBg,
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: AppColors.checkoutSecureBorder),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Icon(Icons.lock, size: 16, color: AppColors.checkoutSecureIcon),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      'Secure Checkout',
+                      style: AppTextStyles.checkoutSecure,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -165,6 +170,9 @@ class CheckoutScreen extends StatelessWidget {
             'Complete Your Order',
             style: AppTextStyles.checkoutTitle,
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
           ),
         ),
         const SizedBox(height: 10),
@@ -172,6 +180,9 @@ class CheckoutScreen extends StatelessWidget {
           'Start caring more intentionally today',
           style: AppTextStyles.checkoutSubtitle,
           textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          softWrap: true,
         ),
       ],
     );
@@ -203,7 +214,14 @@ class CheckoutScreen extends StatelessWidget {
                 child: Icon(Icons.mail_outline, size: 22, color: Colors.white),
               ),
               const SizedBox(width: 12),
-              Text('Contact Information', style: AppTextStyles.checkoutSectionTitle),
+              Expanded(
+                child: Text(
+                  'Contact Information',
+                  style: AppTextStyles.checkoutSectionTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -275,7 +293,12 @@ class CheckoutScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Select Payment Method', style: AppTextStyles.checkoutSectionTitle),
+          Text(
+            'Select Payment Method',
+            style: AppTextStyles.checkoutSectionTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 16),
           Obx(() {
             final selected = c.selectedPaymentMethod.value;
@@ -398,6 +421,8 @@ class CheckoutScreen extends StatelessWidget {
               Text(
                 label,
                 style: isSelected ? AppTextStyles.checkoutPaymentLabelSelected : AppTextStyles.checkoutPaymentLabel,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               if (isSelected) ...[
                 const SizedBox(height: 6),
@@ -442,20 +467,26 @@ class CheckoutScreen extends StatelessWidget {
                 child: Icon(Icons.credit_card, size: 22, color: Colors.white),
               ),
               const SizedBox(width: 12),
-              Text('Card Information', style: AppTextStyles.checkoutSectionTitle),
+              Expanded(
+                child: Text(
+                  'Card Information',
+                  style: AppTextStyles.checkoutSectionTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
           Text('Accepted Cards', style: AppTextStyles.checkoutOrderPricePeriod),
           const SizedBox(height: 12),
-          Row(
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
             children: [
               _buildCardLogo('VISA'),
-              const SizedBox(width: 12),
               _buildCardLogo('MC'),
-              const SizedBox(width: 12),
               _buildCardLogo('AMEX'),
-              const SizedBox(width: 12),
               _buildCardLogo('DISC'),
             ],
           ),
@@ -476,9 +507,20 @@ class CheckoutScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Your payment is secure', style: AppTextStyles.checkoutSecurityTitle),
+                      Text(
+                        'Your payment is secure',
+                        style: AppTextStyles.checkoutSecurityTitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: 4),
-                      Text('All transactions are encrypted and PCI-compliant', style: AppTextStyles.checkoutSecurityDesc),
+                      Text(
+                        'All transactions are encrypted and PCI-compliant',
+                        style: AppTextStyles.checkoutSecurityDesc,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                      ),
                     ],
                   ),
                 ),
@@ -518,12 +560,18 @@ class CheckoutScreen extends StatelessWidget {
             'Pay with Apple Pay',
             style: AppTextStyles.checkoutSectionTitle,
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
           ),
           const SizedBox(height: 10),
           Text(
             'Complete your purchase securely using your Apple Pay account',
             style: AppTextStyles.checkoutSubtitle,
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
           ),
           const SizedBox(height: 20),
           Container(
@@ -543,11 +591,19 @@ class CheckoutScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Secure Apple Pay checkout', style: AppTextStyles.checkoutSecurityTitle),
+                      Text(
+                        'Secure Apple Pay checkout',
+                        style: AppTextStyles.checkoutSecurityTitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         "Your payment information is protected by Apple's security",
                         style: AppTextStyles.checkoutSecurityDesc,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
                       ),
                     ],
                   ),
@@ -604,12 +660,18 @@ class CheckoutScreen extends StatelessWidget {
             'Pay with Google Pay',
             style: AppTextStyles.checkoutSectionTitle,
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
           ),
           const SizedBox(height: 10),
           Text(
             'Complete your purchase securely using your Google Pay account',
             style: AppTextStyles.checkoutSubtitle,
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
           ),
           const SizedBox(height: 20),
           Container(
@@ -629,11 +691,19 @@ class CheckoutScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Secure Google Pay checkout', style: AppTextStyles.checkoutSecurityTitle),
+                      Text(
+                        'Secure Google Pay checkout',
+                        style: AppTextStyles.checkoutSecurityTitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         "Your payment information is protected by Google's security",
                         style: AppTextStyles.checkoutSecurityDesc,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
                       ),
                     ],
                   ),
@@ -693,13 +763,25 @@ class CheckoutScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(plan.name, style: AppTextStyles.checkoutOrderPlanName),
+                      Text(
+                        plan.name,
+                        style: AppTextStyles.checkoutOrderPlanName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: 4),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text(plan.priceDisplay, style: AppTextStyles.checkoutOrderPrice),
+                          Flexible(
+                            child: Text(
+                              plan.priceDisplay,
+                              style: AppTextStyles.checkoutOrderPrice,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                           const SizedBox(width: 4),
                           Text(plan.periodSlash, style: AppTextStyles.checkoutOrderPricePeriod),
                         ],
@@ -715,7 +797,15 @@ class CheckoutScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Monthly Subscription', style: AppTextStyles.checkoutLineItem),
+                Flexible(
+                  child: Text(
+                    'Monthly Subscription',
+                    style: AppTextStyles.checkoutLineItem,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Text(plan.pricePerPeriod, style: AppTextStyles.checkoutLineItem),
               ],
             ),
@@ -724,11 +814,24 @@ class CheckoutScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Due Today', style: AppTextStyles.checkoutDueTodayLabel),
+                Flexible(
+                  child: Text(
+                    'Due Today',
+                    style: AppTextStyles.checkoutDueTodayLabel,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
                 ShaderMask(
                   blendMode: BlendMode.srcIn,
                   shaderCallback: (bounds) => AppGradients.checkoutAccent.createShader(bounds),
-                  child: Text(plan.priceDisplay, style: AppTextStyles.checkoutOrderPrice.copyWith(fontSize: 28)),
+                  child: Text(
+                    plan.priceDisplay,
+                    style: AppTextStyles.checkoutOrderPrice.copyWith(fontSize: 28),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -742,6 +845,9 @@ class CheckoutScreen extends StatelessWidget {
               child: Text(
                 "You'll be billed ${plan.priceDisplay} monthly. Cancel anytime from your account settings.",
                 style: AppTextStyles.checkoutDisclaimer,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
               ),
             ),
           ],
@@ -791,7 +897,15 @@ class CheckoutScreen extends StatelessWidget {
             children: [
               Icon(Icons.check_circle, size: 16, color: AppColors.checkoutFooterCheck),
               const SizedBox(width: 8),
-              Text('No commitment • Cancel anytime', style: AppTextStyles.checkoutFooter),
+              Expanded(
+                child: Text(
+                  'No commitment • Cancel anytime',
+                  style: AppTextStyles.checkoutFooter,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -800,7 +914,15 @@ class CheckoutScreen extends StatelessWidget {
             children: [
               Icon(Icons.check_circle, size: 16, color: AppColors.checkoutFooterCheck),
               const SizedBox(width: 8),
-              Text('Secure 256-bit SSL encryption', style: AppTextStyles.checkoutFooter),
+              Expanded(
+                child: Text(
+                  'Secure 256-bit SSL encryption',
+                  style: AppTextStyles.checkoutFooter,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
         ],

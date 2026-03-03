@@ -128,10 +128,17 @@ class AuthScreen extends StatelessWidget {
   Widget _buildWelcome() {
     return Column(
       children: [
-        Text(
-          'Welcome to Cherish AI',
-          textAlign: TextAlign.center,
-          style: AppTextStyles.authWelcomeTitle,
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final titleFontSize = constraints.maxWidth < 360 ? 24.0 : 28.0;
+            return Text(
+              'Welcome to Cherish AI',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.authWelcomeTitle.copyWith(fontSize: titleFontSize),
+            );
+          },
         ),
         const SizedBox(height: 6),
         Row(

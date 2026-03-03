@@ -213,6 +213,13 @@ abstract class AppTextStyles {
     height: 1.4,
     color: AppColors.onboardingHeadline,
   );
+  // Business card title (onboarding intro bottom card): 24px bold, centered
+  static const TextStyle onboardingBusinessCardTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.4,
+    color: AppColors.onboardingHeadline,
+  );
   // Business paragraph: 19px medium #8B4A65, height 1.8
   static const TextStyle onboardingBusinessBody = TextStyle(
     fontSize: 19,

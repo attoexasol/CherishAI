@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../models/plan_summary_model.dart';
 import '../../../app/routes/app_routes.dart';
+import '../../profile/controllers/profile_controller.dart';
 
 /// Minimal UI state for Checkout. Plan from Get.arguments; payment method selection; no payment logic changes.
 class CheckoutController extends GetxController {
@@ -17,6 +18,19 @@ class CheckoutController extends GetxController {
   void onInit() {
     super.onInit();
     _applyPlanFromArguments();
+    _autoFillEmailFromProfile();
+  }
+
+  void _autoFillEmailFromProfile() {
+    try {
+      if (Get.isRegistered<ProfileController>()) {
+        final profile = Get.find<ProfileController>();
+        final savedEmail = profile.email.value.trim();
+        if (savedEmail.isNotEmpty && emailController.text.isEmpty) {
+          emailController.text = savedEmail;
+        }
+      }
+    } catch (_) {}
   }
 
   void _applyPlanFromArguments() {

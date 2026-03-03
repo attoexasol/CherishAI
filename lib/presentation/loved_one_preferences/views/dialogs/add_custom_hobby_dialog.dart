@@ -17,47 +17,13 @@ const double _kFieldToButtonsGap = 24;
 const double _kButtonGap = 12;
 const double _kMaxDialogWidth = 400;
 
-/// Modal dialog: Add Custom Hobby. Opens from Hobbies section "Add Custom Hobby" button.
-/// Submit calls controller.addCustomHobby(name) then closes.
-class AddCustomHobbyDialog extends StatefulWidget {
+/// Modal dialog: Add Custom Hobby. Uses controller's customHobbyController and addCustomHobby().
+class AddCustomHobbyDialog extends StatelessWidget {
   const AddCustomHobbyDialog({super.key});
 
   @override
-  State<AddCustomHobbyDialog> createState() => _AddCustomHobbyDialogState();
-}
-
-class _AddCustomHobbyDialogState extends State<AddCustomHobbyDialog> {
-  final TextEditingController _hobbyController = TextEditingController();
-  bool _canSubmit = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _hobbyController.addListener(() {
-      final can = _hobbyController.text.trim().isNotEmpty;
-      if (can != _canSubmit) setState(() => _canSubmit = can);
-    });
-  }
-
-  @override
-  void dispose() {
-    _hobbyController.dispose();
-    super.dispose();
-  }
-
-  void _submit() {
-    final name = _hobbyController.text.trim();
-    if (name.isEmpty) return;
-    Get.find<LovedOnePreferencesController>().addCustomHobby(name);
-    Get.back();
-  }
-
-  void _cancel() {
-    Get.back();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final c = Get.find<LovedOnePreferencesController>();
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24),
@@ -81,7 +47,7 @@ class _AddCustomHobbyDialogState extends State<AddCustomHobbyDialog> {
                 ),
                 const SizedBox(height: _kTitleToFieldGap),
                 TextField(
-                  controller: _hobbyController,
+                  controller: c.customHobbyController,
                   style: AppTextStyles.prefsDialogInput,
                   decoration: InputDecoration(
                     hintText: 'e.g., Stargazing, Collecting vinyl, Urban gardening',
@@ -107,23 +73,20 @@ class _AddCustomHobbyDialogState extends State<AddCustomHobbyDialog> {
                 Row(
                   children: [
                     Expanded(
-                      child: Opacity(
-                        opacity: _canSubmit ? 1 : 0.5,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: _canSubmit ? _submit : null,
-                            borderRadius: BorderRadius.circular(_kButtonRadius),
-                            child: Container(
-                              height: _kButtonHeight,
-                              decoration: BoxDecoration(
-                                gradient: AppGradients.prefsCta,
-                                borderRadius: BorderRadius.circular(_kButtonRadius),
-                                boxShadow: AppShadows.prefsCta,
-                              ),
-                              alignment: Alignment.center,
-                              child: Text('Add Hobby', style: AppTextStyles.prefsDialogPrimaryBtn),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => c.addCustomHobby(),
+                          borderRadius: BorderRadius.circular(_kButtonRadius),
+                          child: Container(
+                            height: _kButtonHeight,
+                            decoration: BoxDecoration(
+                              gradient: AppGradients.prefsCta,
+                              borderRadius: BorderRadius.circular(_kButtonRadius),
+                              boxShadow: AppShadows.prefsCta,
                             ),
+                            alignment: Alignment.center,
+                            child: Text('Add Hobby', style: AppTextStyles.prefsDialogPrimaryBtn),
                           ),
                         ),
                       ),
@@ -132,7 +95,7 @@ class _AddCustomHobbyDialogState extends State<AddCustomHobbyDialog> {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: _cancel,
+                        onTap: () => Get.back(),
                         borderRadius: BorderRadius.circular(_kButtonRadius),
                         child: Container(
                           height: _kButtonHeight,

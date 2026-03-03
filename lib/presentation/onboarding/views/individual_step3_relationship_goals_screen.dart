@@ -56,7 +56,13 @@ class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
                       children: [
                         _buildTargetIcon(context),
                         SizedBox(height: _kTargetToTitleGap),
-                        Text('Your relationship goals', style: AppTextStyles.goalsTitle),
+                        Center(
+                          child: Text(
+                            'Your relationship goals',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.goalsTitle.copyWith(fontSize: 22),
+                          ),
+                        ),
                         SizedBox(height: _kTitleToDescGap),
                         Text(
                           "Every relationship is different. By choosing your goal, you help Cherish AI understand how you want to care — so suggestions, words, and ideas feel truly personal and aligned with what you're trying to nurture",

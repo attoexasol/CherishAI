@@ -17,10 +17,15 @@ const double _kHeartIconSize = 20;
 const double _kIconButtonSize = 44;
 const double _kIconButtonIconSize = 20;
 const double _kGreetingCardRadius = 24;
-const double _kGreetingCardPadding = 24;
-const double _kPillPaddingH = 16;
-const double _kPillPaddingV = 8;
+const double _kGreetingCardPadding = 16;
+const double _kGreetingTitleSubtitleGap = 6;
+const double _kGreetingSubtitleChipsGap = 10;
+const double _kGreetingNarrowBreakpoint = 340;
+const double _kPillPaddingH = 12;
+const double _kPillPaddingV = 6;
+const double _kPillIconSize = 16;
 const double _kPillRadius = 12;
+const double _kPillGap = 10;
 const double _kSectionTitleGap = 20;
 const double _kMessageCardWidthMax = 360;
 const double _kMessageCardGap = 20;
@@ -218,10 +223,12 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildGreetingCard(BuildContext context, HomeController c, double screenWidth) {
-    final useWrap = screenWidth < Breakpoints.sm;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(_kGreetingCardPadding),
+      padding: const EdgeInsets.symmetric(
+        horizontal: _kGreetingCardPadding,
+        vertical: _kGreetingCardPadding,
+      ),
       decoration: BoxDecoration(
         color: AppColors.homeGreetingCardBg,
         borderRadius: BorderRadius.circular(_kGreetingCardRadius),
@@ -230,21 +237,31 @@ class HomeScreen extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'Hello Sarah! 👋',
-            style: AppTextStyles.homeGreetingTitle,
+            style: AppTextStyles.homeGreetingTitle.copyWith(
+              fontSize: 28,
+              height: 1.25,
+            ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: _kGreetingTitleSubtitleGap),
           Text(
             "Let's make today meaningful for those you cherish",
-            style: AppTextStyles.homeGreetingSubtitle,
+            style: AppTextStyles.homeGreetingSubtitle.copyWith(
+              fontSize: 16,
+              height: 1.4,
+            ),
           ),
-          const SizedBox(height: 16),
-          useWrap
-              ? Wrap(
-                  spacing: 12,
-                  runSpacing: 8,
+          SizedBox(height: _kGreetingSubtitleChipsGap),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = constraints.maxWidth;
+              if (maxWidth < _kGreetingNarrowBreakpoint) {
+                return Wrap(
+                  spacing: _kPillGap,
+                  runSpacing: _kPillGap,
                   children: [
                     _buildPill(
                       icon: Icons.favorite,
@@ -263,10 +280,12 @@ class HomeScreen extends StatelessWidget {
                       onTap: c.onNavigateToAllEvents,
                     ),
                   ],
-                )
-              : Row(
-                  children: [
-                    _buildPill(
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(
+                    child: _buildPill(
                       icon: Icons.favorite,
                       iconColor: AppColors.homeBellIcon,
                       label: '${c.lovedOnesCount} Loved Ones',
@@ -274,8 +293,10 @@ class HomeScreen extends StatelessWidget {
                       borderColor: AppColors.homePillRoseBorder,
                       onTap: c.onNavigateToLovedOnes,
                     ),
-                    const SizedBox(width: 16),
-                    _buildPill(
+                  ),
+                  const SizedBox(width: _kPillGap),
+                  Expanded(
+                    child: _buildPill(
                       icon: Icons.calendar_today,
                       iconColor: AppColors.homeSwipeHint,
                       label: '${c.eventsSoonCount} Events Soon',
@@ -283,8 +304,11 @@ class HomeScreen extends StatelessWidget {
                       borderColor: AppColors.homePillPurpleBorder,
                       onTap: c.onNavigateToAllEvents,
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
@@ -308,12 +332,12 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 20, color: iconColor),
-          const SizedBox(width: 8),
+          Icon(icon, size: _kPillIconSize, color: iconColor),
+          const SizedBox(width: 6),
           Flexible(
             child: Text(
               label,
-              style: AppTextStyles.homePill,
+              style: AppTextStyles.homePill.copyWith(fontSize: 13),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -353,6 +377,19 @@ class HomeScreen extends StatelessWidget {
                 style: AppTextStyles.homeSwipeHint.copyWith(color: AppColors.homeSwipeHint),
               ),
             ],
+          ),
+        ),
+        const SizedBox(height: 4),
+        GestureDetector(
+          onTap: c.onNavigateToLovedOnes,
+          child: Text(
+            'to see all loved ones',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
+              height: 1.3,
+              color: AppColors.homeSwipeHint.withValues(alpha: 0.75),
+            ),
           ),
         ),
         const SizedBox(height: 20),

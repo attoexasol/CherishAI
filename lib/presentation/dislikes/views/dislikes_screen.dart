@@ -177,17 +177,29 @@ class DislikesScreen extends StatelessWidget {
           Text(category.title, style: AppTextStyles.dislikesCategoryTitle),
           SizedBox(height: _kCategoryTitleBottom),
           Obx(() {
+            final customList = c.customOptionsByCategory[category.key];
+            final customLabels = customList?.toList() ?? <String>[];
             return Wrap(
               spacing: _kChipGap,
               runSpacing: _kChipRunSpacing,
-              children: category.items.map((item) {
-                final selected = c.selectedDislikeIds.contains(item.id);
-                return _buildChip(
-                  label: item.label,
-                  selected: selected,
-                  onTap: () => c.toggleDislike(item.id),
-                );
-              }).toList(),
+              children: [
+                ...category.items.map((item) {
+                  final selected = c.selectedByCategory[category.key] == item.id;
+                  return _buildChip(
+                    label: item.label,
+                    selected: selected,
+                    onTap: () => c.toggleCategorySelection(category.key, item.id),
+                  );
+                }),
+                ...customLabels.map((label) {
+                  final selected = c.selectedByCategory[category.key] == label;
+                  return _buildChip(
+                    label: label,
+                    selected: selected,
+                    onTap: () => c.toggleCategorySelection(category.key, label),
+                  );
+                }),
+              ],
             );
           }),
         ],
@@ -236,35 +248,54 @@ class DislikesScreen extends StatelessWidget {
 
   Widget _buildAddCustomDislikeButton(BuildContext context, DislikesController c) {
     final disabled = !c.canAddMoreCustomDislikes;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: disabled ? null : c.onAddCustomDislike,
-        borderRadius: BorderRadius.circular(_kAddButtonRadius),
-        child: Container(
-          height: _kAddButtonHeight,
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-            color: disabled ? AppColors.dislikesChipBorder : AppColors.dislikesAddButtonBg,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isNarrow = constraints.maxWidth < 360;
+        final label = disabled
+            ? (isNarrow ? 'Max 2 reached' : 'Add Custom Dislike (Max 2 reached)')
+            : 'Add Custom Dislike';
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: disabled ? null : c.onAddCustomDislike,
             borderRadius: BorderRadius.circular(_kAddButtonRadius),
-            border: Border.all(color: AppColors.dislikesAddButtonBorder, width: 1),
-            boxShadow: AppShadows.dislikesAddButton,
-          ),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add, size: 22, color: disabled ? AppColors.dislikesHelperText : AppColors.dislikesAddButtonText),
-              const SizedBox(width: 8),
-              Text(
-                c.canAddMoreCustomDislikes ? 'Add Custom Dislike' : 'Add Custom Dislike (Max 2 reached)',
-                style: AppTextStyles.dislikesAddButton.copyWith(color: disabled ? AppColors.dislikesHelperText : AppColors.dislikesAddButtonText),
+            child: SizedBox(
+              width: double.infinity,
+              height: _kAddButtonHeight,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: disabled ? AppColors.dislikesChipBorder : AppColors.dislikesAddButtonBg,
+                  borderRadius: BorderRadius.circular(_kAddButtonRadius),
+                  border: Border.all(color: AppColors.dislikesAddButtonBorder, width: 1),
+                  boxShadow: AppShadows.dislikesAddButton,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(Icons.add, size: 22, color: disabled ? AppColors.dislikesHelperText : AppColors.dislikesAddButtonText),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        label,
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.dislikesAddButton.copyWith(
+                          color: disabled ? AppColors.dislikesHelperText : AppColors.dislikesAddButtonText,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -335,6 +366,7 @@ class DislikesScreen extends StatelessWidget {
   }
 
   Widget _buildAddDislikePrimaryButton(DislikesController c) {
+    const kCustomDislikeCategoryKey = 'wellness_personality';
     return Obx(() {
       final text = c.customDislikeInput.value.trim();
       final enabled = text.isNotEmpty && c.canAddMoreCustomDislikes;
@@ -343,7 +375,7 @@ class DislikesScreen extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: enabled ? c.submitCustomDislike : null,
+            onTap: enabled ? () => c.addCustomDislike(kCustomDislikeCategoryKey) : null,
             borderRadius: BorderRadius.circular(_kFormButtonRadius),
             child: Container(
               height: _kFormButtonHeight,

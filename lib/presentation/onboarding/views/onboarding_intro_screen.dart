@@ -83,12 +83,16 @@ class OnboardingIntroScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Most apps focused on maintaining relationships today still ask too much of you.',
-                style: AppTextStyles.onboardingHeadline.copyWith(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF333333),
+              Center(
+                child: Text(
+                  'Most apps focused on maintaining relationships today still ask too much of you.',
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                  style: AppTextStyles.onboardingHeadline.copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF333333),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -96,16 +100,18 @@ class OnboardingIntroScreen extends StatelessWidget {
               const SizedBox(height: 12),
               _buildBulletRow('Your efforts', Icons.volunteer_activism),
               const SizedBox(height: 12),
-              _buildBulletRow('Emotional work', Icons.psychology),
+              _buildBulletRow('Emotional labor, &', Icons.psychology),
+               const SizedBox(height: 12),
+              _buildBulletRow("Obliges loved one’s participation", Icons.group_add_rounded, maxLines: 2),
               const SizedBox(height: 20),
-              _buildBulletRow('Meet', Icons.people),
+              _buildBulletRow('MEET', Icons.people),
               const SizedBox(height: 12),
               const Center(child: _AnimatedHeroLogo()),
               const SizedBox(height: 20),
               const SizedBox(height: 6),
               Center(
                 child: Text(
-                  'Not another relationship coach',
+                  'Personalized Love and Care, Powered by Emotional Intelligence',
                   textAlign: TextAlign.center,
                   style: AppTextStyles.onboardingNotCoach.copyWith(
                     fontSize: 15,
@@ -181,8 +187,9 @@ class OnboardingIntroScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBulletRow(String label, IconData icon) {
+  Widget _buildBulletRow(String label, IconData icon, {int? maxLines}) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 40,
@@ -202,12 +209,15 @@ class OnboardingIntroScreen extends StatelessWidget {
           child: Icon(icon, size: 22, color: AppColors.onboardingBulletText),
         ),
         const SizedBox(width: 12),
-        Text(
-          label,
-          style: AppTextStyles.onboardingBullet.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: const Color(0xFF333333),
+        Expanded(
+          child: Text(
+            label,
+            maxLines: maxLines,
+            style: AppTextStyles.onboardingBullet.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF333333),
+            ),
           ),
         ),
       ],
@@ -348,10 +358,15 @@ class OnboardingIntroScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'CherishAI does the heavy lifting',
-            style: AppTextStyles.onboardingHeavyLiftTitle.copyWith(
-              color: const Color(0xFF333333),
+          Center(
+            child: Text(
+              'CherishAI does the heavy lifting',
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              softWrap: true,
+              style: AppTextStyles.onboardingHeavyLiftTitle.copyWith(
+                color: const Color(0xFF333333),
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -458,18 +473,26 @@ class OnboardingIntroScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Are you a business offering gifts and services that help people express love?',
-            style: AppTextStyles.onboardingBusinessTitle.copyWith(
-              color: const Color(0xFF333333),
+          Center(
+            child: Text(
+              'Are you a business offering gifts and services that help people express love?',
+              textAlign: TextAlign.center,
+              softWrap: true,
+              style: AppTextStyles.onboardingBusinessCardTitle.copyWith(
+                color: const Color(0xFF333333),
+              ),
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            'Register with CherishAI so your products and services can be thoughtfully suggested to users when they\'re needed most - at the perfect moment of connection.',
-            style: AppTextStyles.onboardingBusinessBody.copyWith(
-              color: const Color(0xFF333333),
-              fontWeight: FontWeight.w400,
+          Center(
+            child: Text(
+              'Register with CherishAI so your products and services can be thoughtfully suggested to users when they\'re needed most - at the perfect moment of connection.',
+              textAlign: TextAlign.center,
+              softWrap: true,
+              style: AppTextStyles.onboardingBusinessBody.copyWith(
+                color: const Color(0xFF333333),
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
           const SizedBox(height: 16),

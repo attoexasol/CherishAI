@@ -1,10 +1,13 @@
 // lib/presentation/onboarding/views/individual_step2_add_loved_one_screen.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_shadows.dart';
+import '../../../core/utils/responsive.dart';
 import '../controllers/individual_step2_add_loved_one_controller.dart';
 
 const double _kBackBtnSize = 48;
@@ -36,6 +39,9 @@ const double _kTileGap = 10;
 const double _kTileRunSpacing = 10;
 const double _kTileEmojiSize = 24;
 const double _kTileEmojiLabelGap = 8;
+const double _kRelationshipGridBreakpoint = 420;
+const double _kRelationshipTileExtentNarrow = 140;
+const double _kRelationshipTileExtentWide = 124;
 const double _kCtaHeight = 56;
 const double _kCtaBottomPadding = 16;
 const double _kHorizontalPadding = 24;
@@ -178,19 +184,72 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         SizedBox(height: _kPhotoLabelBottom),
-        GestureDetector(
-          onTap: c.onTapAddPhoto,
-          child: Container(
-            width: _kPhotoCircleSize,
-            height: _kPhotoCircleSize,
-            decoration: BoxDecoration(
-              color: AppColors.lovedOnePhotoCircleBg,
-              shape: BoxShape.circle,
-              border: Border.all(color: AppColors.lovedOnePhotoCircleBorder, width: 1.5),
-              boxShadow: AppShadows.lovedOnePhotoCircle,
-            ),
+        SizedBox(
+          width: _kPhotoCircleSize,
+          height: _kPhotoCircleSize,
+          child: Stack(
             alignment: Alignment.center,
-            child: Icon(Icons.camera_alt_outlined, size: 36, color: AppColors.lovedOnePhotoIcon),
+            clipBehavior: Clip.none,
+            children: [
+              GestureDetector(
+                onTap: c.openPhotoSheet,
+                child: Container(
+                  width: _kPhotoCircleSize,
+                  height: _kPhotoCircleSize,
+                  decoration: BoxDecoration(
+                    color: AppColors.lovedOnePhotoCircleBg,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.lovedOnePhotoCircleBorder, width: 1.5),
+                    boxShadow: AppShadows.lovedOnePhotoCircle,
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  alignment: Alignment.center,
+                  child: Obx(() {
+                    final path = c.lovedOnePhotoPath.value;
+                    if (path.isNotEmpty) {
+                      return ClipOval(
+                        child: Image.file(
+                          File(path),
+                          fit: BoxFit.cover,
+                          width: _kPhotoCircleSize,
+                          height: _kPhotoCircleSize,
+                        ),
+                      );
+                    }
+                    return Icon(Icons.camera_alt_outlined, size: 36, color: AppColors.lovedOnePhotoIcon);
+                  }),
+                ),
+              ),
+              Positioned(
+                right: 6,
+                bottom: 6,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: c.openPhotoSheet,
+                    borderRadius: BorderRadius.circular(999),
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: AppColors.lovedOnePhotoCircleBg,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.lovedOnePhotoCircleBorder, width: 1),
+                        boxShadow: const [
+                          BoxShadow(
+                            offset: Offset(0, 2),
+                            blurRadius: 4,
+                            color: Color(0x1A000000),
+                          ),
+                        ],
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(Icons.edit_rounded, size: 16, color: AppColors.lovedOnePhotoLabel),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -396,23 +455,12 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
           SizedBox(height: _kSectionTitleBottom),
           LayoutBuilder(
             builder: (context, constraints) {
-              final cardInner = constraints.maxWidth;
-              final twoColWidth = (cardInner - _kTileGap) / 2;
-              return Obx(() => Wrap(
-                    spacing: _kTileGap,
-                    runSpacing: _kTileRunSpacing,
-                    children: category.options.map((opt) {
-                      final selected = c.selectedRelationshipKey.value == opt.key;
-                      return SizedBox(
-                        width: twoColWidth,
-                        child: _buildTile(
-                          context: context,
-                          option: opt,
-                          selected: selected,
-                          onTap: () => c.onSelectRelationship(opt.key),
-                        ),
-                      );
-                    }).toList(),
+              return Obx(() => _buildOptionsGrid(
+                    context: context,
+                    constraints: constraints,
+                    options: category.options,
+                    selectedKey: c.selectedRelationshipKey.value,
+                    onSelect: c.onSelectRelationship,
                   ));
             },
           ),
@@ -421,19 +469,60 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTile({
+  Widget _buildOptionsGrid({
+    required BuildContext context,
+    required BoxConstraints constraints,
+    required List<LovedOneRelationshipOption> options,
+    required String? selectedKey,
+    required void Function(String) onSelect,
+  }) {
+    final crossAxisCount = constraints.maxWidth < _kRelationshipGridBreakpoint ? 2 : 3;
+    final baseExtent = constraints.maxWidth < _kRelationshipGridBreakpoint
+        ? _kRelationshipTileExtentNarrow
+        : _kRelationshipTileExtentWide;
+    final t = MediaQuery.textScaleFactorOf(context).clamp(1.0, 1.25);
+    final extent = (baseExtent * t).ceilToDouble();
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: _kTileGap,
+        mainAxisSpacing: _kTileRunSpacing,
+        mainAxisExtent: extent,
+      ),
+      itemCount: options.length,
+      itemBuilder: (context, index) {
+        final opt = options[index];
+        final selected = selectedKey == opt.key;
+        return _RelationshipOptionTile(
+          context: context,
+          option: opt,
+          selected: selected,
+          onTap: () => onSelect(opt.key),
+        );
+      },
+    );
+  }
+
+  Widget _RelationshipOptionTile({
     required BuildContext context,
     required LovedOneRelationshipOption option,
     required bool selected,
     required VoidCallback onTap,
   }) {
+    final fontSize = valueByBreakpoint<double>(
+      context,
+      [12, 14, 14, 14, 14],
+    );
+    final labelStyle = AppTextStyles.lovedOneTileLabel.copyWith(fontSize: fontSize);
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(_kTileRadius),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: _kTilePaddingV, horizontal: _kTilePaddingH),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
           decoration: BoxDecoration(
             color: selected ? AppColors.lovedOneTileSelectedBg : AppColors.lovedOneTileBg,
             borderRadius: BorderRadius.circular(_kTileRadius),
@@ -443,19 +532,25 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
             ),
             boxShadow: selected ? AppShadows.lovedOneTileSelected : AppShadows.lovedOneTile,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Text(option.emoji, style: const TextStyle(fontSize: _kTileEmojiSize)),
-              SizedBox(width: _kTileEmojiLabelGap),
+              Text(
+                option.emoji,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: _kTileEmojiSize),
+              ),
+              const SizedBox(height: 6),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 2),
+                child: Center(
                   child: Text(
                     option.label,
-                    style: AppTextStyles.lovedOneTileLabel,
+                    textAlign: TextAlign.center,
+                    softWrap: true,
                     maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.visible,
+                    style: labelStyle,
                   ),
                 ),
               ),

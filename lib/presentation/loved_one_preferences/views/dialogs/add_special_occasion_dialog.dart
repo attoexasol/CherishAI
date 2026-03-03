@@ -18,68 +18,18 @@ const double _kFieldToButtonsGap = 24;
 const double _kButtonGap = 12;
 const double _kMaxDialogWidth = 400;
 
-/// Modal dialog: Add Special Occasion. Opens from SPECIAL OCCASIONS section.
-/// Submit calls controller.addSpecialOccasion(name, date) then closes.
-class AddSpecialOccasionDialog extends StatefulWidget {
+/// Modal dialog: Add Special Occasion. Uses controller's occasionNameController,
+/// selectedOccasionDate, addOccasion(), pickOccasionDate(context).
+class AddSpecialOccasionDialog extends StatelessWidget {
   const AddSpecialOccasionDialog({super.key});
 
-  @override
-  State<AddSpecialOccasionDialog> createState() => _AddSpecialOccasionDialogState();
-}
-
-class _AddSpecialOccasionDialogState extends State<AddSpecialOccasionDialog> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  DateTime? _selectedDate;
-  bool _canSubmit = false;
-
-  @override
-  void initState() {
-    super.initState();
-    void updateCanSubmit() {
-      final can = _nameController.text.trim().isNotEmpty && _dateController.text.trim().isNotEmpty;
-      if (can != _canSubmit) setState(() => _canSubmit = can);
-    }
-    _nameController.addListener(updateCanSubmit);
-    _dateController.addListener(updateCanSubmit);
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _dateController.dispose();
-    super.dispose();
-  }
-
-  void _onDateTap() async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (date != null) {
-      setState(() {
-        _selectedDate = date;
-        _dateController.text = '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year}';
-      });
-    }
-  }
-
-  void _submit() {
-    final name = _nameController.text.trim();
-    final dateStr = _dateController.text.trim();
-    if (name.isEmpty || dateStr.isEmpty) return;
-    Get.find<LovedOnePreferencesController>().addSpecialOccasion(name, dateStr);
-    Get.back();
-  }
-
-  void _cancel() {
-    Get.back();
+  static String _formatDate(DateTime d) {
+    return '${d.month.toString().padLeft(2, '0')}/${d.day.toString().padLeft(2, '0')}/${d.year}';
   }
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.find<LovedOnePreferencesController>();
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24),
@@ -103,7 +53,7 @@ class _AddSpecialOccasionDialogState extends State<AddSpecialOccasionDialog> {
                 ),
                 const SizedBox(height: _kTitleToFieldGap),
                 TextField(
-                  controller: _nameController,
+                  controller: c.occasionNameController,
                   style: AppTextStyles.prefsDialogInput,
                   decoration: InputDecoration(
                     hintText: 'e.g., Birthday, Anniversary, Wedding',
@@ -127,58 +77,52 @@ class _AddSpecialOccasionDialogState extends State<AddSpecialOccasionDialog> {
                 ),
                 const SizedBox(height: _kFieldGap),
                 GestureDetector(
-                  onTap: _onDateTap,
-                  child: AbsorbPointer(
-                    child: TextField(
-                      controller: _dateController,
-                      style: AppTextStyles.prefsDialogInput,
-                      decoration: InputDecoration(
-                        hintText: 'mm/dd/yyyy',
-                        hintStyle: AppTextStyles.prefsDialogInputPlaceholder,
-                        filled: true,
-                        fillColor: AppColors.prefsDialogBg,
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 12),
-                          child: Icon(Icons.calendar_today_outlined, size: 20, color: AppColors.prefsDialogPlaceholder),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(_kInputRadius),
-                          borderSide: const BorderSide(color: AppColors.prefsDialogInputBorder),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(_kInputRadius),
-                          borderSide: const BorderSide(color: AppColors.prefsDialogInputBorder),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(_kInputRadius),
-                          borderSide: const BorderSide(color: AppColors.prefsAddButtonBorder, width: 1.5),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  onTap: () => c.pickOccasionDate(context),
+                  child: Obx(() {
+                    final date = c.selectedOccasionDate.value;
+                    final text = date != null ? _formatDate(date) : '';
+                    return Container(
+                      height: 48,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      decoration: BoxDecoration(
+                        color: AppColors.prefsDialogBg,
+                        borderRadius: BorderRadius.circular(_kInputRadius),
+                        border: Border.all(color: AppColors.prefsDialogInputBorder),
                       ),
-                    ),
-                  ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              text.isEmpty ? 'mm/dd/yyyy' : text,
+                              style: text.isEmpty
+                                  ? AppTextStyles.prefsDialogInputPlaceholder
+                                  : AppTextStyles.prefsDialogInput,
+                            ),
+                          ),
+                          Icon(Icons.calendar_today_outlined, size: 20, color: AppColors.prefsDialogPlaceholder),
+                        ],
+                      ),
+                    );
+                  }),
                 ),
                 const SizedBox(height: _kFieldToButtonsGap),
                 Row(
                   children: [
                     Expanded(
-                      child: Opacity(
-                        opacity: _canSubmit ? 1 : 0.5,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: _canSubmit ? _submit : null,
-                            borderRadius: BorderRadius.circular(_kButtonRadius),
-                            child: Container(
-                              height: _kButtonHeight,
-                              decoration: BoxDecoration(
-                                gradient: AppGradients.prefsCta,
-                                borderRadius: BorderRadius.circular(_kButtonRadius),
-                                boxShadow: AppShadows.prefsCta,
-                              ),
-                              alignment: Alignment.center,
-                              child: Text('Add Occasion', style: AppTextStyles.prefsDialogPrimaryBtn),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => c.addOccasion(),
+                          borderRadius: BorderRadius.circular(_kButtonRadius),
+                          child: Container(
+                            height: _kButtonHeight,
+                            decoration: BoxDecoration(
+                              gradient: AppGradients.prefsCta,
+                              borderRadius: BorderRadius.circular(_kButtonRadius),
+                              boxShadow: AppShadows.prefsCta,
                             ),
+                            alignment: Alignment.center,
+                            child: Text('Add Occasion', style: AppTextStyles.prefsDialogPrimaryBtn),
                           ),
                         ),
                       ),
@@ -187,7 +131,7 @@ class _AddSpecialOccasionDialogState extends State<AddSpecialOccasionDialog> {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: _cancel,
+                        onTap: () => Get.back(),
                         borderRadius: BorderRadius.circular(_kButtonRadius),
                         child: Container(
                           height: _kButtonHeight,

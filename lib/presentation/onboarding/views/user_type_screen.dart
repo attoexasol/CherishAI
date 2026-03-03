@@ -21,7 +21,8 @@ const double _kCardPadding = 32;
 const double _kCardTitleBottom = 24;
 const double _kIllustrationMaxSize = 260;
 const double _kIllustrationRadius = 24;
-const double _kDescBottom = 32;
+const double _kCardDescToCheckGap = 8;
+const double _kCardBottomPaddingTight = 12;
 const double _kCheckSize = 56;
 const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 1024;
@@ -121,7 +122,12 @@ class UserTypeScreen extends StatelessWidget {
             style: AppTextStyles.userTypeTitle,
             children: [
               const TextSpan(text: 'How would you like to use '),
-              TextSpan(text: 'CherishAI', style: AppTextStyles.userTypeTitleAccent),
+              TextSpan(
+                text: 'CherishAI',
+                style: AppTextStyles.userTypeTitle.copyWith(
+                  color: AppColors.userTypeTitle,
+                ),
+              ),
               const TextSpan(text: '?'),
             ],
           ),
@@ -227,7 +233,12 @@ class _UserTypeCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(_kCardRadius),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          padding: const EdgeInsets.all(_kCardPadding),
+          padding: EdgeInsets.fromLTRB(
+            _kCardPadding,
+            _kCardPadding,
+            _kCardPadding,
+            _kCardBottomPaddingTight,
+          ),
           decoration: BoxDecoration(
             color: AppColors.userTypeCardBg,
             borderRadius: BorderRadius.circular(_kCardRadius),
@@ -235,6 +246,7 @@ class _UserTypeCard extends StatelessWidget {
             boxShadow: shadows,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(title, style: AppTextStyles.userTypeCardTitle, textAlign: TextAlign.center),
               const SizedBox(height: _kCardTitleBottom),
@@ -272,7 +284,7 @@ class _UserTypeCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: _kDescBottom),
+              const SizedBox(height: _kCardDescToCheckGap),
               AnimatedScale(
                 scale: isSelected ? 1 : 0,
                 duration: const Duration(milliseconds: 300),

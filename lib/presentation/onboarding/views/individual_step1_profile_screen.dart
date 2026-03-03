@@ -7,6 +7,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_shadows.dart';
+import '../../../core/constants/countries.dart';
 import '../controllers/individual_step1_profile_controller.dart';
 
 const double _kBackBtnSize = 48;
@@ -430,28 +431,77 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: _kLabelBottom),
+          Text('Country *', style: AppTextStyles.profileStep1CardTitle.copyWith(color: AppColors.profileStep1CardLabel, fontSize: 14)),
+          const SizedBox(height: 6),
           Obx(() => _buildDropdown<String>(
             value: c.selectedCountry.value.isEmpty ? null : c.selectedCountry.value,
             hint: 'Select your country',
-            items: IndividualStep1ProfileController.countryOptions,
+            items: kCountries,
             onChanged: c.onSelectCountry,
+            showError: c.countryError.value,
           )),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _buildInput(controller: c.city, hint: 'Your city'),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildInput(controller: c.postalCode, hint: 'Postal code'),
-              ),
-            ],
-          ),
+          Obx(() {
+            final cityErr = c.cityError.value;
+            final postalErr = c.postalCodeError.value;
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                final isNarrow = constraints.maxWidth < 360;
+                if (isNarrow) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text('City *', style: AppTextStyles.profileStep1CardTitle.copyWith(color: AppColors.profileStep1CardLabel, fontSize: 14)),
+                    const SizedBox(height: 6),
+                    _buildInput(controller: c.city, hint: 'Your city', showError: cityErr),
+                    const SizedBox(height: 12),
+                    Text('Postal Code *', style: AppTextStyles.profileStep1CardTitle.copyWith(color: AppColors.profileStep1CardLabel, fontSize: 14)),
+                    const SizedBox(height: 6),
+                    _buildInput(controller: c.postalCode, hint: 'Postal code', showError: postalErr),
+                  ],
+                );
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('City *', style: AppTextStyles.profileStep1CardTitle.copyWith(color: AppColors.profileStep1CardLabel, fontSize: 14)),
+                            const SizedBox(height: 6),
+                            _buildInput(controller: c.city, hint: 'Your city', showError: cityErr),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Postal Code *', style: AppTextStyles.profileStep1CardTitle.copyWith(color: AppColors.profileStep1CardLabel, fontSize: 14)),
+                            const SizedBox(height: 6),
+                            _buildInput(controller: c.postalCode, hint: 'Postal code', showError: postalErr),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+              },
+            );
+          }),
           const SizedBox(height: 12),
+          Text('State / Region (Optional)', style: AppTextStyles.profileStep1CardTitle.copyWith(color: AppColors.profileStep1CardLabel, fontSize: 14)),
+          const SizedBox(height: 6),
           _buildInput(controller: c.stateRegion, hint: 'State, province, or region'),
           const SizedBox(height: 12),
-          _buildInput(controller: c.street, hint: 'Street address (optional)'),
+          Text('Street Address (Optional)', style: AppTextStyles.profileStep1CardTitle.copyWith(color: AppColors.profileStep1CardLabel, fontSize: 14)),
+          const SizedBox(height: 6),
+          _buildInput(controller: c.street, hint: '123 Main Street, Apt 4B'),
           SizedBox(height: _kHelperTop),
           Text(
             'Your location helps Cherish AI suggest thoughtful gifts and services nearby. No need to share street number or building details.',
@@ -505,7 +555,8 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInput({required TextEditingController controller, required String hint}) {
+  Widget _buildInput({required TextEditingController controller, required String hint, bool showError = false}) {
+    final borderColor = showError ? AppColors.profileStep1RequiredAsterisk : AppColors.profileStep1InputBorder;
     return SizedBox(
       height: _kInputHeight,
       child: TextField(
@@ -518,11 +569,15 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
           fillColor: AppColors.profileStep1InputBg,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(_kInputRadius),
-            borderSide: const BorderSide(color: AppColors.profileStep1InputBorder),
+            borderSide: BorderSide(color: borderColor),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(_kInputRadius),
-            borderSide: const BorderSide(color: AppColors.profileStep1InputBorder),
+            borderSide: BorderSide(color: borderColor),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(_kInputRadius),
+            borderSide: const BorderSide(color: AppColors.profileStep1RequiredAsterisk),
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         ),
@@ -535,7 +590,9 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
     required String hint,
     required List<T> items,
     required void Function(T) onChanged,
+    bool showError = false,
   }) {
+    final borderColor = showError ? AppColors.profileStep1RequiredAsterisk : AppColors.profileStep1InputBorder;
     return SizedBox(
       height: _kInputHeight,
       child: DropdownButtonFormField<T>(
@@ -547,15 +604,19 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
           fillColor: AppColors.profileStep1InputBg,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(_kInputRadius),
-            borderSide: const BorderSide(color: AppColors.profileStep1InputBorder),
+            borderSide: BorderSide(color: borderColor),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(_kInputRadius),
-            borderSide: const BorderSide(color: AppColors.profileStep1InputBorder),
+            borderSide: BorderSide(color: borderColor),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(_kInputRadius),
+            borderSide: const BorderSide(color: AppColors.profileStep1RequiredAsterisk),
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
-        items: items.map((e) => DropdownMenuItem<T>(value: e, child: Text('$e', style: AppTextStyles.profileStep1Input))).toList(),
+        items: items.map((e) => DropdownMenuItem<T>(value: e, child: Text('$e', style: AppTextStyles.profileStep1Input, maxLines: 1, overflow: TextOverflow.ellipsis))).toList(),
         onChanged: (v) => v != null ? onChanged(v) : null,
       ),
     );

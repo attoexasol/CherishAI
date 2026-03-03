@@ -13,6 +13,9 @@ class PersonalNoteController extends GetxController {
   final RxBool canContinue = false.obs;
   final RxBool isSubmitting = false.obs;
 
+  /// Expand/collapse "See more examples" list inside the card.
+  final RxBool showExamples = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -40,8 +43,15 @@ class PersonalNoteController extends GetxController {
     Get.toNamed(AppRoutes.individualUserInfo);
   }
 
-  void onSeeMoreExamples() {
-    // Hook to existing modal/expand. No new flow.
+  void toggleSeeMoreExamples() {
+    showExamples.toggle();
+  }
+
+  /// Fill textarea with [text], then collapse examples.
+  void applyExample(String text) {
+    noteController.text = text;
+    _updateFromNote();
+    showExamples.value = false;
   }
 
   void onContinue() {
