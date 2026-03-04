@@ -1,4 +1,6 @@
 // lib/presentation/edit_loved_one/views/edit_loved_one_screen.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/theme/app_colors.dart';
@@ -47,6 +49,16 @@ class EditLovedOneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!Get.isRegistered<EditLovedOneController>()) {
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(gradient: AppGradients.editLovedOnePageBg),
+          child: const SafeArea(
+            child: Center(child: CircularProgressIndicator()),
+          ),
+        ),
+      );
+    }
     final c = Get.find<EditLovedOneController>();
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
     final paddingH = MediaQuery.sizeOf(context).width < Breakpoints.sm ? 16.0 : _kPaddingH;
@@ -56,18 +68,26 @@ class EditLovedOneScreen extends StatelessWidget {
           gradient: AppGradients.editLovedOnePageBg,
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(context, c, paddingH),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    left: paddingH,
-                    right: paddingH,
-                    top: _kPaddingTop,
-                    bottom: _kBottomSavePadding + bottomPadding,
-                  ),
-                  child: Center(
+          child: Obx(() {
+            if (c.isLoading.value) {
+              return _buildLoading(context);
+            }
+            if (c.errorMessage.value.isNotEmpty) {
+              return _buildError(context, c);
+            }
+            return SingleChildScrollView(
+              padding: EdgeInsets.only(
+                left: paddingH,
+                right: paddingH,
+                top: 0,
+                bottom: _kBottomSavePadding + bottomPadding,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildHeader(context, c, paddingH),
+                  SizedBox(height: _kPaddingTop),
+                  Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
                       child: Column(
@@ -92,10 +112,48 @@ class EditLovedOneScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoading(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(gradient: AppGradients.editLovedOnePageBg),
+      child: const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget _buildError(BuildContext context, EditLovedOneController c) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: _kPaddingH),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 48, color: AppColors.editLovedOneSectionIcon),
+            const SizedBox(height: 16),
+            Text(
+              c.errorMessage.value,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.editLovedOneLabel,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 24),
+            TextButton.icon(
+              onPressed: c.onBack,
+              icon: const Icon(Icons.arrow_back),
+              label: const Text('Go back'),
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.editLovedOneSectionIcon,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -103,7 +161,7 @@ class EditLovedOneScreen extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context, EditLovedOneController c, double paddingH) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: _kHeaderPaddingV),
+      padding: const EdgeInsets.only(top: _kHeaderPaddingV, bottom: _kHeaderPaddingV),
       decoration: BoxDecoration(
         color: AppColors.editLovedOneHeaderBg,
         border: Border(bottom: BorderSide(color: AppColors.editLovedOneHeaderBorder, width: 1)),
@@ -169,9 +227,51 @@ class EditLovedOneScreen extends StatelessWidget {
     );
   }
 
+  void _showPhotoBottomSheet(BuildContext context, EditLovedOneController c) {
+    Get.bottomSheet(
+      Container(
+        color: AppColors.editLovedOneCardBg,
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: AppColors.profileStep1PhotoCircleInner,
+                  child: Icon(Icons.camera_alt_outlined, color: AppColors.profileStep1PhotoIcon),
+                ),
+                title: Text('Take Photo', style: AppTextStyles.editLovedOneInput),
+                onTap: () {
+                  Get.back();
+                  c.pickFromCamera();
+                },
+              ),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: AppColors.profileStep1PhotoCircleInner,
+                  child: Icon(Icons.photo_library_outlined, color: AppColors.profileStep1PhotoIcon),
+                ),
+                title: Text('Choose from Gallery', style: AppTextStyles.editLovedOneInput),
+                onTap: () {
+                  Get.back();
+                  c.pickFromGallery();
+                },
+              ),
+              ListTile(
+                title: Text('Cancel', style: AppTextStyles.editLovedOneInput),
+                onTap: () => Get.back(),
+              ),
+            ],
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
+
   Widget _buildPhotoCard(BuildContext context, EditLovedOneController c) {
     return GestureDetector(
-      onTap: c.onChangePhoto,
+      onTap: () => _showPhotoBottomSheet(context, c),
       child: Container(
         padding: const EdgeInsets.all(_kCardPadding * 1.33),
         decoration: BoxDecoration(
@@ -185,31 +285,55 @@ class EditLovedOneScreen extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Container(
-                  width: _kAvatarSize,
-                  height: _kAvatarSize,
-                  decoration: BoxDecoration(
-                    gradient: AppGradients.lovedOnesAvatarBg,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.lovedOnesAvatarRing, width: 4),
-                    boxShadow: AppShadows.editLovedOnePhotoCard,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text('💑', style: TextStyle(fontSize: 48)),
-                ),
+                Obx(() {
+                  if (c.hasLocalPhoto) {
+                    try {
+                      final f = File(c.photoPath.value);
+                      if (f.existsSync()) {
+                        return Container(
+                          width: _kAvatarSize,
+                          height: _kAvatarSize,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: AppColors.lovedOnesAvatarRing, width: 4),
+                            boxShadow: AppShadows.editLovedOnePhotoCard,
+                          ),
+                          child: ClipOval(
+                            child: Image.file(f, fit: BoxFit.cover, width: _kAvatarSize, height: _kAvatarSize),
+                          ),
+                        );
+                      }
+                    } catch (_) {}
+                  }
+                  return Container(
+                    width: _kAvatarSize,
+                    height: _kAvatarSize,
+                    decoration: BoxDecoration(
+                      gradient: AppGradients.lovedOnesAvatarBg,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.lovedOnesAvatarRing, width: 4),
+                      boxShadow: AppShadows.editLovedOnePhotoCard,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text('💑', style: TextStyle(fontSize: 48)),
+                  );
+                }),
                 Positioned(
                   right: 0,
                   bottom: 0,
-                  child: Container(
-                    width: _kCameraBadgeSize,
-                    height: _kCameraBadgeSize,
-                    decoration: BoxDecoration(
-                      gradient: AppGradients.editLovedOneCameraBadge,
-                      shape: BoxShape.circle,
-                      boxShadow: AppShadows.editLovedOneCard,
+                  child: GestureDetector(
+                    onTap: () => _showPhotoBottomSheet(context, c),
+                    child: Container(
+                      width: _kCameraBadgeSize,
+                      height: _kCameraBadgeSize,
+                      decoration: BoxDecoration(
+                        gradient: AppGradients.editLovedOneCameraBadge,
+                        shape: BoxShape.circle,
+                        boxShadow: AppShadows.editLovedOneCard,
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(Icons.camera_alt, size: 20, color: Colors.white),
                     ),
-                    alignment: Alignment.center,
-                    child: Icon(Icons.camera_alt, size: 20, color: Colors.white),
                   ),
                 ),
               ],
@@ -230,7 +354,7 @@ class EditLovedOneScreen extends StatelessWidget {
           children: [
             Icon(Icons.favorite, size: _kSectionIconSize, color: AppColors.editLovedOneSectionIcon),
             const SizedBox(width: 8),
-            Text('Basic Information', style: AppTextStyles.editLovedOneSectionHeader),
+            Expanded(child: Text('Basic Information', style: AppTextStyles.editLovedOneSectionHeader, maxLines: 2, overflow: TextOverflow.ellipsis)),
           ],
         ),
         const SizedBox(height: 16),
@@ -357,6 +481,27 @@ class EditLovedOneScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {},
+                    borderRadius: BorderRadius.circular(4),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(
+                        'See more examples',
+                        style: AppTextStyles.editLovedOnePersonalNoteHint.copyWith(
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.editLovedOneSectionIcon,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -471,7 +616,7 @@ class EditLovedOneScreen extends StatelessWidget {
           children: [
             Icon(Icons.calendar_today, size: _kSectionIconSize, color: AppColors.editLovedOneSectionIcon),
             const SizedBox(width: 8),
-            Text('Important Dates', style: AppTextStyles.editLovedOneSectionHeader),
+            Expanded(child: Text('Important Dates', style: AppTextStyles.editLovedOneSectionHeader, maxLines: 2, overflow: TextOverflow.ellipsis)),
           ],
         ),
         const SizedBox(height: 16),
@@ -543,6 +688,7 @@ class EditLovedOneScreen extends StatelessWidget {
             AbsorbPointer(
               child: TextField(
                 controller: controller,
+                readOnly: true,
                 style: AppTextStyles.editLovedOneInput,
                 decoration: InputDecoration(
                   suffixIcon: Icon(Icons.calendar_today, size: 20, color: AppColors.editLovedOneSectionIcon),
@@ -577,9 +723,10 @@ class EditLovedOneScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('✨ Custom Date $index', style: AppTextStyles.editLovedOneLabel),
+              Expanded(
+                child: Text('✨ Custom Date $index', style: AppTextStyles.editLovedOneLabel, maxLines: 2, overflow: TextOverflow.ellipsis),
+              ),
               IconButton(
                 onPressed: () => c.onRemoveCustomDate(id),
                 icon: Icon(Icons.close, size: 20, color: AppColors.editLovedOneSectionIcon),
@@ -611,21 +758,26 @@ class EditLovedOneScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Text('Date', style: AppTextStyles.editLovedOneCustomDislikeLabel),
           const SizedBox(height: 4),
-          TextFormField(
-            key: ValueKey('$id-date'),
-            initialValue: e.date,
-            onChanged: (v) => c.onUpdateCustomDate(id, 'date', v),
-            decoration: InputDecoration(
-              hintText: 'YYYY-MM-DD',
-              hintStyle: AppTextStyles.editLovedOneInputPlaceholder,
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(_kInputRadius)),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(_kInputRadius),
-                borderSide: BorderSide(color: AppColors.editLovedOneInputBorder),
+          GestureDetector(
+            onTap: () => c.onPickCustomDate(id),
+            child: InputDecorator(
+              decoration: InputDecoration(
+                hintText: 'YYYY-MM-DD',
+                hintStyle: AppTextStyles.editLovedOneInputPlaceholder,
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(_kInputRadius)),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(_kInputRadius),
+                  borderSide: BorderSide(color: AppColors.editLovedOneInputBorder),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                suffixIcon: Icon(Icons.calendar_today, size: 20, color: AppColors.editLovedOneSectionIcon),
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Text(
+                e.date.isEmpty ? '' : e.date,
+                style: e.date.isEmpty ? AppTextStyles.editLovedOneInputPlaceholder : AppTextStyles.editLovedOneInput,
+              ),
             ),
           ),
         ],
@@ -676,7 +828,7 @@ class EditLovedOneScreen extends StatelessWidget {
           children: [
             Icon(Icons.phone, size: _kSectionIconSize, color: AppColors.editLovedOneSectionIcon),
             const SizedBox(width: 8),
-            Text('Contact Information', style: AppTextStyles.editLovedOneSectionHeader),
+            Expanded(child: Text('Contact Information', style: AppTextStyles.editLovedOneSectionHeader, maxLines: 2, overflow: TextOverflow.ellipsis)),
           ],
         ),
         const SizedBox(height: 16),
@@ -695,7 +847,7 @@ class EditLovedOneScreen extends StatelessWidget {
           children: [
             Icon(Icons.flag_outlined, size: _kSectionIconSize, color: AppColors.editLovedOneSectionIcon),
             const SizedBox(width: 8),
-            Text('Relationship Goals', style: AppTextStyles.editLovedOneSectionHeader),
+            Expanded(child: Text('Relationship Goals', style: AppTextStyles.editLovedOneSectionHeader, maxLines: 2, overflow: TextOverflow.ellipsis)),
           ],
         ),
         const SizedBox(height: 16),
@@ -724,25 +876,71 @@ class EditLovedOneScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              Obx(() => DropdownButtonFormField<String>(
-                value: c.primaryGoalKey.value.isEmpty ? null : c.primaryGoalKey.value,
-                isExpanded: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(_kInputRadius)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(_kInputRadius),
-                    borderSide: BorderSide(color: AppColors.editLovedOneInputBorder),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-                items: [
-                  DropdownMenuItem(value: null, child: Text('Select your primary goal', style: AppTextStyles.editLovedOneInputPlaceholder, overflow: TextOverflow.ellipsis)),
-                  ...c.primaryGoalOptions.map((g) => DropdownMenuItem(value: g.key, child: Text(g.title, overflow: TextOverflow.ellipsis))),
-                ],
-                onChanged: (v) => c.onSelectPrimaryGoal(v ?? ''),
-              )),
+              MediaQuery.withNoTextScaling(
+                child: Obx(() {
+                  final dropdownStyle = AppTextStyles.editLovedOneDropdownItem.copyWith(fontSize: 14, height: 1.2);
+                  return DropdownButtonFormField<String>(
+                    value: c.primaryGoalKey.value.isEmpty ? null : c.primaryGoalKey.value,
+                    isExpanded: true,
+                    style: dropdownStyle,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(_kInputRadius)),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(_kInputRadius),
+                        borderSide: BorderSide(color: AppColors.editLovedOneInputBorder),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    ),
+                    selectedItemBuilder: (context) => [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Select your primary goal',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: dropdownStyle,
+                        ),
+                      ),
+                      ...c.primaryGoalOptions.map(
+                        (g) => Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            g.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: dropdownStyle,
+                          ),
+                        ),
+                      ),
+                    ],
+                    items: [
+                      DropdownMenuItem(
+                        value: null,
+                        child: Text(
+                          'Select your primary goal',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.editLovedOneInputPlaceholder.copyWith(fontSize: 14),
+                        ),
+                      ),
+                      ...c.primaryGoalOptions.map(
+                        (g) => DropdownMenuItem(
+                          value: g.key,
+                          child: Text(
+                            g.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: dropdownStyle,
+                          ),
+                        ),
+                      ),
+                    ],
+                    onChanged: (v) => c.onSelectPrimaryGoal(v ?? ''),
+                  );
+                }),
+              ),
               Obx(() {
                 if (c.primaryGoalKey.value.isEmpty) return const SizedBox.shrink();
                 RelationshipGoalOption? found;
@@ -771,15 +969,21 @@ class EditLovedOneScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text.rich(
-                    TextSpan(
-                      text: '✨ Secondary Goals ',
-                      style: AppTextStyles.editLovedOneLabel,
-                      children: [TextSpan(text: '(Choose up to 3)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
+                  Expanded(
+                    child: MediaQuery.withNoTextScaling(
+                      child: Text.rich(
+                        TextSpan(
+                          text: '✨ Secondary Goals ',
+                          style: AppTextStyles.editLovedOneLabel,
+                          children: [TextSpan(text: '(Choose up to 3)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Obx(() => Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
@@ -832,12 +1036,15 @@ class EditLovedOneScreen extends StatelessWidget {
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       goal.label,
                                       style: isSelected ? AppTextStyles.editLovedOneSecondaryRowTitleSelected : AppTextStyles.editLovedOneSecondaryRowTitle,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    Text(goal.categoryTitle, style: AppTextStyles.editLovedOneSecondaryRowCategory),
+                                    Text(goal.categoryTitle, style: AppTextStyles.editLovedOneSecondaryRowCategory, maxLines: 1, overflow: TextOverflow.ellipsis),
                                   ],
                                 ),
                               ),
@@ -870,13 +1077,15 @@ class EditLovedOneScreen extends StatelessWidget {
           children: [
             Icon(Icons.auto_awesome, size: _kSectionIconSize, color: AppColors.editLovedOneSectionIcon),
             const SizedBox(width: 8),
-            Text('Hobbies & Preferences', style: AppTextStyles.editLovedOneSectionHeader),
+            Expanded(child: Text('Hobbies & Preferences', style: AppTextStyles.editLovedOneSectionHeader, maxLines: 2, overflow: TextOverflow.ellipsis)),
           ],
         ),
         const SizedBox(height: 8),
         Text(
           'Select hobbies, interests, and dislikes directly on this page - all changes save automatically when you click Save',
           style: AppTextStyles.editLovedOneInfoCardBody,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 16),
         Container(
@@ -901,7 +1110,8 @@ class EditLovedOneScreen extends StatelessWidget {
                         style: AppTextStyles.editLovedOneLabel,
                         children: [TextSpan(text: '(Select up to 8 total, 1 per category)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
                       ),
-                      softWrap: true,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -953,6 +1163,8 @@ class EditLovedOneScreen extends StatelessWidget {
                                   child: Text(
                                     chip.label,
                                     style: isSelected ? AppTextStyles.editLovedOneChipSelected : AppTextStyles.editLovedOneChip,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               );
@@ -979,7 +1191,7 @@ class EditLovedOneScreen extends StatelessWidget {
           children: [
             Icon(Icons.block, size: _kSectionIconSize, color: AppColors.editLovedOneDislikesSectionIcon),
             const SizedBox(width: 8),
-            Text('Dislikes', style: AppTextStyles.editLovedOneSectionHeader),
+            Expanded(child: Text('Dislikes', style: AppTextStyles.editLovedOneSectionHeader, maxLines: 2, overflow: TextOverflow.ellipsis)),
           ],
         ),
         const SizedBox(height: 16),
@@ -995,15 +1207,21 @@ class EditLovedOneScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text.rich(
-                    TextSpan(
-                      text: 'Dislikes ',
-                      style: AppTextStyles.editLovedOneLabel,
-                      children: [TextSpan(text: '(Select up to 4 + 2 custom)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
+                  Expanded(
+                    child: MediaQuery.withNoTextScaling(
+                      child: Text.rich(
+                        TextSpan(
+                          text: 'Dislikes ',
+                          style: AppTextStyles.editLovedOneLabel,
+                          children: [TextSpan(text: '(Select up to 4 + 2 custom)', style: AppTextStyles.editLovedOneSecondaryRowCategory)],
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Obx(() => Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
@@ -1037,7 +1255,9 @@ class EditLovedOneScreen extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(item, style: AppTextStyles.editLovedOneChip),
+                                Flexible(
+                                  child: Text(item, style: AppTextStyles.editLovedOneChip, maxLines: 2, overflow: TextOverflow.ellipsis),
+                                ),
                                 const SizedBox(width: 4),
                                 GestureDetector(
                                   onTap: () => c.onRemoveCustomDislike(item),
@@ -1089,6 +1309,8 @@ class EditLovedOneScreen extends StatelessWidget {
                                   child: Text(
                                     item.label,
                                     style: isSelected ? AppTextStyles.editLovedOneChipSelected : AppTextStyles.editLovedOneChip,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               );
@@ -1147,7 +1369,7 @@ class EditLovedOneScreen extends StatelessWidget {
 
   Widget _buildBottomSave(BuildContext context, EditLovedOneController c, double bottomPadding) {
     return Container(
-      padding: EdgeInsets.only(left: _kPaddingH, right: _kPaddingH, top: 24, bottom: 24 + bottomPadding),
+      padding: EdgeInsets.only(top: 24, bottom: 24 + bottomPadding),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,

@@ -115,13 +115,7 @@ class YourApproachScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              'Your approach with ${c.lovedOneName.toLowerCase()}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF1F2937)),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: const SizedBox.shrink(),
           ),
           const SizedBox(width: _kSpacerSize, height: _kSpacerSize),
         ],

@@ -147,12 +147,20 @@ class AllUpcomingEventsScreen extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('All Upcoming Events', style: AppTextStyles.eventsTitle.copyWith(fontSize: 30)),
+                    Text(
+                      'All Upcoming Events',
+                      style: AppTextStyles.eventsTitle.copyWith(fontSize: 30),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     SizedBox(height: _kHeaderIconRowMb),
                     Text(
                       '${AllUpcomingEventsController.allEvents.length} special occasions to celebrate',
                       style: AppTextStyles.eventsSubtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -167,29 +175,42 @@ class AllUpcomingEventsScreen extends StatelessWidget {
   static const Color _kBorderRose200 = Color(0x80FECDD3);
 
   Widget _buildSortToggle(BuildContext context, AllUpcomingEventsController c, String sortBy) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Sort by:', style: AppTextStyles.eventsSortLabel.copyWith(fontSize: 14)),
-        SizedBox(width: _kSortGap),
-        Container(
-          padding: const EdgeInsets.all(_kTogglePadding),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.8),
-            borderRadius: BorderRadius.circular(_kToggleRadius),
-            border: Border.all(color: _kBorderPink200, width: 2),
-            boxShadow: AppShadows.eventsCard,
+    return MediaQuery.withNoTextScaling(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('Sort by:', style: AppTextStyles.eventsSortLabel.copyWith(fontSize: 14)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: IntrinsicWidth(
+                  child: Container(
+                    padding: const EdgeInsets.all(_kTogglePadding),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      borderRadius: BorderRadius.circular(_kToggleRadius),
+                      border: Border.all(color: _kBorderPink200, width: 2),
+                      boxShadow: AppShadows.eventsCard,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _sortButton(c, 'date', 'By Date', sortBy),
+                        const SizedBox(width: 8),
+                        _sortButton(c, 'loved_one', 'By Loved One', sortBy),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _sortButton(c, 'date', 'By Date', sortBy),
-              const SizedBox(width: 8),
-              _sortButton(c, 'loved_one', 'By Loved One', sortBy),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -218,6 +239,8 @@ class AllUpcomingEventsScreen extends StatelessWidget {
           child: Text(
             label,
             style: isActive ? AppTextStyles.eventsSortSelected : AppTextStyles.eventsSortUnselected,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),
@@ -245,6 +268,8 @@ class AllUpcomingEventsScreen extends StatelessWidget {
             'Stay prepared: Cherish AI will remind you about upcoming events and help you find the perfect gift for each occasion',
             style: AppTextStyles.eventsStayPrepared,
             textAlign: TextAlign.center,
+            maxLines: 5,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

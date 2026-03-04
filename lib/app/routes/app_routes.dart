@@ -35,6 +35,7 @@ import '../../presentation/profile/views/profile_screen.dart';
 import '../../presentation/search/views/search_screen.dart';
 import '../../presentation/loved_ones/views/loved_ones_screen.dart';
 import '../../presentation/edit_loved_one/views/edit_loved_one_screen.dart';
+import '../../presentation/edit_loved_one/bindings/edit_loved_one_binding.dart';
 import '../../presentation/loved_one_details/views/loved_one_details_screen.dart';
 import '../../presentation/your_approach/views/your_approach_screen.dart';
 import '../bindings/initial_binding.dart';
@@ -200,7 +201,7 @@ abstract class AppRoutes {
         GetPage(
           name: editLovedOne,
           page: () => const EditLovedOneScreen(),
-          binding: InitialBinding(),
+          binding: EditLovedOneBinding(),
         ),
         GetPage(
           name: allUpcomingEvents,

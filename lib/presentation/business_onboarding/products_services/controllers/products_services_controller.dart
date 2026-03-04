@@ -2,13 +2,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../app/routes/app_routes.dart';
+import '../models/business_location_model.dart';
 import '../models/product_service_model.dart';
 import '../views/add_product_service_dialog.dart';
+import '../widgets/add_business_location_dialog.dart';
+import 'add_business_location_controller.dart';
 
 class ProductsServicesController extends GetxController {
   final RxInt usedCount = 0.obs;
   final int maxCount = 15;
   final RxList<ProductServiceModel> items = <ProductServiceModel>[].obs;
+
+  /// Locations added via "Add Business Location" dialog (for chip preview).
+  final RxList<BusinessLocationModel> locationsAdded = <BusinessLocationModel>[].obs;
 
   @override
   void onInit() {
@@ -21,6 +27,25 @@ class ProductsServicesController extends GetxController {
   }
 
   void onBack() => Get.back();
+
+  Future<BusinessLocationModel?> openAddBusinessLocationDialog() async {
+    Get.put(AddBusinessLocationController());
+    try {
+      final result = await Get.dialog<BusinessLocationModel>(
+        const AddBusinessLocationDialog(),
+        barrierDismissible: true,
+        barrierColor: const Color(0x66000000),
+      );
+      if (result != null) {
+        locationsAdded.add(result);
+      }
+      return result;
+    } finally {
+      if (Get.isRegistered<AddBusinessLocationController>()) {
+        Get.delete<AddBusinessLocationController>();
+      }
+    }
+  }
 
   List<Map<String, String>> get locations => [
         {'id': 'main', 'label': 'Main Location'},

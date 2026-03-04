@@ -7,6 +7,7 @@ import '../../../../app/theme/app_text_styles.dart';
 import '../../../../app/theme/app_gradients.dart';
 import '../../../../app/theme/app_shadows.dart';
 import '../controllers/products_services_controller.dart';
+import '../models/business_location_model.dart';
 import '../models/product_service_model.dart';
 
 const double _kPaddingH = 24;
@@ -61,6 +62,9 @@ class ProductsServicesScreen extends StatelessWidget {
                           _buildProductList(c),
                           const SizedBox(height: 16),
                           _buildAddCard(c),
+                          const SizedBox(height: 14),
+                          _buildAddBusinessLocationButton(c),
+                          _buildLocationChips(c),
                         ],
                       ),
                     ),
@@ -158,6 +162,68 @@ class ProductsServicesScreen extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      );
+    });
+  }
+
+  static const double _kAddLocationRadius = 17;
+  static const double _kAddLocationPaddingV = 14;
+  static const double _kAddLocationPaddingH = 24;
+  static const Color _kAddLocationBorderPurple = Color(0xFF8B7CFF);
+
+  Widget _buildAddBusinessLocationButton(ProductsServicesController c) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () async {
+          await c.openAddBusinessLocationDialog();
+        },
+        borderRadius: BorderRadius.circular(_kAddLocationRadius),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: _kAddLocationPaddingV, horizontal: _kAddLocationPaddingH),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(_kAddLocationRadius),
+            border: Border.all(color: _kAddLocationBorderPurple, width: 2),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add, size: 22, color: _kAddLocationBorderPurple),
+              SizedBox(width: 8),
+              Text('Add Business Location', style: AppTextStyles.businessInfoAddLocation.copyWith(color: _kAddLocationBorderPurple)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLocationChips(ProductsServicesController c) {
+    return Obx(() {
+      final list = c.locationsAdded;
+      if (list.isEmpty) return const SizedBox.shrink();
+      return Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: list.map((loc) {
+            final subtitle = [loc.country, loc.city].where((s) => s.isNotEmpty).join(', ');
+            return Chip(
+              label: Text(
+                subtitle.isEmpty ? loc.locationName : '${loc.locationName} • $subtitle',
+                style: AppTextStyles.businessInfoHelper.copyWith(fontSize: 13),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              backgroundColor: AppColors.businessInfoAddLocationBg,
+              side: BorderSide(color: AppColors.businessInfoAddLocationBorder),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            );
+          }).toList(),
         ),
       );
     });

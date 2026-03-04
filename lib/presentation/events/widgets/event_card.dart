@@ -89,7 +89,9 @@ class EventCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text('✨ ', style: AppTextStyles.eventsBadge),
-                  Text('Special Occasion', style: AppTextStyles.eventsBadge),
+                  Flexible(
+                    child: Text('Special Occasion', style: AppTextStyles.eventsBadge, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ),
                 ],
               ),
             ),
@@ -135,7 +137,14 @@ class EventCard extends StatelessWidget {
                         children: [
                           Text(event.lovedOneAvatar, style: const TextStyle(fontSize: 16)),
                           const SizedBox(width: 8),
-                          Text(event.relationship, style: AppTextStyles.eventsCardRelationship),
+                          Expanded(
+                            child: Text(
+                              event.relationship,
+                              style: AppTextStyles.eventsCardRelationship,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
                     if (showLovedOneInTitle) const SizedBox(height: 4),
@@ -179,14 +188,21 @@ class EventCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(_kBtnRadius),
                   boxShadow: AppShadows.eventsCard,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.card_giftcard, size: 20, color: AppColors.eventsBadgeText),
-                    const SizedBox(width: 8),
-                    Text('View Gift Ideas', style: AppTextStyles.eventsViewGiftBtn),
-                  ],
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.card_giftcard, size: 20, color: AppColors.eventsBadgeText),
+                      const SizedBox(width: 8),
+                      Text(
+                        'View Gift Ideas',
+                        style: AppTextStyles.eventsViewGiftBtn,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,16 +1,24 @@
 // lib/presentation/edit_loved_one/controllers/edit_loved_one_controller.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../onboarding/controllers/individual_step3_relationship_goals_controller.dart';
 import '../../onboarding/controllers/individual_step4_secondary_goals_controller.dart';
 import '../../loved_one_preferences/models/hobby_category_model.dart';
 import '../../dislikes/models/dislike_category_model.dart';
 import '../models/edit_loved_one_models.dart';
-/// Edit Loved One / Edit Profile screen state. Matches React EditLovedOneScreen:
-/// form fields, primary/secondary goals, hobbies (1 per category, 8 total), dislikes (1 per category + 2 custom, 6 total).
+
 class EditLovedOneController extends GetxController {
-  String get lovedOneId => Get.arguments is Map ? (Get.arguments['id'] as String?) ?? '' : '';
+  String _resolvedId = '';
+
+  String get lovedOneId => _resolvedId;
+
+  final RxBool isLoading = true.obs;
+  final RxString errorMessage = ''.obs;
+  final RxBool isReady = false.obs;
 
   final nameCtrl = TextEditingController();
   final personalNoteCtrl = TextEditingController();
@@ -30,6 +38,8 @@ class EditLovedOneController extends GetxController {
   final RxBool isSaving = false.obs;
   final RxString photoPath = ''.obs;
 
+  final ImagePicker _imagePicker = ImagePicker();
+
   static const int maxSecondaryGoals = 3;
   static const int maxHobbiesTotal = 8;
   static const int maxDislikesFromCategories = 4;
@@ -47,7 +57,19 @@ class EditLovedOneController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    final args = Get.arguments;
+    final params = Get.parameters;
+    final fromArgs = args is Map ? (args['id'] ?? args['lovedOneId'])?.toString().trim() ?? '' : '';
+    final fromParams = params['id'] ?? params['lovedOneId'] ?? '';
+    _resolvedId = fromArgs.isNotEmpty ? fromArgs : fromParams;
+    if (_resolvedId.isEmpty) {
+      isLoading.value = false;
+      errorMessage.value = 'No loved one selected.';
+      return;
+    }
     _loadLovedOne();
+    isLoading.value = false;
+    isReady.value = true;
   }
 
   @override
@@ -63,8 +85,7 @@ class EditLovedOneController extends GetxController {
   }
 
   void _loadLovedOne() {
-    if (lovedOneId.isEmpty) return;
-    // Mock load: same as React mockLovedOneData
+    if (_resolvedId.isEmpty) return;
     nameCtrl.text = 'Sarah';
     relationship.value = 'Partner (dating / committed, not married)';
     birthdayCtrl.text = '1990-01-15';
@@ -92,8 +113,33 @@ class EditLovedOneController extends GetxController {
   }
 
   void onChangePhoto() {
-    // In real app: pick image from gallery/camera, set photoPath
-    photoPath.refresh();
+    // Screen shows bottom sheet and then calls pickFromCamera / pickFromGallery.
+  }
+
+  Future<void> pickFromCamera() async {
+    try {
+      final XFile? file = await _imagePicker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1024,
+        imageQuality: 85,
+      );
+      if (file != null) {
+        photoPath.value = file.path;
+      }
+    } catch (_) {}
+  }
+
+  Future<void> pickFromGallery() async {
+    try {
+      final XFile? file = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1024,
+        imageQuality: 85,
+      );
+      if (file != null) {
+        photoPath.value = file.path;
+      }
+    } catch (_) {}
   }
 
   Future<void> onPickBirthday() async {
@@ -127,6 +173,16 @@ class EditLovedOneController extends GetxController {
     );
     customDates[idx] = updated;
     customDates.refresh();
+  }
+
+  Future<void> onPickCustomDate(String id) async {
+    final idx = customDates.indexWhere((e) => e.id == id);
+    if (idx < 0) return;
+    final e = customDates[idx];
+    final d = await _pickDate(initial: _parseDate(e.date));
+    if (d != null) {
+      onUpdateCustomDate(id, 'date', _formatDate(d));
+    }
   }
 
   void onSelectPrimaryGoal(String key) {
@@ -201,7 +257,8 @@ class EditLovedOneController extends GetxController {
     return DateTime.tryParse(s);
   }
 
-  String _formatDate(DateTime d) => '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+  String _formatDate(DateTime d) =>
+      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
   Future<DateTime?> _pickDate({DateTime? initial}) async {
     final ctx = Get.context;
@@ -212,5 +269,15 @@ class EditLovedOneController extends GetxController {
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
+  }
+
+  bool get hasLocalPhoto {
+    final path = photoPath.value;
+    if (path.isEmpty) return false;
+    try {
+      return File(path).existsSync();
+    } catch (_) {
+      return false;
+    }
   }
 }

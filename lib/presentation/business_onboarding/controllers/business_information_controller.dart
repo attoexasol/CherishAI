@@ -1,15 +1,23 @@
 // lib/presentation/business_onboarding/controllers/business_information_controller.dart
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../app/routes/app_routes.dart';
-import '../views/dialogs/add_business_location_dialog.dart';
 
 class BusinessInformationController extends GetxController {
   final RxBool isSubmitting = false.obs;
-  final RxString selectedDeliveryType = RxString('');
+  /// Selected delivery types: multiple allowed (e.g. ['delivery', 'on-site', 'digital']).
+  final RxList<String> selectedDeliveryTypes = <String>[].obs;
   final RxDouble priceRangeValue = 2.0.obs;
-  final RxString selectedCategory = RxString('');
+  /// Selected product/service categories (multi-select for business registration).
+  final RxList<String> selectedCategories = <String>[].obs;
   final RxString selectedCountry = RxString('');
+
+  /// Path or URL of selected business logo (device path or web blob URL). Available for later submission.
+  final RxString logoFilePath = RxString('');
+
+  final ImagePicker _imagePicker = ImagePicker();
 
   final businessNameController = TextEditingController();
   final contactPersonNameController = TextEditingController();
@@ -31,6 +39,7 @@ class BusinessInformationController extends GetxController {
   final snapchatController = TextEditingController();
   final tiktokController = TextEditingController();
 
+  /// CATEGORY LIST – single source for Product or Services Category (business registration & location).
   static const List<Map<String, String>> categories = [
     {'value': 'gifts', 'label': 'Gifts & Personalized Items'},
     {'value': 'food', 'label': 'Food & Dining Experiences'},
@@ -81,24 +90,51 @@ class BusinessInformationController extends GetxController {
     Get.toNamed(AppRoutes.businessChoosePlan);
   }
 
-  void onAddLocation() {
-    Get.dialog<void>(
-      const AddBusinessLocationDialog(),
-      barrierDismissible: true,
-      barrierColor: Colors.black54,
-    );
-  }
-
-  void onSubmitAddLocation() {
-    Get.back();
-  }
-
+  /// Show upload source picker (Take Photo / Gallery / Cancel). Call from view; on web only gallery is shown.
   void onUploadLogo() {
-    // Stub: file picker
+    // View shows bottom sheet and calls pickLogoFromCamera / pickLogoFromGallery.
+  }
+
+  /// Pick image from camera. On web, use gallery only (call pickLogoFromGallery from view).
+  Future<void> pickLogoFromCamera() async {
+    if (kIsWeb) return;
+    try {
+      final XFile? file = await _imagePicker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1024,
+        imageQuality: 85,
+      );
+      if (file != null && file.path.isNotEmpty) {
+        logoFilePath.value = file.path;
+      }
+    } catch (_) {}
+  }
+
+  /// Pick image from gallery. Safe on web (image_picker uses gallery on web).
+  Future<void> pickLogoFromGallery() async {
+    try {
+      final XFile? file = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1024,
+        imageQuality: 85,
+      );
+      if (file != null && file.path.isNotEmpty) {
+        logoFilePath.value = file.path;
+      }
+    } catch (_) {}
+  }
+
+  void onToggleDeliveryType(String type) {
+    if (selectedDeliveryTypes.contains(type)) {
+      selectedDeliveryTypes.remove(type);
+    } else {
+      selectedDeliveryTypes.add(type);
+    }
+    selectedDeliveryTypes.refresh();
   }
 
   void onSelectDeliveryType(String type) {
-    selectedDeliveryType.value = selectedDeliveryType.value == type ? '' : type;
+    onToggleDeliveryType(type);
   }
 
   void onChangePrice(double value) {
@@ -109,9 +145,24 @@ class BusinessInformationController extends GetxController {
     selectedCountry.value = value;
   }
 
+  /// Set single category (e.g. for dropdown in add location dialog). For this screen use onToggleCategory.
   void onSelectCategory(String value) {
-    selectedCategory.value = value;
+    selectedCategories.assignAll(value.isEmpty ? [] : [value]);
+    selectedCategories.refresh();
   }
+
+  /// Toggle a category in multi-select list.
+  void onToggleCategory(String value) {
+    if (selectedCategories.contains(value)) {
+      selectedCategories.remove(value);
+    } else {
+      selectedCategories.add(value);
+    }
+    selectedCategories.refresh();
+  }
+
+  /// Single value for backward compatibility (e.g. first selected or empty).
+  String get selectedCategory => selectedCategories.isEmpty ? '' : selectedCategories.first;
 
   @override
   void onClose() {

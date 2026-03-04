@@ -1,4 +1,5 @@
 // lib/presentation/business_onboarding/views/business_information_screen.dart
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/theme/app_colors.dart';
@@ -6,6 +7,7 @@ import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_shadows.dart';
 import '../controllers/business_information_controller.dart';
+import 'business_logo_preview.dart';
 
 const double _kPaddingH = 24;
 const double _kPaddingTop = 48;
@@ -41,9 +43,6 @@ const double _kSocialRowGap = 12;
 const double _kCtaPaddingH = 32;
 const double _kCtaPaddingV = 16;
 const double _kCtaRadius = 16;
-const double _kAddLocationPaddingV = 12;
-const double _kAddLocationPaddingH = 16;
-const double _kAddLocationRadius = 12;
 const double _kUpgradeCardPadding = 16;
 const double _kUpgradeCardRadius = 16;
 const double _kUpgradeCardMb = 12;
@@ -143,21 +142,15 @@ class BusinessInformationScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _buildUploadLogo(c),
+        SizedBox(height: _kFormSpacing),
         _buildLabel('Business Name *'),
         SizedBox(height: _kLabelMb),
         _buildInput(controller: c.businessNameController, placeholder: 'Your Business Name'),
         SizedBox(height: _kFormSpacing),
         _buildLabel('Product or Services Category *'),
         SizedBox(height: _kLabelMb),
-        Obx(() => _buildDropdown(
-          value: c.selectedCategory.value,
-          hint: 'Select a category',
-          displayLabels: BusinessInformationController.categories.map((e) => e['label']!).toList(),
-          items: BusinessInformationController.categories
-              .map((e) => DropdownMenuItem<String>(value: e['value'], child: Text(e['label']!, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)))
-              .toList(),
-          onChanged: (v) => c.onSelectCategory(v ?? ''),
-        )),
+        _buildCategoryMultiSelect(c),
         SizedBox(height: _kFormSpacing),
         _buildLabel('Contact Person Name *'),
         SizedBox(height: _kLabelMb),
@@ -221,13 +214,10 @@ class BusinessInformationScreen extends StatelessWidget {
         SizedBox(height: _kFormSpacing),
         _buildDeliveryType(c),
         SizedBox(height: _kFormSpacing),
-        _buildUploadLogo(c),
-        SizedBox(height: _kFormSpacing),
         _buildSocialSection(c),
         SizedBox(height: 24),
         _buildContinueButton(c),
         SizedBox(height: _kFormSpacing),
-        _buildAddLocation(c),
         SizedBox(height: _kUpgradeCardMb),
         _buildUpgradeCard(c),
       ],
@@ -284,6 +274,106 @@ class BusinessInformationScreen extends StatelessWidget {
           hintStyle: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder),
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: _kInputPaddingV),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryMultiSelect(BusinessInformationController c) {
+    final categories = BusinessInformationController.categories;
+    return Obx(() {
+      final selected = c.selectedCategories;
+      final labels = categories.where((e) => selected.contains(e['value'])).map((e) => e['label']!).toList();
+      final summary = labels.isEmpty ? '' : labels.join(', ');
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _showCategoryMultiSelectSheet(c),
+          borderRadius: BorderRadius.circular(_kInputRadius),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: _kInputPaddingV),
+            decoration: BoxDecoration(
+              color: AppColors.businessInfoInputBg,
+              borderRadius: BorderRadius.circular(_kInputRadius),
+              border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
+              boxShadow: AppShadows.businessInfoInput,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    summary.isEmpty ? 'Select a category' : summary,
+                    style: AppTextStyles.businessInfoInput.copyWith(
+                      color: summary.isEmpty ? AppColors.businessInfoPlaceholder : null,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Icon(Icons.arrow_drop_down, color: AppColors.businessInfoPlaceholder),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  void _showCategoryMultiSelectSheet(BusinessInformationController c) {
+    final context = Get.context;
+    if (context == null) return;
+    final categories = BusinessInformationController.categories;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (ctx) => Container(
+        constraints: BoxConstraints(maxHeight: MediaQuery.of(ctx).size.height * 0.6),
+        decoration: const BoxDecoration(
+          color: AppColors.businessInfoInputBg,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Product or Services Category', style: AppTextStyles.businessInfoLabel),
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: Text('Done', style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoBadgeStart)),
+                    ),
+                  ],
+                ),
+              ),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(bottom: 24),
+                  itemCount: categories.length,
+                  itemBuilder: (context, i) {
+                    final e = categories[i];
+                    final value = e['value']!;
+                    final label = e['label']!;
+                    return Obx(() {
+                      final selected = c.selectedCategories.contains(value);
+                      return CheckboxListTile(
+                        value: selected,
+                        onChanged: (_) => c.onToggleCategory(value),
+                        title: Text(label, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        activeColor: AppColors.businessInfoBadgeStart,
+                      );
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -376,7 +466,7 @@ class BusinessInformationScreen extends StatelessWidget {
 
   Widget _buildDeliveryType(BusinessInformationController c) {
     return Obx(() {
-      final selected = c.selectedDeliveryType.value;
+      final selectedSet = c.selectedDeliveryTypes;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -388,24 +478,24 @@ class BusinessInformationScreen extends StatelessWidget {
             icon: Icons.local_shipping_rounded,
             title: 'Delivery',
             description: 'Items can be shipped, or via courier',
-            isSelected: selected == 'delivery',
-            onTap: () => c.onSelectDeliveryType('delivery'),
+            isSelected: selectedSet.contains('delivery'),
+            onTap: () => c.onToggleDeliveryType('delivery'),
           ),
           SizedBox(height: 8),
           _DeliveryCard(
             icon: Icons.storefront_rounded,
             title: 'On-site',
             description: 'Customers can take advantage of your physical store',
-            isSelected: selected == 'on-site',
-            onTap: () => c.onSelectDeliveryType('on-site'),
+            isSelected: selectedSet.contains('on-site'),
+            onTap: () => c.onToggleDeliveryType('on-site'),
           ),
           SizedBox(height: 8),
           _DeliveryCard(
             icon: Icons.computer_rounded,
             title: 'Digital',
             description: 'Online or digital services available',
-            isSelected: selected == 'digital',
-            onTap: () => c.onSelectDeliveryType('digital'),
+            isSelected: selectedSet.contains('digital'),
+            onTap: () => c.onToggleDeliveryType('digital'),
           ),
         ],
       );
@@ -420,41 +510,107 @@ class BusinessInformationScreen extends StatelessWidget {
         SizedBox(height: _kLabelMb),
         Text('Upload a logo or photo to represent your business.', style: AppTextStyles.businessInfoHelper),
         SizedBox(height: 8),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: c.onUploadLogo,
-            borderRadius: BorderRadius.circular(_kInputRadius),
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                color: AppColors.white.withValues(alpha: 0.8),
-                borderRadius: BorderRadius.circular(_kInputRadius),
-                border: Border.all(color: AppColors.businessInfoUploadBorder, width: 2, style: BorderStyle.solid),
-                boxShadow: AppShadows.businessInfoUploadCard,
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    width: _kUploadIconCircleSize,
-                    height: _kUploadIconCircleSize,
-                    decoration: BoxDecoration(
-                      gradient: AppGradients.businessInfoUploadIconBg,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.cloud_upload_rounded, size: _kUploadIconSize, color: AppColors.businessInfoUploadIcon),
-                  ),
-                  SizedBox(height: 8),
-                  Text('Click to upload photo', style: AppTextStyles.businessInfoUploadTitle),
-                  SizedBox(height: 4),
-                  Text('PNG, JPG up to 5MB', style: AppTextStyles.businessInfoUploadHint),
-                ],
+        Obx(() {
+          final path = c.logoFilePath.value;
+          final hasImage = path.isNotEmpty;
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => _showLogoSourceBottomSheet(c),
+              borderRadius: BorderRadius.circular(_kInputRadius),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                decoration: BoxDecoration(
+                  color: AppColors.white.withValues(alpha: 0.8),
+                  borderRadius: BorderRadius.circular(_kInputRadius),
+                  border: Border.all(color: AppColors.businessInfoUploadBorder, width: 2, style: BorderStyle.solid),
+                  boxShadow: AppShadows.businessInfoUploadCard,
+                ),
+                child: hasImage
+                    ? LayoutBuilder(
+                        builder: (_, constraints) => ClipRRect(
+                          borderRadius: BorderRadius.circular(_kInputRadius - 4),
+                          child: SizedBox(
+                            width: constraints.maxWidth,
+                            height: 120,
+                            child: buildBusinessLogoPreview(path, constraints.maxWidth, 120, _kInputRadius - 4),
+                          ),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Container(
+                            width: _kUploadIconCircleSize,
+                            height: _kUploadIconCircleSize,
+                            decoration: BoxDecoration(
+                              gradient: AppGradients.businessInfoUploadIconBg,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(Icons.cloud_upload_rounded, size: _kUploadIconSize, color: AppColors.businessInfoUploadIcon),
+                          ),
+                          SizedBox(height: 8),
+                          Text('Click to upload photo', style: AppTextStyles.businessInfoUploadTitle),
+                          SizedBox(height: 4),
+                          Text('PNG, JPG up to 5MB', style: AppTextStyles.businessInfoUploadHint),
+                        ],
+                      ),
               ),
             ),
+          );
+        }),
+      ],
+    );
+  }
+
+  void _showLogoSourceBottomSheet(BusinessInformationController c) {
+    final context = Get.context;
+    if (context == null) return;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        decoration: const BoxDecoration(
+          color: AppColors.businessInfoInputBg,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: AppColors.businessInfoPriceBadgeBgStart,
+                  child: Icon(Icons.photo_library_outlined, color: AppColors.businessInfoBadgeStart),
+                ),
+                title: Text('Choose from Gallery', style: AppTextStyles.businessInfoInput),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  c.pickLogoFromGallery();
+                },
+              ),
+              if (!kIsWeb)
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: AppColors.businessInfoPriceBadgeBgStart,
+                    child: Icon(Icons.camera_alt_outlined, color: AppColors.businessInfoBadgeStart),
+                  ),
+                  title: Text('Take Photo', style: AppTextStyles.businessInfoInput),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    c.pickLogoFromCamera();
+                  },
+                ),
+              const SizedBox(height: 8),
+              ListTile(
+                title: Text('Cancel', style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder)),
+                onTap: () => Navigator.pop(ctx),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 
@@ -553,33 +709,6 @@ class BusinessInformationScreen extends StatelessWidget {
             ),
           ),
         ));
-  }
-
-  Widget _buildAddLocation(BusinessInformationController c) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: c.onAddLocation,
-        borderRadius: BorderRadius.circular(_kAddLocationRadius),
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: _kAddLocationPaddingV, horizontal: _kAddLocationPaddingH),
-          decoration: BoxDecoration(
-            color: AppColors.businessInfoAddLocationBg,
-            borderRadius: BorderRadius.circular(_kAddLocationRadius),
-            border: Border.all(color: AppColors.businessInfoAddLocationBorder, width: 2),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add, size: 20, color: AppColors.businessInfoAddLocationText),
-              SizedBox(width: 8),
-              Text('Add another business location', style: AppTextStyles.businessInfoAddLocation),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildUpgradeCard(BusinessInformationController c) {

@@ -71,11 +71,18 @@ class LovedOneGroupCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(lovedOneName, style: AppTextStyles.eventsCardTitle.copyWith(fontSize: 20)),
+                    Text(
+                      lovedOneName,
+                      style: AppTextStyles.eventsCardTitle.copyWith(fontSize: 20),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       '$relationship · ${events.length} upcoming event${events.length != 1 ? 's' : ''}',
                       style: AppTextStyles.eventsCardRelationship,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
