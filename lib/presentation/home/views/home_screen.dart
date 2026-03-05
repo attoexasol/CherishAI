@@ -49,6 +49,17 @@ const double _kHorizontalPadding = 24;
 const double _kMinTapTarget = 44;
 const double _kBottomNavHideLabelWidth = 280;
 
+// Responsive breakpoints for home (small phones)
+const double _kBreakpointVeryNarrow = 360;
+const double _kBreakpointNarrow = 390;
+
+/// Resolves a value by screen width for home screen (message/event cards).
+double _responsive(double width, double veryNarrow, double narrow, double normal) {
+  if (width < _kBreakpointVeryNarrow) return veryNarrow;
+  if (width < _kBreakpointNarrow) return narrow;
+  return normal;
+}
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -105,6 +116,7 @@ class HomeScreen extends StatelessWidget {
                               _buildDailyMessagesSection(
                                 context,
                                 c,
+                                screenWidth: screenWidth,
                                 messageCardWidth: messageCardWidth,
                                 cardGap: cardGap,
                                 contentWidth: contentMaxWidth + horizontalPadding * 2,
@@ -113,6 +125,7 @@ class HomeScreen extends StatelessWidget {
                               _buildUpcomingEventsSection(
                                 context,
                                 c,
+                                screenWidth: screenWidth,
                                 eventCardWidth: eventCardWidth,
                                 cardGap: cardGap,
                                 contentWidth: contentMaxWidth + horizontalPadding * 2,
@@ -354,6 +367,7 @@ class HomeScreen extends StatelessWidget {
   Widget _buildDailyMessagesSection(
     BuildContext context,
     HomeController c, {
+    required double screenWidth,
     required double messageCardWidth,
     required double cardGap,
     required double contentWidth,
@@ -361,6 +375,7 @@ class HomeScreen extends StatelessWidget {
     final isNarrow = messageCardWidth < 320;
     final innerPadding = isNarrow ? 12.0 : 20.0;
     final bubblePadding = isNarrow ? 16.0 : _kMessageBubblePadding;
+    final sectionHeight = _responsive(screenWidth, 520.0, 560.0, 600.0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -394,20 +409,23 @@ class HomeScreen extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         SizedBox(
-          height: isNarrow ? 600 : 600,
+          height: sectionHeight,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(vertical: 8),
+            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             itemCount: c.dailyMessages.length,
             separatorBuilder: (_, __) => SizedBox(width: cardGap),
             itemBuilder: (context, index) {
               final msg = c.dailyMessages[index];
               return SizedBox(
                 width: messageCardWidth,
+                height: sectionHeight,
                 child: _buildMessageCard(
                   context,
                   c,
                   msg,
+                  screenWidth: screenWidth,
                   innerPadding: innerPadding,
                   bubblePadding: bubblePadding,
                 ),
@@ -423,9 +441,22 @@ class HomeScreen extends StatelessWidget {
     BuildContext context,
     HomeController c,
     DailyMessageItem msg, {
+    required double screenWidth,
     double innerPadding = 20,
     double bubblePadding = 32,
   }) {
+    final msgIconSize = _responsive(screenWidth, 12.0, 14.0, 16.0).round();
+    final msgBtnPaddingV = _responsive(screenWidth, 10.0, 12.0, 14.0);
+    final msgBtnPaddingH = _responsive(screenWidth, 6.0, 7.0, 8.0);
+    final msgBodyFontSize = _responsive(screenWidth, 13.0, 14.0, 15.0);
+    final msgGapAfterBubble = _responsive(screenWidth, 12.0, 18.0, 24.0);
+    final msgGapBetweenRows = _responsive(screenWidth, 8.0, 12.0, 16.0);
+    final likeDislikeIconSize = _responsive(screenWidth, 10.0, 11.0, 12.0).round();
+    final likeDislikePaddingV = _responsive(screenWidth, 6.0, 7.0, 8.0);
+    final regeneratePaddingV = _responsive(screenWidth, 10.0, 11.0, 12.0);
+    final regenerateIconSize = _responsive(screenWidth, 14.0, 15.0, 16.0).round();
+    final avatarSize = _responsive(screenWidth, 40.0, 44.0, _kAvatarSize);
+
     return Obx(() {
       final currentIdx = c.currentMessageIndex(msg.id);
       final text = msg.messages[currentIdx.clamp(0, msg.messages.length - 1)];
@@ -438,114 +469,116 @@ class HomeScreen extends StatelessWidget {
           border: Border.all(color: AppColors.homeMessageCardBorder, width: 2),
           boxShadow: AppShadows.homeMessageCard,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(_kMessageHeaderPadding),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      AppColors.homeMessageBubbleBgStart,
-                      AppColors.homeMessageBubbleBgEnd,
-                    ],
-                  ),
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(_kMessageCardRadius - 2)),
-                  border: Border(
-                    bottom: BorderSide(color: AppColors.homeMessageBubbleBorder, width: 2),
-                  ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: _kAvatarSize,
-                      height: _kAvatarSize,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: AppShadows.homeCard,
-                        border: Border.all(color: AppColors.homeMessageBubbleBorder),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(msg.lovedOneAvatar, style: const TextStyle(fontSize: 24)),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'For ${msg.lovedOneName}',
-                            style: AppTextStyles.homeMessageCardTitle,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            msg.relationship,
-                            style: AppTextStyles.homeMessageCardRelation,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          const SizedBox(height: 8),
-                          GestureDetector(
-                            onTap: () => c.onYourApproach(msg.lovedOneName),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    'Your approach with ${msg.lovedOneName}',
-                                    style: AppTextStyles.homeMessageLink,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                Icon(Icons.arrow_forward, size: 16, color: AppColors.homeSwipeHint),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(_responsive(screenWidth, 12.0, 14.0, _kMessageHeaderPadding)),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppColors.homeMessageBubbleBgStart,
+                    AppColors.homeMessageBubbleBgEnd,
                   ],
                 ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(_kMessageCardRadius - 2)),
+                border: Border(
+                  bottom: BorderSide(color: AppColors.homeMessageBubbleBorder, width: 2),
+                ),
               ),
-              Padding(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: avatarSize,
+                    height: avatarSize,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: AppShadows.homeCard,
+                      border: Border.all(color: AppColors.homeMessageBubbleBorder),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(msg.lovedOneAvatar, style: TextStyle(fontSize: avatarSize * 0.5)),
+                  ),
+                  SizedBox(width: _responsive(screenWidth, 8.0, 10.0, 12.0)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'For ${msg.lovedOneName}',
+                          style: AppTextStyles.homeMessageCardTitle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          msg.relationship,
+                          style: AppTextStyles.homeMessageCardRelation,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        const SizedBox(height: 6),
+                        GestureDetector(
+                          onTap: () => c.onYourApproach(msg.lovedOneName),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  'Your approach with ${msg.lovedOneName}',
+                                  style: AppTextStyles.homeMessageLink,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(Icons.arrow_forward, size: msgIconSize.toDouble(), color: AppColors.homeSwipeHint),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
                 padding: EdgeInsets.all(innerPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(bubblePadding),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            AppColors.homeMessageBubbleBgStart,
-                            AppColors.homeMessageBubbleBgEnd,
-                          ],
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(bubblePadding),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.homeMessageBubbleBgStart,
+                              AppColors.homeMessageBubbleBgEnd,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(_kMessageBubbleRadius),
+                          border: Border.all(color: AppColors.homeMessageBubbleBorder, width: 2),
+                          boxShadow: AppShadows.homeCard,
                         ),
-                        borderRadius: BorderRadius.circular(_kMessageBubbleRadius),
-                        border: Border.all(color: AppColors.homeMessageBubbleBorder, width: 2),
-                        boxShadow: AppShadows.homeCard,
-                      ),
-                      child: Text(
-                        text,
-                        style: AppTextStyles.homeMessageBody,
-                        maxLines: 8,
-                        overflow: TextOverflow.ellipsis,
+                        child: Text(
+                          text,
+                          style: AppTextStyles.homeMessageBody.copyWith(fontSize: msgBodyFontSize, height: 1.35),
+                          maxLines: 20,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: msgGapAfterBubble),
                     Row(
                       children: [
                         Expanded(
@@ -553,25 +586,34 @@ class HomeScreen extends StatelessWidget {
                             icon: Icons.arrow_back_ios_new,
                             label: 'Previous',
                             onTap: () => c.onPrevMessage(msg.id),
+                            iconSize: msgIconSize.toDouble(),
+                            paddingV: msgBtnPaddingV,
+                            paddingH: msgBtnPaddingH,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Expanded(
                           child: _buildPrevNextButton(
                             icon: Icons.arrow_forward_ios,
                             label: 'Next',
                             onTap: () => c.onNextMessage(msg.id),
+                            iconSize: msgIconSize.toDouble(),
+                            paddingV: msgBtnPaddingV,
+                            paddingH: msgBtnPaddingH,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: msgGapBetweenRows),
                     _buildGradientButton(
                       icon: Icons.refresh,
-                      label: 'Regenerate Message',
+                      label: 'Regenerate Message (Max 2/day)',
                       onTap: () => c.onRegenerateMessage(msg.id),
+                      iconSize: regenerateIconSize.toDouble(),
+                      paddingV: regeneratePaddingV,
+                      screenWidth: screenWidth,
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: msgGapBetweenRows - 2),
                     Row(
                       children: [
                         Expanded(
@@ -583,6 +625,8 @@ class HomeScreen extends StatelessWidget {
                             activeBorderColor: AppColors.homeLikeGreenBorder,
                             activeTextColor: AppColors.homeLikeGreenText,
                             onTap: () => c.onLikeMessage(msg.id),
+                            iconSize: likeDislikeIconSize.toDouble(),
+                            paddingV: likeDislikePaddingV,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -595,6 +639,8 @@ class HomeScreen extends StatelessWidget {
                             activeBorderColor: AppColors.homeDislikeRedBorder,
                             activeTextColor: AppColors.homeDislikeRedText,
                             onTap: () => c.onDislikeMessage(msg.id),
+                            iconSize: likeDislikeIconSize.toDouble(),
+                            paddingV: likeDislikePaddingV,
                           ),
                         ),
                       ],
@@ -602,8 +648,8 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     });
@@ -613,6 +659,9 @@ class HomeScreen extends StatelessWidget {
     required IconData icon,
     required String label,
     required VoidCallback onTap,
+    double iconSize = 16,
+    double paddingV = 14,
+    double paddingH = 8,
   }) {
     return Material(
       color: Colors.transparent,
@@ -620,8 +669,8 @@ class HomeScreen extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          constraints: const BoxConstraints(minHeight: _kMinTapTarget),
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+          constraints: const BoxConstraints(minHeight: 36),
+          padding: EdgeInsets.symmetric(vertical: paddingV, horizontal: paddingH),
           decoration: BoxDecoration(
             color: AppColors.homePrevNextBg,
             borderRadius: BorderRadius.circular(12),
@@ -632,7 +681,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 16, color: AppColors.homePrevNextText),
+              Icon(icon, size: iconSize, color: AppColors.homePrevNextText),
               const SizedBox(width: 4),
               Flexible(
                 child: Text(
@@ -653,16 +702,20 @@ class HomeScreen extends StatelessWidget {
     required IconData icon,
     required String label,
     required VoidCallback onTap,
+    double iconSize = 16,
+    double paddingV = 12,
+    double screenWidth = 400,
   }) {
+    final fontSize = _responsive(screenWidth, 11.0, 12.0, 14.0);
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          constraints: const BoxConstraints(minHeight: _kMinTapTarget),
+          constraints: const BoxConstraints(minHeight: 36),
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: paddingV, horizontal: 12),
           decoration: BoxDecoration(
             gradient: AppGradients.homeRegenerateBtn,
             borderRadius: BorderRadius.circular(12),
@@ -672,14 +725,15 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 16, color: Colors.white),
+              Icon(icon, size: iconSize, color: Colors.white),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
                   label,
-                  style: AppTextStyles.homeRegenerateBtn,
+                  style: AppTextStyles.homeRegenerateBtn.copyWith(fontSize: fontSize),
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
@@ -697,6 +751,8 @@ class HomeScreen extends StatelessWidget {
     required Color activeBorderColor,
     required Color activeTextColor,
     required VoidCallback onTap,
+    double iconSize = 12,
+    double paddingV = 8,
   }) {
     return Material(
       color: Colors.transparent,
@@ -704,8 +760,8 @@ class HomeScreen extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: Container(
-          constraints: const BoxConstraints(minHeight: _kMinTapTarget),
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          constraints: const BoxConstraints(minHeight: 36),
+          padding: EdgeInsets.symmetric(vertical: paddingV, horizontal: 8),
           decoration: BoxDecoration(
             color: isActive ? activeBgColor : AppColors.homePrevNextBg,
             borderRadius: BorderRadius.circular(8),
@@ -720,7 +776,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                size: 12,
+                size: iconSize,
                 color: isActive ? activeTextColor : AppColors.homeSectionSubtitle,
               ),
               const SizedBox(width: 6),
@@ -744,45 +800,104 @@ class HomeScreen extends StatelessWidget {
   Widget _buildUpcomingEventsSection(
     BuildContext context,
     HomeController c, {
+    required double screenWidth,
     required double eventCardWidth,
     required double cardGap,
     required double contentWidth,
   }) {
     final isNarrow = eventCardWidth < 300;
     final cardPadding = isNarrow ? 16.0 : _kEventCardPadding;
+    final eventSectionHeight = _responsive(screenWidth, 240.0, 250.0, 260.0);
+    final subtitleWrap = screenWidth < _kBreakpointVeryNarrow;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Upcoming Events', style: AppTextStyles.homeSectionTitle),
         const SizedBox(height: 4),
-        RichText(
-          text: TextSpan(
-            style: AppTextStyles.homeSectionSubtitle.copyWith(color: AppColors.homeSectionSubtitle),
-            children: [
-              const TextSpan(
-                text: 'Never miss a meaningful moment meant to celebrate the people you love • ',
+        if (subtitleWrap) ...[
+          RichText(
+            text: TextSpan(
+              style: AppTextStyles.homeSectionSubtitle.copyWith(color: AppColors.homeSectionSubtitle),
+              children: [
+                const TextSpan(
+                  text: 'Never miss a meaningful moment meant to celebrate the people you love • ',
+                ),
+                TextSpan(
+                  text: 'SWIPE HORIZONTALLY',
+                  style: AppTextStyles.homeSwipeHint.copyWith(color: AppColors.homeSwipeHint),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 2),
+          GestureDetector(
+            onTap: c.onNavigateToAllEvents,
+            child: Text(
+              'to see all events',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+                height: 1.3,
+                color: AppColors.homeSwipeHint.withValues(alpha: 0.75),
               ),
-              TextSpan(
-                text: 'SWIPE HORIZONTALLY',
-                style: AppTextStyles.homeSwipeHint.copyWith(color: AppColors.homeSwipeHint),
+            ),
+          ),
+        ] else
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 2,
+            children: [
+              RichText(
+                text: TextSpan(
+                  style: AppTextStyles.homeSectionSubtitle.copyWith(color: AppColors.homeSectionSubtitle),
+                  children: [
+                    const TextSpan(
+                      text: 'Never miss a meaningful moment meant to celebrate the people you love • ',
+                    ),
+                    TextSpan(
+                      text: 'SWIPE HORIZONTALLY',
+                      style: AppTextStyles.homeSwipeHint.copyWith(color: AppColors.homeSwipeHint),
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: c.onNavigateToAllEvents,
+                child: Text(
+                  'to see all events',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w400,
+                    height: 1.3,
+                    color: AppColors.homeSwipeHint.withValues(alpha: 0.75),
+                  ),
+                ),
               ),
             ],
           ),
-        ),
         const SizedBox(height: 20),
         SizedBox(
-          height: 260,
+          height: eventSectionHeight,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(vertical: 8),
+            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             itemCount: c.upcomingEvents.length,
             separatorBuilder: (_, __) => SizedBox(width: cardGap),
             itemBuilder: (context, index) {
               final event = c.upcomingEvents[index];
               return SizedBox(
                 width: eventCardWidth,
-                child: _buildEventCard(context, c, event, cardPadding: cardPadding),
+                height: eventSectionHeight,
+                child: _buildEventCard(
+                  context,
+                  c,
+                  event,
+                  screenWidth: screenWidth,
+                  cardPadding: cardPadding,
+                ),
               );
             },
           ),
@@ -795,10 +910,22 @@ class HomeScreen extends StatelessWidget {
     BuildContext context,
     HomeController c,
     UpcomingEventItem event, {
+    required double screenWidth,
     double cardPadding = 24,
   }) {
     final isUrgent = event.priority == 'high';
     final isSpecial = event.eventType == "Mother's Day";
+    final eventIconSize = _responsive(screenWidth, 48.0, 56.0, _kEventIconSize);
+    final badgePaddingH = _responsive(screenWidth, 8.0, 10.0, 12.0);
+    final badgePaddingV = _responsive(screenWidth, 2.0, 3.0, 4.0);
+    final badgeFontSize = _responsive(screenWidth, 9.0, 10.0, 11.0);
+    final titleFontSize = _responsive(screenWidth, 14.0, 15.0, 16.0);
+    final dateFontSize = _responsive(screenWidth, 12.0, 13.0, 14.0);
+    final daysFontSize = _responsive(screenWidth, 11.0, 12.0, 13.0);
+    final ctaGap = _responsive(screenWidth, 12.0, 16.0, 20.0);
+    final eventCtaPaddingV = _responsive(screenWidth, 8.0, 10.0, 12.0);
+    final eventCtaIconSize = _responsive(screenWidth, 14.0, 15.0, 16.0).round();
+
     return Container(
       padding: EdgeInsets.all(cardPadding),
       decoration: BoxDecoration(
@@ -814,36 +941,36 @@ class HomeScreen extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
           if (isUrgent) ...[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: badgePaddingH, vertical: badgePaddingV),
               decoration: BoxDecoration(
                 gradient: AppGradients.homeUrgentBadge,
                 borderRadius: BorderRadius.circular(999),
               ),
-              child: Text('URGENT', style: AppTextStyles.homeUrgentBadge),
+              child: Text('URGENT', style: AppTextStyles.homeUrgentBadge.copyWith(fontSize: badgeFontSize)),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: _responsive(screenWidth, 6.0, 8.0, 12.0)),
           ],
           if (isSpecial && !isUrgent) ...[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: badgePaddingH, vertical: badgePaddingV),
               decoration: BoxDecoration(
                 gradient: AppGradients.homeRegenerateBtn,
                 borderRadius: BorderRadius.circular(999),
               ),
-              child: Text('✨ Special Occasion', style: AppTextStyles.homeUrgentBadge),
+              child: Text('✨ Special Occasion', style: AppTextStyles.homeUrgentBadge.copyWith(fontSize: badgeFontSize), maxLines: 1, overflow: TextOverflow.ellipsis),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: _responsive(screenWidth, 6.0, 8.0, 12.0)),
           ],
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: _kEventIconSize,
-                height: _kEventIconSize,
+                width: eventIconSize,
+                height: eventIconSize,
                 decoration: BoxDecoration(
                   gradient: isSpecial
                       ? const LinearGradient(
@@ -852,45 +979,52 @@ class HomeScreen extends StatelessWidget {
                           colors: [Color(0xFFA855F7), Color(0xFFEC4899)],
                         )
                       : AppGradients.homeEventIconSquare,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: AppShadows.homeRegenerateBtn,
                 ),
                 alignment: Alignment.center,
-                child: Text(event.eventIcon, style: const TextStyle(fontSize: 28)),
+                child: Text(event.eventIcon, style: TextStyle(fontSize: eventIconSize * 0.44)),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: _responsive(screenWidth, 10.0, 12.0, 16.0)),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       "${event.lovedOneName}'s ${event.eventType}",
-                      style: AppTextStyles.homeEventTitle,
+                      style: AppTextStyles.homeEventTitle.copyWith(fontSize: titleFontSize),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     Text(
                       event.eventDate,
-                      style: AppTextStyles.homeEventDate,
+                      style: AppTextStyles.homeEventDate.copyWith(fontSize: dateFontSize),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     Text(
                       'In ${event.daysUntil} days',
-                      style: AppTextStyles.homeEventDays,
+                      style: AppTextStyles.homeEventDays.copyWith(fontSize: daysFontSize),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: ctaGap),
+          const Spacer(),
           _buildGradientButton(
             icon: Icons.card_giftcard,
             label: isSpecial ? 'Special Gift Ideas' : 'Gift Ideas',
-            onTap: () => c.onOpenGiftIdeas(event.id),
+            onTap: () => c.onOpenGiftIdeas(event),
+            iconSize: eventCtaIconSize.toDouble(),
+            paddingV: eventCtaPaddingV,
+            screenWidth: screenWidth,
           ),
         ],
       ),

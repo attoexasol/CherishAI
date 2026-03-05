@@ -23,14 +23,33 @@ const double _kFindNearYouRadius = 14;
 const double _kSecondaryBtnRadius = 12;
 const double _kMaxWidth = 480;
 const double _kBottomNavPadding = 88;
+const double _kBreakpointNarrow = 360;
 
-class GiftIdeasDetailScreen extends StatelessWidget {
+class GiftIdeasDetailScreen extends StatefulWidget {
   const GiftIdeasDetailScreen({super.key});
+
+  @override
+  State<GiftIdeasDetailScreen> createState() => _GiftIdeasDetailScreenState();
+}
+
+class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final c = Get.find<GiftIdeasDetailController>();
+      c.applyArguments(Get.arguments as Map<String, dynamic>?);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<GiftIdeasDetailController>();
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isNarrow = screenWidth < _kBreakpointNarrow;
+    final paddingH = isNarrow ? 16.0 : _kPaddingH;
+    final bottomPaddingTotal = _kBottomNavPadding + bottomPadding;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -46,16 +65,16 @@ class GiftIdeasDetailScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Column(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildAppBar(context, c),
+              _buildAppBar(context, c, paddingH),
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.only(
-                    left: _kPaddingH,
-                    right: _kPaddingH,
-                    bottom: _kBottomNavPadding + bottomPadding,
+                    left: paddingH,
+                    right: paddingH,
+                    bottom: bottomPaddingTotal,
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
@@ -75,19 +94,24 @@ class GiftIdeasDetailScreen extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            _buildEventCard(context, ev),
+                            _buildEventCard(context, ev, isNarrow),
                             const SizedBox(height: 20),
-                            _buildFilterCard(context, c),
+                            _buildFilterCard(context, c, isNarrow),
                             const SizedBox(height: 24),
+                            Text(
+                              'Perfect Gift Ideas',
+                              style: AppTextStyles.giftIdeasDetailSectionTitle,
+                            ),
+                            const SizedBox(height: 12),
                             ...c.gifts.map((g) => Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
-                                  child: _buildGiftCard(context, c, g),
+                                  child: _buildGiftCard(context, c, g, isNarrow),
                                 )),
-                            _buildTipCard(context),
+                            _buildTipCard(context, isNarrow),
                             const SizedBox(height: 24),
                             _buildRegenerateButton(context, c),
                             const SizedBox(height: 12),
-                            _buildViewHistoryButton(context, c),
+                            _buildViewHistoryButton(context, c, isNarrow),
                           ],
                         );
                       }),
@@ -102,9 +126,9 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar(BuildContext context, GiftIdeasDetailController c) {
+  Widget _buildAppBar(BuildContext context, GiftIdeasDetailController c, [double paddingH = _kPaddingH]) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(_kPaddingH, 16, _kPaddingH, 12),
+      padding: EdgeInsets.fromLTRB(paddingH, 16, paddingH, 12),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -141,7 +165,7 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEventCard(BuildContext context, GiftIdeasDetailEvent ev) {
+  Widget _buildEventCard(BuildContext context, GiftIdeasDetailEvent ev, [bool isNarrow = false]) {
     IconData iconData = Icons.cake;
     switch (ev.iconType) {
       case 'flower':
@@ -178,8 +202,12 @@ class GiftIdeasDetailScreen extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             ev.title,
-            style: AppTextStyles.giftIdeasDetailEventTitle,
+            style: AppTextStyles.giftIdeasDetailEventTitle.copyWith(
+              fontSize: isNarrow ? 18 : 20,
+            ),
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 8),
           RichText(
@@ -206,9 +234,9 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterCard(BuildContext context, GiftIdeasDetailController c) {
+  Widget _buildFilterCard(BuildContext context, GiftIdeasDetailController c, [bool isNarrow = false]) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(isNarrow ? 14 : 20),
       decoration: BoxDecoration(
         color: AppColors.giftIdeasDetailCardBg,
         borderRadius: BorderRadius.circular(_kCardRadius),
@@ -230,7 +258,10 @@ class GiftIdeasDetailScreen extends StatelessWidget {
                 child: const Icon(Icons.attach_money, size: 16, color: Colors.white),
               ),
               const SizedBox(width: 8),
-              Text('Price Range', style: AppTextStyles.giftIdeasDetailFilterLabel),
+              Text(
+                'Price Range',
+                style: AppTextStyles.giftIdeasDetailFilterLabel.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -243,19 +274,35 @@ class GiftIdeasDetailScreen extends StatelessWidget {
               border: Border.all(color: AppColors.giftIdeasDetailFilterBorder),
             ),
             child: Obx(
-              () => DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: c.selectedPriceRange.value,
-                  isExpanded: true,
-                  icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.giftIdeasDetailFilterLabel),
-                  items: GiftIdeasDetailController.priceRanges
-                      .map((s) => DropdownMenuItem(value: s, child: Text(s)))
-                      .toList(),
-                  onChanged: (v) {
-                    if (v != null) c.onSelectPriceRange(v);
-                  },
-                ),
-              ),
+              () {
+                final dropdownStyle = TextStyle(
+                  fontSize: isNarrow ? 13 : 14,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.giftIdeasDetailFilterLabel,
+                );
+                return DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: c.selectedPriceRange.value,
+                    isExpanded: true,
+                    icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.giftIdeasDetailFilterLabel),
+                    style: dropdownStyle,
+                    items: GiftIdeasDetailController.priceRanges
+                        .map((s) => DropdownMenuItem<String>(
+                              value: s,
+                              child: Text(
+                                s,
+                                style: dropdownStyle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ))
+                        .toList(),
+                    onChanged: (v) {
+                      if (v != null) c.onSelectPriceRange(v);
+                    },
+                  ),
+                );
+              },
             ),
           ),
           const SizedBox(height: 16),
@@ -271,7 +318,10 @@ class GiftIdeasDetailScreen extends StatelessWidget {
                 child: const Icon(Icons.card_giftcard, size: 16, color: Colors.white),
               ),
               const SizedBox(width: 8),
-              Text('Category', style: AppTextStyles.giftIdeasDetailFilterLabel),
+              Text(
+                'Category',
+                style: AppTextStyles.giftIdeasDetailFilterLabel.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -284,19 +334,35 @@ class GiftIdeasDetailScreen extends StatelessWidget {
               border: Border.all(color: AppColors.giftIdeasDetailFilterBorder),
             ),
             child: Obx(
-              () => DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: c.selectedCategory.value,
-                  isExpanded: true,
-                  icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.giftIdeasDetailFilterLabel),
-                  items: GiftIdeasDetailController.categories
-                      .map((s) => DropdownMenuItem(value: s, child: Text(s)))
-                      .toList(),
-                  onChanged: (v) {
-                    if (v != null) c.onSelectCategory(v);
-                  },
-                ),
-              ),
+              () {
+                final dropdownStyle = TextStyle(
+                  fontSize: isNarrow ? 13 : 14,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.giftIdeasDetailFilterLabel,
+                );
+                return DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: c.selectedCategory.value,
+                    isExpanded: true,
+                    icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.giftIdeasDetailFilterLabel),
+                    style: dropdownStyle,
+                    items: GiftIdeasDetailController.categories
+                        .map((s) => DropdownMenuItem<String>(
+                              value: s,
+                              child: Text(
+                                s,
+                                style: dropdownStyle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ))
+                        .toList(),
+                    onChanged: (v) {
+                      if (v != null) c.onSelectCategory(v);
+                    },
+                  ),
+                );
+              },
             ),
           ),
           const SizedBox(height: 16),
@@ -321,7 +387,7 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGiftCard(BuildContext context, GiftIdeasDetailController c, GiftDetailItem g) {
+  Widget _buildGiftCard(BuildContext context, GiftIdeasDetailController c, GiftDetailItem g, [bool isNarrow = false]) {
     IconData iconData = Icons.camera_alt;
     switch (g.iconType) {
       case 'coffee':
@@ -337,8 +403,9 @@ class GiftIdeasDetailScreen extends StatelessWidget {
         break;
     }
     final saved = c.isSaved(g.id);
+    final iconSize = isNarrow ? 44.0 : _kGiftIconSize;
+    final cardPadding = isNarrow ? 14.0 : 20.0;
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.giftIdeasDetailCardBg,
         borderRadius: BorderRadius.circular(_kCardRadius),
@@ -346,39 +413,69 @@ class GiftIdeasDetailScreen extends StatelessWidget {
         boxShadow: AppShadows.giftIdeasCard,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: _kGiftIconSize,
-            height: _kGiftIconSize,
+            padding: EdgeInsets.symmetric(vertical: isNarrow ? 14 : 18, horizontal: cardPadding),
             decoration: BoxDecoration(
-              gradient: AppGradients.giftIdeasDetailEventIcon,
-              borderRadius: BorderRadius.circular(_kGiftIconRadius),
+              color: AppColors.giftIdeasDetailWhyPerfectBgStart.withValues(alpha: 0.6),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(_kCardRadius)),
             ),
-            child: Icon(iconData, size: 26, color: Colors.white),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: AppColors.giftIdeasDetailSecondaryBtnBg,
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: AppColors.giftIdeasDetailSecondaryBtnBorder),
+            child: Column(
+              children: [
+                Container(
+                  width: iconSize,
+                  height: iconSize,
+                  decoration: BoxDecoration(
+                    gradient: AppGradients.giftIdeasDetailEventIcon,
+                    borderRadius: BorderRadius.circular(_kGiftIconRadius),
+                  ),
+                  child: Icon(iconData, size: iconSize * 0.46, color: Colors.white),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: isNarrow ? 8 : 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColors.giftIdeasDetailCardBg,
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(color: AppColors.giftIdeasDetailSecondaryBtnBorder),
+                  ),
+                  child: Text(
+                    g.priceRange,
+                    style: AppTextStyles.giftIdeasDetailPricePill.copyWith(fontSize: isNarrow ? 11 : 13),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             ),
-            child: Text(g.priceRange, style: AppTextStyles.giftIdeasDetailPricePill),
           ),
-          const SizedBox(height: 10),
-          Text(g.title, style: AppTextStyles.giftIdeasDetailGiftTitle, textAlign: TextAlign.center),
+          Padding(
+            padding: EdgeInsets.all(cardPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+          Text(
+            g.title,
+            style: AppTextStyles.giftIdeasDetailGiftTitle.copyWith(fontSize: isNarrow ? 15 : 17),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 8),
           Text(
             g.description,
-            style: AppTextStyles.giftIdeasDetailGiftDesc,
+            style: AppTextStyles.giftIdeasDetailGiftDesc.copyWith(fontSize: isNarrow ? 12 : 14),
             textAlign: TextAlign.center,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 16),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(isNarrow ? 10 : 14),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 begin: Alignment.topLeft,
@@ -395,13 +492,18 @@ class GiftIdeasDetailScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.auto_awesome, size: 16, color: AppColors.giftIdeasDetailTipIcon),
+                    Icon(Icons.auto_awesome, size: isNarrow ? 14 : 16, color: AppColors.giftIdeasDetailTipIcon),
                     const SizedBox(width: 6),
-                    Text('WHY IT\'S PERFECT', style: AppTextStyles.giftIdeasDetailWhyPerfectTitle),
+                    Text('WHY IT\'S PERFECT', style: AppTextStyles.giftIdeasDetailWhyPerfectTitle.copyWith(fontSize: isNarrow ? 11 : 12)),
                   ],
                 ),
                 const SizedBox(height: 6),
-                Text(g.whyPerfect, style: AppTextStyles.giftIdeasDetailWhyPerfectBody),
+                Text(
+                  g.whyPerfect,
+                  style: AppTextStyles.giftIdeasDetailWhyPerfectBody.copyWith(fontSize: isNarrow ? 12 : 13),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
@@ -409,11 +511,11 @@ class GiftIdeasDetailScreen extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: null,
+              onTap: () => c.onFindNearYou(g.id),
               borderRadius: BorderRadius.circular(_kFindNearYouRadius),
               child: Container(
                 width: double.infinity,
-                height: _kFindNearYouHeight,
+                height: isNarrow ? 44 : _kFindNearYouHeight,
                 decoration: BoxDecoration(
                   gradient: AppGradients.giftIdeasDetailFindNearYou,
                   borderRadius: BorderRadius.circular(_kFindNearYouRadius),
@@ -423,9 +525,9 @@ class GiftIdeasDetailScreen extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.location_on, size: 20, color: Colors.white),
+                    Icon(Icons.location_on, size: isNarrow ? 18 : 20, color: Colors.white),
                     const SizedBox(width: 8),
-                    Text('Find Near You', style: AppTextStyles.giftIdeasDetailFindNearYouBtn),
+                    Text('Find Near You', style: AppTextStyles.giftIdeasDetailFindNearYouBtn.copyWith(fontSize: isNarrow ? 13 : 14)),
                   ],
                 ),
               ),
@@ -440,21 +542,27 @@ class GiftIdeasDetailScreen extends StatelessWidget {
                 label: 'Save',
                 isSaved: saved,
                 onTap: () => c.onSaveGift(g.id),
+                isNarrow: isNarrow,
               ),
               _buildSecondaryAction(
                 icon: Icons.share,
                 label: 'Share',
                 isSaved: false,
                 onTap: () => c.onShareGift(g.id),
+                isNarrow: isNarrow,
               ),
               _buildSecondaryAction(
-                icon: Icons.language,
+                icon: Icons.visibility_outlined,
                 label: 'Visit',
                 isSaved: false,
                 onTap: () => c.onVisitGift(g.id),
+                isNarrow: isNarrow,
               ),
             ],
           ),
+        ],
+      ),
+    ),
         ],
       ),
     );
@@ -465,6 +573,7 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     required String label,
     required bool isSaved,
     required VoidCallback onTap,
+    bool isNarrow = false,
   }) {
     final bg = isSaved ? AppColors.giftIdeasDetailSavedBtnBg : AppColors.giftIdeasDetailSecondaryBtnBg;
     final border = isSaved ? AppColors.giftIdeasDetailSavedBtnBorder : AppColors.giftIdeasDetailSecondaryBtnBorder;
@@ -477,7 +586,7 @@ class GiftIdeasDetailScreen extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(_kSecondaryBtnRadius),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: isNarrow ? 10 : 16, vertical: isNarrow ? 8 : 10),
           decoration: BoxDecoration(
             color: bg,
             borderRadius: BorderRadius.circular(_kSecondaryBtnRadius),
@@ -486,9 +595,9 @@ class GiftIdeasDetailScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 20, color: textStyle.color ?? AppColors.giftIdeasDetailSecondaryBtnText),
+              Icon(icon, size: isNarrow ? 18 : 20, color: textStyle.color ?? AppColors.giftIdeasDetailSecondaryBtnText),
               const SizedBox(height: 4),
-              Text(label, style: textStyle),
+              Text(label, style: textStyle.copyWith(fontSize: isNarrow ? 11 : 13), maxLines: 1, overflow: TextOverflow.ellipsis),
             ],
           ),
         ),
@@ -496,33 +605,32 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTipCard(BuildContext context) {
+  Widget _buildTipCard(BuildContext context, [bool isNarrow = false]) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isNarrow ? 12 : 16),
       decoration: BoxDecoration(
         color: AppColors.giftIdeasDetailCardBg,
         borderRadius: BorderRadius.circular(_kCardRadius),
         border: Border.all(color: AppColors.giftIdeasDetailCardBorder),
         boxShadow: AppShadows.giftIdeasCard,
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.auto_awesome, size: 22, color: AppColors.giftIdeasDetailTipIcon),
-          const SizedBox(width: 12),
-          Expanded(
-            child: RichText(
-              text: TextSpan(
-                style: AppTextStyles.giftIdeasDetailTipText,
-                children: [
-                  const TextSpan(text: 'Tip: Click '),
-                  TextSpan(
-                    text: '"Find Near You"',
-                    style: AppTextStyles.giftIdeasDetailTipBold,
-                  ),
-                  const TextSpan(text: ' to see local businesses offering each gift.'),
-                ],
-              ),
+          Icon(Icons.auto_awesome, size: isNarrow ? 20 : 24, color: AppColors.giftIdeasDetailTipIcon),
+          SizedBox(height: isNarrow ? 8 : 10),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: AppTextStyles.giftIdeasDetailTipText.copyWith(fontSize: isNarrow ? 12 : 14),
+              children: [
+                const TextSpan(text: 'Tip: Click '),
+                TextSpan(
+                  text: '"Find Near You"',
+                  style: AppTextStyles.giftIdeasDetailTipBold,
+                ),
+                const TextSpan(text: ' to see local businesses offering each gift.'),
+              ],
             ),
           ),
         ],
@@ -582,11 +690,11 @@ class GiftIdeasDetailScreen extends StatelessWidget {
     });
   }
 
-  Widget _buildViewHistoryButton(BuildContext context, GiftIdeasDetailController c) {
+  Widget _buildViewHistoryButton(BuildContext context, GiftIdeasDetailController c, [bool isNarrow = false]) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: null,
+        onTap: c.onViewGiftHistory,
         borderRadius: BorderRadius.circular(_kFindNearYouRadius),
         child: Container(
           width: double.infinity,

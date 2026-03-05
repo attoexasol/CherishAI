@@ -38,6 +38,8 @@ import '../../presentation/edit_loved_one/views/edit_loved_one_screen.dart';
 import '../../presentation/edit_loved_one/bindings/edit_loved_one_binding.dart';
 import '../../presentation/loved_one_details/views/loved_one_details_screen.dart';
 import '../../presentation/your_approach/views/your_approach_screen.dart';
+import '../../presentation/local_businesses/views/local_businesses_screen.dart';
+import '../../presentation/local_businesses/views/local_businesses_discover_screen.dart';
 import '../bindings/initial_binding.dart';
 import '../bindings/auth_binding.dart';
 
@@ -69,6 +71,7 @@ abstract class AppRoutes {
   static const String giftIdeas = '/individual/gift-ideas';
   static const String giftIdeasDetail = '/individual/gift-ideas-detail';
   static const String businessSuggestions = '/individual/business-suggestions';
+  static const String localBusinessesDiscover = '/individual/local-businesses-discover';
   static const String allGiftIdeas = '/individual/all-gift-ideas';
   static const String search = '/individual/search';
   static const String lovedOnesList = '/individual/loved-ones-list';
@@ -175,7 +178,12 @@ abstract class AppRoutes {
         ),
         GetPage(
           name: businessSuggestions,
-          page: () => const _PlaceholderScreen(title: 'Business Suggestions'),
+          page: () => const LocalBusinessesScreen(),
+          binding: InitialBinding(),
+        ),
+        GetPage(
+          name: localBusinessesDiscover,
+          page: () => const LocalBusinessesDiscoverScreen(),
           binding: InitialBinding(),
         ),
         GetPage(

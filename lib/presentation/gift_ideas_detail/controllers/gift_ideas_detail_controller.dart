@@ -1,11 +1,21 @@
 // lib/presentation/gift_ideas_detail/controllers/gift_ideas_detail_controller.dart
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../app/routes/app_routes.dart';
 import '../models/gift_ideas_detail_models.dart';
 
 /// Static filter options (mirror React).
 const String kPriceAll = 'All Prices';
 const String kCategoryAll = 'All Gifts';
+
+/// Maps event icon emoji from home to detail screen iconType.
+String _iconTypeFromEventIcon(String? eventIcon) {
+  if (eventIcon == null || eventIcon.isEmpty) return 'birthday';
+  if (eventIcon.contains('🎂') || eventIcon.contains('cake')) return 'birthday';
+  if (eventIcon.contains('🌸') || eventIcon.contains('flower')) return 'flower';
+  if (eventIcon.contains('🤝') || eventIcon.contains('hand')) return 'handshake';
+  return 'gift';
+}
 
 /// Controller for event-specific Gift Ideas Detail screen. Mirrors React behavior.
 class GiftIdeasDetailController extends GetxController {
@@ -43,8 +53,30 @@ class GiftIdeasDetailController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    final args = Get.arguments as Map<String, dynamic>?;
+    applyArguments(Get.arguments as Map<String, dynamic>?);
+  }
+
+  /// Call when screen is shown so args from Home (or others) are applied. Safe to call multiple times.
+  void applyArguments(Map<String, dynamic>? args) {
     _eventId = args?['eventId']?.toString();
+    final lovedOneName = args?['lovedOneName'] as String?;
+    final eventType = args?['eventType'] as String?;
+    final eventDate = args?['eventDate'] as String?;
+    final daysUntil = args?['daysUntil'];
+    final eventIcon = args?['eventIcon'] as String?;
+    if (lovedOneName != null && eventType != null) {
+      final days = daysUntil is int ? daysUntil : (int.tryParse(daysUntil?.toString() ?? '0') ?? 0);
+      event.value = GiftIdeasDetailEvent(
+        id: _eventId ?? '0',
+        lovedOneName: lovedOneName,
+        eventType: eventType,
+        eventDate: eventDate ?? '',
+        daysUntil: days,
+        iconType: _iconTypeFromEventIcon(eventIcon),
+      );
+    } else {
+      event.value = _getEventById(_eventId ?? '1');
+    }
     loadEventAndGifts();
   }
 
@@ -52,13 +84,16 @@ class GiftIdeasDetailController extends GetxController {
     isLoading.value = true;
     _eventId ??= Get.parameters['eventId'];
     final id = _eventId ?? '1';
-    event.value = _getEventById(id);
+    if (event.value == null) {
+      event.value = _getEventById(id);
+    }
     final allGifts = _getGiftIdeasForEvent(id);
     gifts.value = _applyFilters(allGifts);
     isLoading.value = false;
   }
 
-  GiftIdeasDetailEvent? _getEventById(String eventId) {
+  GiftIdeasDetailEvent? _getEventById(String? eventId) {
+    if (eventId == null) return null;
     const events = [
       GiftIdeasDetailEvent(
         id: '1',
@@ -97,69 +132,54 @@ class GiftIdeasDetailController extends GetxController {
         events.first;
   }
 
+  /// Sample gift ideas matching the Gift Ideas detail UI (same 3 for all events when no backend).
+  static const List<GiftDetailItem> sampleGifts = [
+    GiftDetailItem(
+      id: 'g1',
+      title: 'Personalized Photo Album',
+      description:
+          'A beautifully crafted photo album with your favorite moments together. Premium leather cover with custom embossing.',
+      priceRange: '\$45 - \$85',
+      priceMin: 45,
+      priceMax: 85,
+      category: 'Personalized',
+      whyPerfect:
+          "Sarah loves looking back at old memories and cherishes thoughtful, personal gifts.",
+      emoji: '❤️',
+      iconType: 'camera',
+    ),
+    GiftDetailItem(
+      id: 'g2',
+      title: 'Artisan Coffee Subscription',
+      description:
+          'Monthly delivery of specialty coffees from around the world. Includes tasting notes and brewing tips.',
+      priceRange: '\$12 - \$18/month',
+      priceMin: 12,
+      priceMax: 18,
+      category: 'Subscription',
+      whyPerfect:
+          "She mentioned loving that new cafe on Main Street and trying different coffee blends.",
+      emoji: '✨',
+      iconType: 'coffee',
+    ),
+    GiftDetailItem(
+      id: 'g3',
+      title: 'Weekend Spa Getaway',
+      description:
+          'A relaxing weekend at a luxury spa resort. Includes massage, facials, and gourmet dining.',
+      priceRange: '\$250 - \$500',
+      priceMin: 250,
+      priceMax: 500,
+      category: 'Experiences',
+      whyPerfect:
+          "Sarah has been working hard and mentioned needing some relaxation time.",
+      emoji: '✨',
+      iconType: 'spa',
+    ),
+  ];
+
   List<GiftDetailItem> _getGiftIdeasForEvent(String eventId) {
-    const sarahGifts = [
-      GiftDetailItem(
-        id: 'g1',
-        title: 'Perfect Gift Ideas',
-        description:
-            'Premium leather cover with custom embossing. Holds 200+ photos with acid-free pages.',
-        priceRange: '\$40 - \$80',
-        priceMin: 40,
-        priceMax: 80,
-        category: 'Personalized',
-        whyPerfect:
-            "Sarah loves photographs and cherishes memories from your travels together.",
-        emoji: '❤️',
-        iconType: 'camera',
-      ),
-      GiftDetailItem(
-        id: 'g2',
-        title: 'Artisan Coffee Subscription',
-        description:
-            'Monthly delivery of specialty coffee from around the world. Includes tasting notes and brewing tips.',
-        priceRange: '\$25 - \$40/month',
-        priceMin: 25,
-        priceMax: 40,
-        category: 'Subscription',
-        whyPerfect:
-            "She mentioned loving her own café on Main Street and trying different coffee blends.",
-        emoji: '✨',
-        iconType: 'coffee',
-      ),
-      GiftDetailItem(
-        id: 'g3',
-        title: 'Weekend Spa Getaway',
-        description:
-            'A relaxing weekend at a luxury spa resort, includes massage, facials, and gourmet dining.',
-        priceRange: '\$250 - \$500',
-        priceMin: 250,
-        priceMax: 500,
-        category: 'Experiences',
-        whyPerfect:
-            "Sarah has been working hard and mentioned needing some relaxation time.",
-        emoji: '✨',
-        iconType: 'spa',
-      ),
-    ];
-    if (eventId == '1') return List.from(sarahGifts);
-    if (eventId == '2') {
-      return [
-        const GiftDetailItem(
-          id: 'm1',
-          title: 'Floral Bouquet Subscription',
-          description: 'Monthly fresh flowers delivered.',
-          priceRange: '\$30 - \$60/month',
-          priceMin: 30,
-          priceMax: 60,
-          category: 'Subscription',
-          whyPerfect: "Mom loves fresh flowers in the house.",
-          iconType: 'flower',
-        ),
-        ...sarahGifts.take(2),
-      ];
-    }
-    return List.from(sarahGifts);
+    return List<GiftDetailItem>.from(sampleGifts);
   }
 
   List<GiftDetailItem> _applyFilters(List<GiftDetailItem> list) {
@@ -205,9 +225,18 @@ class GiftIdeasDetailController extends GetxController {
   }
 
   void onFindNearYou(String giftId) {
+    final item = gifts.firstWhereOrNull((g) => g.id == giftId);
+    final ev = event.value;
     Get.toNamed(
       AppRoutes.businessSuggestions,
-      arguments: {'giftId': giftId},
+      arguments: {
+        'giftTitle': item?.title ?? 'Gift',
+        'lovedOneName': ev?.lovedOneName ?? '',
+        'eventTitle': ev?.eventType ?? '',
+        'category': item?.category ?? '',
+        'priceRange': item?.priceRange ?? '',
+        'source': 'gift_ideas_detail',
+      },
     );
   }
 
@@ -222,16 +251,19 @@ class GiftIdeasDetailController extends GetxController {
   void onShareGift(String giftId) {
     final item = gifts.firstWhereOrNull((g) => g.id == giftId);
     if (item == null) return;
-    // Mirror React: navigator.share when available; fallback copy/link.
-    // Flutter: use Share.share from share_plus if added, else no-op or copy.
-    // Per rules: no new packages unless needed; keep behavior same → no-op for now.
+    Share.share(
+      '${item.title}\n\n${item.description}\n\nWhy it\'s perfect: ${item.whyPerfect}',
+      subject: item.title,
+    );
   }
 
   void onVisitGift(String giftId) {
     final item = gifts.firstWhereOrNull((g) => g.id == giftId);
     final url = item?.vendorUrl;
     if (url != null && url.isNotEmpty) {
-      // Launch URL: url_launcher if in project; else no-op.
+      // TODO: url_launcher when integrated.
+    } else {
+      Get.snackbar('Visit', 'Link not available for this gift yet.');
     }
   }
 

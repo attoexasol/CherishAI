@@ -47,6 +47,9 @@ dependencies:
   # Native share sheet (WhatsApp, Messenger, etc.)
   share_plus: ^10.0.0
 
+  # Launch URLs (tel, https, maps)
+  url_launcher: ^6.2.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -175,8 +175,17 @@ class HomeController extends GetxController {
     }
   }
 
-  void onOpenGiftIdeas(int eventId) {
-    Get.toNamed(AppRoutes.giftIdeas, arguments: {'eventId': eventId});
+  void onOpenGiftIdeas(UpcomingEventItem event) {
+    Get.toNamed(AppRoutes.giftIdeasDetail, arguments: {
+      'eventId': event.id,
+      'lovedOneName': event.lovedOneName,
+      'eventType': event.eventType,
+      'eventDate': event.eventDate,
+      'daysUntil': event.daysUntil,
+      'eventIcon': event.eventIcon,
+      'displayTitle': "${event.lovedOneName}'s ${event.eventType}",
+      'countdownText': 'Coming up in ${event.daysUntil} days',
+    });
   }
 
   void onLikeInspiration() {

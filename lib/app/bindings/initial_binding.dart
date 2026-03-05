@@ -34,6 +34,8 @@ import '../../presentation/business_onboarding/controllers/business_information_
 import '../../presentation/business_onboarding/products_services/controllers/products_services_controller.dart';
 import '../../presentation/business_dashboard/controllers/business_dashboard_controller.dart';
 import '../../presentation/business_profile/controllers/business_profile_controller.dart';
+import '../../presentation/local_businesses/controllers/local_businesses_controller.dart';
+import '../../presentation/local_businesses/controllers/local_businesses_discover_controller.dart';
 
 /// Registers global/splash/onboarding/auth dependencies. Extend when adding more screens.
 class InitialBinding extends Bindings {
@@ -73,5 +75,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut<ProductsServicesController>(() => ProductsServicesController());
     Get.lazyPut<BusinessDashboardController>(() => BusinessDashboardController());
     Get.lazyPut<BusinessProfileController>(() => BusinessProfileController());
+    Get.lazyPut<LocalBusinessesController>(() => LocalBusinessesController());
+    Get.lazyPut<LocalBusinessesDiscoverController>(() => LocalBusinessesDiscoverController());
   }
 }
