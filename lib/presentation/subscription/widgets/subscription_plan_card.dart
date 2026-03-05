@@ -5,6 +5,7 @@ import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_shadows.dart';
 import '../controllers/manage_subscription_controller.dart';
+import '../models/plan_model.dart';
 
 /// RomanticCard: rounded-[20px] p-6, shadow 0 8px 30px rgb(0,0,0,0.08). React: border-2 border-rose-300/purple-300/indigo-300, ring-4 ring-purple-300 ring-offset-2 when current. Badges top-4 (16px), px-3 py-1, text-xs font-bold. Crown w-12 h-12 (48), icon w-6 (24). Price text-4xl (36). space-y-3 (12) features, gap-2 (8) check-text. rounded-2xl (16) buttons.
 const double _kCardRadius = 20;
@@ -110,14 +111,26 @@ class SubscriptionPlanCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: _kSectionMb),
-          ...plan.features.map((f) => Padding(
+          ...plan.features.map((item) => Padding(
                 padding: const EdgeInsets.only(bottom: _kFeatureSpacing),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.check_circle, size: _kFeatureIconSize, color: AppColors.success),
                     SizedBox(width: _kFeatureGap),
-                    Expanded(child: Text(f, style: AppTextStyles.subIncludeItem, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(item.text, style: AppTextStyles.subIncludeItem, maxLines: 3, overflow: TextOverflow.ellipsis),
+                          if (item.detail != null) ...[
+                            const SizedBox(height: 2),
+                            Text(item.detail!, style: AppTextStyles.subPlanSubtitle, maxLines: 3, overflow: TextOverflow.ellipsis),
+                          ],
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               )),

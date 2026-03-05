@@ -2,9 +2,10 @@
 import 'package:get/get.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../app/theme/app_colors.dart';
+import '../models/plan_model.dart';
 import '../widgets/unsubscribe_dialog.dart';
 
-/// Plan data for Manage Subscription screen only. Matches React allPlans exactly.
+/// Plan data for Manage Subscription screen. Derived from PlansData (single source).
 class ManageSubPlan {
   const ManageSubPlan({
     required this.id,
@@ -21,7 +22,7 @@ class ManageSubPlan {
   final String price;
   final String period;
   final String description;
-  final List<String> features;
+  final List<PlanIncludeItem> features;
   final String borderColorKey; // 'essential' | 'plus' | 'unlimited'
   final bool popular;
 }
@@ -30,58 +31,18 @@ class ManageSubscriptionController extends GetxController {
   final RxBool showPlans = false.obs;
   final RxString currentPlanId = 'plus'.obs;
 
-  static const List<ManageSubPlan> manageSubscriptionPlans = [
-    ManageSubPlan(
-      id: 'essential',
-      name: 'Cherish Essential',
-      price: '\$8',
-      period: '/month',
-      description: 'Perfect for getting started',
-      features: [
-        'Up to 3 loved ones',
-        'Basic gift suggestions',
-        'Event reminders',
-        'Monthly message ideas',
-      ],
-      borderColorKey: 'essential',
-      popular: false,
-    ),
-    ManageSubPlan(
-      id: 'plus',
-      name: 'Cherish Plus',
-      price: '\$15',
-      period: '/month',
-      description: 'Most popular choice',
-      features: [
-        'Up to 6 loved ones',
-        'Advanced AI gift ideas',
-        'Unlimited event tracking',
-        'Daily personalized messages',
-        'Local business recommendations',
-        'Priority support',
-      ],
-      borderColorKey: 'plus',
-      popular: true,
-    ),
-    ManageSubPlan(
-      id: 'unlimited',
-      name: 'Cherish Unlimited',
-      price: '\$25',
-      period: '/month',
-      description: 'For relationship experts',
-      features: [
-        'Unlimited loved ones',
-        'Premium AI insights',
-        'Unlimited everything',
-        'Exclusive relationship tips',
-        'Advanced analytics',
-        'White-glove support',
-        'Early access to new features',
-      ],
-      borderColorKey: 'unlimited',
-      popular: false,
-    ),
-  ];
+  static List<ManageSubPlan> get manageSubscriptionPlans => PlansData.plans.map((p) {
+    return ManageSubPlan(
+      id: p.id,
+      name: p.displayTitleEmoji != null ? '${p.displayTitleEmoji} ${p.name}' : p.name,
+      price: p.price,
+      period: p.period,
+      description: p.description ?? p.subtitle ?? p.name,
+      features: p.includes,
+      borderColorKey: p.id,
+      popular: p.isRecommended,
+    );
+  }).toList();
 
   ManageSubPlan get currentPlan =>
       manageSubscriptionPlans.firstWhere((p) => p.id == currentPlanId.value, orElse: () => manageSubscriptionPlans[1]);
@@ -114,22 +75,24 @@ class ManageSubscriptionController extends GetxController {
   void onKeepSubscription() => Get.back();
 
   void onDowngradeToEssential() {
+    final p = PlansData.essential;
     Get.toNamed(AppRoutes.checkout, arguments: {
-      'id': 'essential',
-      'name': 'Cherish Essential',
-      'price': '\$8',
-      'period': '/month',
-      'tagline': 'Perfect for getting started',
+      'id': p.id,
+      'name': p.name,
+      'price': p.price,
+      'period': p.period,
+      'tagline': p.subtitle,
     });
   }
 
   void onUpgradeToUnlimited() {
+    final p = PlansData.unlimited;
     Get.toNamed(AppRoutes.checkout, arguments: {
-      'id': 'unlimited',
-      'name': 'Cherish Unlimited',
-      'price': '\$25',
-      'period': '/month',
-      'tagline': 'For relationship experts',
+      'id': p.id,
+      'name': p.name,
+      'price': p.price,
+      'period': p.period,
+      'tagline': p.subtitle,
     });
   }
 }

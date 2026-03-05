@@ -352,10 +352,19 @@ class ChoosePlanScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(plan.name, style: AppTextStyles.subPlanName),
+                            Text(
+                              plan.displayTitleEmoji != null ? '${plan.displayTitleEmoji} ${plan.name}' : plan.name,
+                              style: AppTextStyles.subPlanName,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             if (plan.subtitle != null) ...[
                               const SizedBox(height: 2),
-                              Text(plan.subtitle!, style: AppTextStyles.subPlanSubtitle),
+                              Text(plan.subtitle!, style: AppTextStyles.subPlanSubtitle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                            ],
+                            if (plan.description != null) ...[
+                              const SizedBox(height: 2),
+                              Text(plan.description!, style: AppTextStyles.subPlanSubtitle, maxLines: 2, overflow: TextOverflow.ellipsis),
                             ],
                           ],
                         ),
@@ -397,7 +406,7 @@ class ChoosePlanScreen extends StatelessWidget {
                               ),
                               const SizedBox(width: 10),
                               Expanded(
-                                child: Text(item.text, style: AppTextStyles.subIncludeItem),
+                                child: Text(item.text, style: AppTextStyles.subIncludeItem, maxLines: 3, overflow: TextOverflow.ellipsis),
                               ),
                             ],
                           ),
@@ -405,7 +414,7 @@ class ChoosePlanScreen extends StatelessWidget {
                             const SizedBox(height: 4),
                             Padding(
                               padding: const EdgeInsets.only(left: 16),
-                              child: Text(item.detail!, style: AppTextStyles.subIncludeDetail),
+                              child: Text(item.detail!, style: AppTextStyles.subIncludeDetail, maxLines: 4, overflow: TextOverflow.ellipsis),
                             ),
                           ],
                         ],
@@ -415,7 +424,7 @@ class ChoosePlanScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text('BEST FOR:', style: AppTextStyles.subSectionLabel),
                   const SizedBox(height: 6),
-                  Text(plan.bestFor, style: AppTextStyles.subBestFor),
+                  Text(plan.bestFor, style: AppTextStyles.subBestFor, maxLines: 3, overflow: TextOverflow.ellipsis),
                 ],
               ),
             ),
