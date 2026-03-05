@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../app/routes/app_routes.dart';
+import '../../business_onboarding/products_services/controllers/products_services_controller.dart';
 import '../settings/controllers/business_account_settings_controller.dart';
 import '../settings/views/business_account_settings_dialog.dart';
 
@@ -14,7 +15,13 @@ class BusinessDashboardController extends GetxController {
   final RxDouble websiteChangePct = 5.0.obs;
   final RxBool hasProducts = false.obs;
 
-  void onBack() => Get.back();
+  void onBack() {
+    if (Get.key.currentState?.canPop() == true) {
+      Get.back();
+    } else {
+      Get.offNamed(AppRoutes.businessProfile);
+    }
+  }
 
   void onOpenSettings() {
     Get.put(BusinessAccountSettingsController(), permanent: false);
@@ -35,5 +42,11 @@ class BusinessDashboardController extends GetxController {
 
   void onViewPlans() {
     Get.toNamed(AppRoutes.businessChoosePlan);
+  }
+
+  /// Opens the same Add Business Location dialog as products/services screen.
+  Future<void> openAddBusinessLocationDialog() async {
+    final productsController = Get.find<ProductsServicesController>();
+    await productsController.openAddBusinessLocationDialog();
   }
 }

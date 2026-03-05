@@ -359,12 +359,24 @@ class BusinessInformationScreen extends StatelessWidget {
                     final e = categories[i];
                     final value = e['value']!;
                     final label = e['label']!;
+                    final description = e['description'] ?? '';
                     return Obx(() {
                       final selected = c.selectedCategories.contains(value);
                       return CheckboxListTile(
                         value: selected,
                         onChanged: (_) => c.onToggleCategory(value),
-                        title: Text(label, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        title: Text(label, style: AppTextStyles.businessInfoInput.copyWith(fontWeight: FontWeight.w600), maxLines: 1, overflow: TextOverflow.ellipsis),
+                        subtitle: description.isNotEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 2),
+                                child: Text(
+                                  description,
+                                  style: AppTextStyles.businessInfoHelper.copyWith(fontSize: 12, color: AppColors.businessInfoPlaceholder),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                            : null,
                         controlAffinity: ListTileControlAffinity.leading,
                         activeColor: AppColors.businessInfoBadgeStart,
                       );

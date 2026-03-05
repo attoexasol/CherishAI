@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../app/routes/app_routes.dart';
+import '../../../core/constants/business_service_categories.dart';
 
 class BusinessInformationController extends GetxController {
   final RxBool isSubmitting = false.obs;
@@ -39,19 +40,8 @@ class BusinessInformationController extends GetxController {
   final snapchatController = TextEditingController();
   final tiktokController = TextEditingController();
 
-  /// CATEGORY LIST – single source for Product or Services Category (business registration & location).
-  static const List<Map<String, String>> categories = [
-    {'value': 'gifts', 'label': 'Gifts & Personalized Items'},
-    {'value': 'food', 'label': 'Food & Dining Experiences'},
-    {'value': 'wellness', 'label': 'Wellness & Self-Care Services'},
-    {'value': 'entertainment', 'label': 'Entertainment & Leisure'},
-    {'value': 'fashion', 'label': 'Fashion & Style'},
-    {'value': 'home', 'label': 'Home & Lifestyle'},
-    {'value': 'travel', 'label': 'Travel & Getaways'},
-    {'value': 'memories', 'label': 'Memories & Creative Services'},
-    {'value': 'family', 'label': 'Family & Children Services'},
-    {'value': 'learning', 'label': 'Learning & Personal Growth'},
-  ];
+  /// Category list from shared master (multi-select for business registration).
+  static List<Map<String, String>> get categories => List<Map<String, String>>.from(kBusinessServiceCategories);
 
   static final List<String> countries = [
     'United States', 'Canada', 'United Kingdom', 'Australia', 'Germany',

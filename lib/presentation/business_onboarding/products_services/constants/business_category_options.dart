@@ -1,18 +1,25 @@
 // lib/presentation/business_onboarding/products_services/constants/business_category_options.dart
-// Single source of truth for Product or Services Category options.
-// Used by: Add Business Location (multi-select) and Add Product/Service (single-select).
+// Re-exports shared master list and adds backward-compat mapping for product category.
 
-/// Category list for both business location (multi-select) and product registration (single-select).
-/// Labels match client table; last entry: Learning & Personal Growth.
-const List<Map<String, String>> businessLocationCategoryOptions = [
-  {'value': 'gifts', 'label': '🎁 Gifts & Personalized Items'},
-  {'value': 'food', 'label': '🍽️ Food & Dining Experiences'},
-  {'value': 'wellness', 'label': '🧘 Wellness & Self-Care Services'},
-  {'value': 'entertainment', 'label': '🎭 Entertainment & Leisure'},
-  {'value': 'fashion', 'label': '👗 Fashion & Style'},
-  {'value': 'home', 'label': '🏠 Home & Lifestyle'},
-  {'value': 'travel', 'label': '✈️ Travel & Getaways'},
-  {'value': 'memories', 'label': '📸 Memories & Creative Services'},
-  {'value': 'family', 'label': '👨‍👩‍👧‍👦 Family & Children Services'},
-  {'value': 'learning', 'label': '📚 Learning & Personal Growth'},
-];
+import '../../../../core/constants/business_service_categories.dart';
+
+/// Same as [kBusinessServiceCategories]. Use for Business Location (multi-select) and Product (single-select).
+const List<Map<String, String>> businessLocationCategoryOptions = kBusinessServiceCategories;
+
+/// Maps legacy product category values to new master list value. Non-destructive: if no mapping, returns [oldValue].
+String mapLegacyProductCategoryToNew(String? oldValue) {
+  if (oldValue == null || oldValue.isEmpty) return oldValue ?? '';
+  switch (oldValue) {
+    case 'gifts': return 'gifts_surprises';
+    case 'food': return 'food_dining';
+    case 'wellness': return 'wellness_self_care';
+    case 'entertainment': return 'entertainment_fun';
+    case 'fashion': return 'fashion_style';
+    case 'home': return 'home_lifestyle';
+    case 'travel': return 'travel_experiences';
+    case 'memories': return 'memories_keepsakes';
+    case 'family': return 'family_kids';
+    case 'learning': return 'growth_learning';
+    default: return oldValue;
+  }
+}

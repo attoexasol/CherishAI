@@ -375,6 +375,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                       final e = businessLocationCategoryOptions[i];
                       final value = e['value']!;
                       final label = e['label']!;
+                      final description = e['description'] ?? '';
                       return Obx(() {
                         final selected = c.selectedCategories.contains(value);
                         return Material(
@@ -384,6 +385,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: 12),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Icon(
                                     selected ? Icons.check_box : Icons.check_box_outline_blank,
@@ -392,11 +394,26 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
-                                    child: Text(
-                                      label,
-                                      style: AppTextStyles.businessInfoInput,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          label,
+                                          style: AppTextStyles.businessInfoInput.copyWith(fontWeight: FontWeight.w600),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        if (description.isNotEmpty) ...[
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            description,
+                                            style: AppTextStyles.businessInfoHelper.copyWith(fontSize: 12, color: AppColors.businessInfoPlaceholder),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ],
                                     ),
                                   ),
                                 ],

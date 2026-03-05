@@ -7,6 +7,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_text_styles.dart';
 import '../../../../app/theme/app_gradients.dart';
 import '../../../../app/theme/app_shadows.dart';
+import '../constants/business_category_options.dart';
 import '../models/product_service_model.dart';
 
 const double _kModalRadius = 20;
@@ -68,7 +69,7 @@ class AddProductServiceDialog extends StatefulWidget {
 class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
-  String selectedLocation = '';
+  final locationNameController = TextEditingController();
   String selectedCategory = '';
   double minPrice = 50;
   double maxPrice = 100;
@@ -87,24 +88,32 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
     if (p != null) {
       nameController.text = p.name;
       descriptionController.text = p.description;
-      selectedLocation = p.siteId ?? '';
-      selectedCategory = p.category;
+      _setInitialLocationDisplay(p.siteId);
+      selectedCategory = mapLegacyProductCategoryToNew(p.category);
       minPrice = p.priceMin;
       maxPrice = p.priceMax;
       selectedOccasions.addAll(p.tags);
       selectedImages.addAll(p.images);
     }
-    // Ensure selected location exists in current list (e.g. after locations list changed or legacy 'main' id).
-    if (selectedLocation.isNotEmpty &&
-        widget.locations.every((e) => e['id'] != selectedLocation)) {
-      selectedLocation = widget.locations.isNotEmpty ? (widget.locations.first['id'] ?? '') : '';
+  }
+
+  void _setInitialLocationDisplay(String? siteId) {
+    if (siteId == null || siteId.isEmpty) return;
+    String display = siteId;
+    for (final e in widget.locations) {
+      if (e['id'] == siteId) {
+        display = e['label'] ?? siteId;
+        break;
+      }
     }
+    locationNameController.text = display;
   }
 
   @override
   void dispose() {
     nameController.dispose();
     descriptionController.dispose();
+    locationNameController.dispose();
     super.dispose();
   }
 
@@ -203,10 +212,13 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
   }
 
   void onSubmitAddProduct() {
+    final locationName = locationNameController.text.trim();
     if (nameController.text.trim().isEmpty ||
         descriptionController.text.trim().isEmpty ||
         selectedCategory.isEmpty ||
-        selectedLocation.isEmpty) return;
+        locationName.isEmpty) return;
+    // Preserve all selected photos (up to 3); defensive copy so list is not shared.
+    final imagesList = List<String>.from(selectedImages);
     final product = ProductServiceModel(
       id: _isEditMode ? widget.initialProduct!.id : DateTime.now().millisecondsSinceEpoch.toString(),
       name: nameController.text.trim(),
@@ -215,8 +227,8 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
       priceMax: maxPrice,
       category: selectedCategory,
       tags: selectedOccasions.toList(),
-      siteId: selectedLocation.isEmpty ? null : selectedLocation,
-      images: List.from(selectedImages),
+      siteId: locationName.isEmpty ? null : locationName,
+      images: imagesList,
     );
     if (_isEditMode && widget.onUpdate != null) {
       widget.onUpdate!(product);
@@ -254,7 +266,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
                     children: [
                       _buildNameField(),
                       SizedBox(height: _kBodySpacing),
-                      _buildLocationDropdown(),
+                      _buildLocationField(),
                       SizedBox(height: _kBodySpacing),
                       _buildCategoryDropdown(),
                       SizedBox(height: _kBodySpacing),
@@ -359,61 +371,15 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
         fontWeight: FontWeight.w400,
       );
 
-  bool get _hasNoLocations =>
-      widget.locations.length == 1 && (widget.locations.first['id'] ?? '').isEmpty;
-
-  Widget _buildLocationDropdown() {
-    if (_hasNoLocations) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Location Name *', style: AppTextStyles.businessInfoLabel),
-          SizedBox(height: _kLabelMb),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: _kInputPaddingH - 4, vertical: _kInputPaddingV),
-            decoration: BoxDecoration(
-              color: AppColors.businessInfoInputBg,
-              borderRadius: BorderRadius.circular(_kInputRadius),
-              border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'No business locations available. Add a business location first.',
-                    style: _dropdownHintStyle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-    final items = widget.locations
-        .map((e) => DropdownMenuItem<String>(
-              value: e['id'] ?? '',
-              child: Text(
-                e['label'] ?? '',
-                style: _dropdownTextStyle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ))
-        .toList();
-    final valueInItems = selectedLocation.isNotEmpty && widget.locations.any((e) => e['id'] == selectedLocation);
+  Widget _buildLocationField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Location Name *', style: AppTextStyles.businessInfoLabel),
         SizedBox(height: _kLabelMb),
-        _dropdown(
-          value: valueInItems ? selectedLocation : '',
-          hint: 'Select a location',
-          items: items,
-          onChanged: (v) => setState(() => selectedLocation = v ?? ''),
+        _input(
+          controller: locationNameController,
+          placeholder: 'e.g., Main Location, Downtown Store',
         ),
       ],
     );
@@ -421,26 +387,54 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
 
   Widget _buildCategoryDropdown() {
     final categoryValueInItems = selectedCategory.isNotEmpty && widget.categories.any((e) => e['value'] == selectedCategory);
+    final list = List<Map<String, String>>.from(widget.categories);
+    if (selectedCategory.isNotEmpty && !list.any((e) => e['value'] == selectedCategory)) {
+      list.insert(0, {'value': selectedCategory, 'label': selectedCategory, 'description': ''});
+    }
+    final items = list
+        .map((e) => DropdownMenuItem<String>(
+              value: e['value'] ?? '',
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    e['label'] ?? '',
+                    style: _dropdownTextStyle.copyWith(fontWeight: FontWeight.w600),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if ((e['description'] ?? '').isNotEmpty) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      e['description']!,
+                      style: _dropdownTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.businessInfoPlaceholder),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ))
+        .toList();
+    final selectedItemBuilder = list.map((e) => Text(
+          e['label'] ?? '',
+          style: _dropdownTextStyle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        )).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Product/Service Category *', style: AppTextStyles.businessInfoLabel),
         SizedBox(height: _kLabelMb),
         _dropdown(
-          value: categoryValueInItems ? selectedCategory : '',
+          value: categoryValueInItems || selectedCategory.isNotEmpty ? selectedCategory : '',
           hint: 'Select a category',
-          items: widget.categories
-              .map((e) => DropdownMenuItem<String>(
-                    value: e['value'] ?? '',
-                    child: Text(
-                      e['label'] ?? '',
-                      style: _dropdownTextStyle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ))
-              .toList(),
+          items: items,
           onChanged: (v) => setState(() => selectedCategory = v ?? ''),
+          selectedItemBuilder: selectedItemBuilder,
         ),
       ],
     );
@@ -686,7 +680,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
     final valid = nameController.text.trim().isNotEmpty &&
         descriptionController.text.trim().isNotEmpty &&
         selectedCategory.isNotEmpty &&
-        selectedLocation.isNotEmpty;
+        locationNameController.text.trim().isNotEmpty;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -732,6 +726,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
     required String hint,
     required List<DropdownMenuItem<String>> items,
     required ValueChanged<String?> onChanged,
+    List<Widget>? selectedItemBuilder,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: _kInputPaddingH - 4, vertical: 4),
@@ -749,6 +744,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
           iconSize: 20,
           style: TextStyle(fontSize: _kDropdownFontSize, color: AppColors.businessInfoInputText, fontWeight: FontWeight.w400),
           items: items,
+          selectedItemBuilder: selectedItemBuilder != null ? (_) => selectedItemBuilder! : null,
           onChanged: onChanged,
         ),
       ),

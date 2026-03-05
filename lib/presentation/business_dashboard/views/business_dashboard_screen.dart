@@ -77,6 +77,8 @@ class BusinessDashboardScreen extends StatelessWidget {
                                 SizedBox(height: _kContentSpacing),
                                 _buildYourProductsSection(context, c),
                                 SizedBox(height: _kContentSpacing),
+                                _buildAddBusinessLocationButton(context, c),
+                                SizedBox(height: _kContentSpacing),
                                 _buildUpgradeCard(context, c),
                               ],
                             ),
@@ -447,6 +449,41 @@ class BusinessDashboardScreen extends StatelessWidget {
           );
         }),
       ],
+    );
+  }
+
+  static const double _kAddLocationRadius = 17;
+  static const double _kAddLocationPaddingV = 14;
+  static const double _kAddLocationPaddingH = 24;
+  static const Color _kAddLocationBorderPurple = Color(0xFF8B7CFF);
+
+  Widget _buildAddBusinessLocationButton(BuildContext context, BusinessDashboardController c) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () async {
+          await c.openAddBusinessLocationDialog();
+        },
+        borderRadius: BorderRadius.circular(_kAddLocationRadius),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: _kAddLocationPaddingV, horizontal: _kAddLocationPaddingH),
+          decoration: BoxDecoration(
+            color: AppColors.businessDashboardCardBg,
+            borderRadius: BorderRadius.circular(_kAddLocationRadius),
+            border: Border.all(color: _kAddLocationBorderPurple, width: 2),
+            boxShadow: AppShadows.businessDashboardCard,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add, size: 22, color: _kAddLocationBorderPurple),
+              const SizedBox(width: 8),
+              Text('Add Business Location', style: AppTextStyles.businessInfoAddLocation.copyWith(color: _kAddLocationBorderPurple)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

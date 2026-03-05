@@ -314,13 +314,34 @@ class _ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (hasImages) ...[
-            SizedBox(
-              width: _kProductCardThumbSize,
-              height: _kProductCardThumbSize,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(_kProductCardThumbRadius),
-                child: _ProductImage(path: product.images.first),
-              ),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                SizedBox(
+                  width: _kProductCardThumbSize,
+                  height: _kProductCardThumbSize,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(_kProductCardThumbRadius),
+                    child: _ProductImage(path: product.images.first),
+                  ),
+                ),
+                if (product.images.length > 1)
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '+${product.images.length - 1}',
+                        style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             SizedBox(width: 16),
           ],

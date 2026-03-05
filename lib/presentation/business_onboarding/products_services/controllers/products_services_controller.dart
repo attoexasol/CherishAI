@@ -1,4 +1,5 @@
 // lib/presentation/business_onboarding/products_services/controllers/products_services_controller.dart
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../app/routes/app_routes.dart';
@@ -54,16 +55,17 @@ class ProductsServicesController extends GetxController {
     }
   }
 
-  /// Registered business locations for Location Name dropdown. Uses locationsAdded;
-  /// when none, returns a single hint entry so dropdown shows message and is disabled.
+  /// Location Name dropdown: Main Location + saved business locations from Add Business Location.
+  /// When none added, fallback to Main Location only. When locations added, include Main + added so selection works and edit mode preselects.
   List<Map<String, String>> get locations {
     final added = locationsAdded;
-    if (added.isEmpty) {
-      return [{'id': '', 'label': 'No business locations available. Add a business location first.'}];
-    }
-    return added.indexed
+    final fromAdded = added.indexed
         .map((e) => {'id': 'loc_${e.$1}', 'label': e.$2.locationName})
         .toList();
+    return [
+      {'id': 'main', 'label': 'Main Location'},
+      ...fromAdded,
+    ];
   }
 
   void openAddProductDialog() {
@@ -102,12 +104,20 @@ class ProductsServicesController extends GetxController {
   }
 
   void addProduct(ProductServiceModel product) {
+    if (kDebugMode) {
+      // ignore: avoid_print
+      print('Product save: location=${product.siteId}, images=${product.images.length}');
+    }
     items.add(product);
     _updateUsedCount();
     Get.back();
   }
 
   void updateProduct(ProductServiceModel updated) {
+    if (kDebugMode) {
+      // ignore: avoid_print
+      print('Product update: location=${updated.siteId}, images=${updated.images.length}');
+    }
     final index = items.indexWhere((p) => p.id == updated.id);
     if (index >= 0) {
       items[index] = updated;
