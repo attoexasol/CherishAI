@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../app/routes/app_routes.dart';
+import '../constants/business_category_options.dart';
 import '../models/business_location_model.dart';
 import '../models/product_service_model.dart';
 import '../views/add_product_service_dialog.dart';
@@ -36,20 +37,34 @@ class ProductsServicesController extends GetxController {
         barrierDismissible: true,
         barrierColor: const Color(0x66000000),
       );
-      if (result != null) {
+      // Only add valid location; empty/invalid entries would render as empty chips and cause blank white block.
+      if (result != null && result.locationName.trim().isNotEmpty) {
         locationsAdded.add(result);
       }
       return result;
     } finally {
       if (Get.isRegistered<AddBusinessLocationController>()) {
-        Get.delete<AddBusinessLocationController>();
+        // Defer delete so the dialog is fully unmounted before controllers are disposed.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (Get.isRegistered<AddBusinessLocationController>()) {
+            Get.delete<AddBusinessLocationController>();
+          }
+        });
       }
     }
   }
 
-  List<Map<String, String>> get locations => [
-        {'id': 'main', 'label': 'Main Location'},
-      ];
+  /// Registered business locations for Location Name dropdown. Uses locationsAdded;
+  /// when none, returns a single hint entry so dropdown shows message and is disabled.
+  List<Map<String, String>> get locations {
+    final added = locationsAdded;
+    if (added.isEmpty) {
+      return [{'id': '', 'label': 'No business locations available. Add a business location first.'}];
+    }
+    return added.indexed
+        .map((e) => {'id': 'loc_${e.$1}', 'label': e.$2.locationName})
+        .toList();
+  }
 
   void openAddProductDialog() {
     Get.dialog<void>(
@@ -79,18 +94,8 @@ class ProductsServicesController extends GetxController {
     );
   }
 
-  static const List<Map<String, String>> categories = [
-    {'value': 'gifts', 'label': '🎁 Gifts & Personalized Items'},
-    {'value': 'food', 'label': '🍽️ Food & Dining Experiences'},
-    {'value': 'wellness', 'label': '🧘 Wellness & Self-Care Services'},
-    {'value': 'entertainment', 'label': '🎭 Entertainment & Leisure'},
-    {'value': 'fashion', 'label': '👗 Fashion & Style'},
-    {'value': 'home', 'label': '🏠 Home & Lifestyle'},
-    {'value': 'travel', 'label': '✈️ Travel & Getaways'},
-    {'value': 'memories', 'label': '📸 Memories & Creative Services'},
-    {'value': 'family', 'label': '👨‍👩‍👧‍👦 Family & Children Services'},
-    {'value': 'learning', 'label': '📚 Learning & Personal Growth'},
-  ];
+  /// Same list as business location; product registration uses single-select only.
+  static List<Map<String, String>> get categories => List<Map<String, String>>.from(businessLocationCategoryOptions);
 
   void onCompleteRegistration() {
     Get.offAllNamed(AppRoutes.businessDashboard);

@@ -8,6 +8,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_text_styles.dart';
 import '../../../../app/theme/app_gradients.dart';
 import '../../../../app/theme/app_shadows.dart';
+import '../constants/business_category_options.dart';
 import '../controllers/add_business_location_controller.dart';
 
 const double _kDialogRadius = 23;
@@ -185,7 +186,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                     SizedBox(height: _kContentSpacing),
                     _field(c, 'Tel', c.telController, '(555) 123-4567'),
                     SizedBox(height: _kContentSpacing),
-                    _buildCategoryDropdown(c),
+                    _buildCategoryMultiSelect(c),
                     SizedBox(height: _kContentSpacing),
                     _buildLabel('Description'),
                     SizedBox(height: _kLabelMb),
@@ -329,34 +330,162 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
     );
   }
 
-  Widget _buildCategoryDropdown(AddBusinessLocationController c) {
+  static const int _kMaxChipsVisible = 2;
+
+  void _showCategoryPickerSheet(AddBusinessLocationController c) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        minChildSize: 0.3,
+        maxChildSize: 0.9,
+        builder: (_, scrollController) => Container(
+          decoration: BoxDecoration(
+            color: AppColors.businessInfoInputBg,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(_kInputRadius)),
+            border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
+          ),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Select categories', style: AppTextStyles.businessInfoLabel),
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        child: Text('Done', style: AppTextStyles.businessInfoInput.copyWith(fontWeight: FontWeight.w600, color: _kHeaderPurple)),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(height: 1, color: AppColors.businessInfoInputBorder),
+                Flexible(
+                  child: ListView.builder(
+                    controller: scrollController,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: businessLocationCategoryOptions.length,
+                    itemBuilder: (context, i) {
+                      final e = businessLocationCategoryOptions[i];
+                      final value = e['value']!;
+                      final label = e['label']!;
+                      return Obx(() {
+                        final selected = c.selectedCategories.contains(value);
+                        return Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () => c.toggleCategory(value),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: 12),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    selected ? Icons.check_box : Icons.check_box_outline_blank,
+                                    size: 24,
+                                    color: selected ? _kHeaderPurple : AppColors.businessInfoPlaceholder,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      label,
+                                      style: AppTextStyles.businessInfoInput,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryMultiSelect(AddBusinessLocationController c) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildLabel('Product or Services Category *'),
         SizedBox(height: _kLabelMb),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: 4),
-          decoration: BoxDecoration(
-            color: AppColors.businessInfoInputBg,
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => _showCategoryPickerSheet(c),
             borderRadius: BorderRadius.circular(_kInputRadius),
-            border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
-          ),
-          child: Obx(() => DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: c.selectedCategory.value.isEmpty ? null : c.selectedCategory.value,
-              hint: Text('Select a category', style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder), maxLines: 1, overflow: TextOverflow.ellipsis),
-              isExpanded: true,
-              isDense: true,
-              items: AddBusinessLocationController.categories
-                  .map((e) => DropdownMenuItem<String>(value: e['value'], child: Text(e['label']!, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)))
-                  .toList(),
-              onChanged: (v) => c.selectedCategory.value = v ?? '',
-              selectedItemBuilder: (context) => AddBusinessLocationController.categories.map((e) => Text(e['label']!, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)).toList(),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: _kInputPaddingV),
+              decoration: BoxDecoration(
+                color: AppColors.businessInfoInputBg,
+                borderRadius: BorderRadius.circular(_kInputRadius),
+                border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
+              ),
+              child: Obx(() {
+                final selected = c.selectedCategories;
+                if (selected.isEmpty) {
+                  return Text(
+                    'Select categories',
+                    style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                }
+                final optionMap = {for (var e in businessLocationCategoryOptions) e['value']!: e['label']!};
+                final labels = selected.map((v) => optionMap[v] ?? v).toList();
+                if (labels.length <= _kMaxChipsVisible) {
+                  return Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: labels.map((l) => _categoryChip(l)).toList(),
+                  );
+                }
+                final visible = labels.take(_kMaxChipsVisible).toList();
+                final rest = labels.length - _kMaxChipsVisible;
+                return Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: [
+                    ...visible.map((l) => _categoryChip(l)),
+                    _categoryChip('+$rest more'),
+                  ],
+                );
+              }),
             ),
-          )),
+          ),
         ),
       ],
+    );
+  }
+
+  Widget _categoryChip(String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: _kHeaderPurple.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: _kHeaderPurple.withValues(alpha: 0.4)),
+      ),
+      child: Text(
+        label,
+        style: AppTextStyles.businessInfoInput.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
@@ -552,23 +681,27 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
   }
 
   Widget _buildCta(AddBusinessLocationController c) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () => _onAddLocationTap(c),
-        borderRadius: BorderRadius.circular(_kCtaRadius),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: _kCtaPaddingV),
-          decoration: BoxDecoration(
-            gradient: AppGradients.businessInfoCta,
-            borderRadius: BorderRadius.circular(_kCtaRadius),
-            boxShadow: AppShadows.businessInfoCta,
+    return Obx(() {
+      final submitting = c.isSubmitting.value;
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: submitting ? null : () => _onAddLocationTap(c),
+          borderRadius: BorderRadius.circular(_kCtaRadius),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: _kCtaPaddingV),
+            decoration: BoxDecoration(
+              gradient: submitting ? null : AppGradients.businessInfoCta,
+              color: submitting ? AppColors.businessInfoSliderInactive : null,
+              borderRadius: BorderRadius.circular(_kCtaRadius),
+              boxShadow: submitting ? null : AppShadows.businessInfoCta,
+            ),
+            child: Center(child: Text('Add Location', style: AppTextStyles.businessInfoCta)),
           ),
-          child: Center(child: Text('Add Location', style: AppTextStyles.businessInfoCta)),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

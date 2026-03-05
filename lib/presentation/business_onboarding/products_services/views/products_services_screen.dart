@@ -36,6 +36,8 @@ class ProductsServicesScreen extends StatelessWidget {
     final c = Get.find<ProductsServicesController>();
     final bottomPad = MediaQuery.paddingOf(context).bottom;
     return Scaffold(
+      // Avoid keyboard insets leaving blank white space after Add Business Location dialog closes.
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(gradient: AppGradients.businessInfoPageBg),
         child: SafeArea(
@@ -203,7 +205,8 @@ class ProductsServicesScreen extends StatelessWidget {
 
   Widget _buildLocationChips(ProductsServicesController c) {
     return Obx(() {
-      final list = c.locationsAdded;
+      // Filter out null/empty entries so we never render an empty card or blank block.
+      final list = c.locationsAdded.where((loc) => loc.locationName.trim().isNotEmpty).toList();
       if (list.isEmpty) return const SizedBox.shrink();
       return Padding(
         padding: const EdgeInsets.only(top: 12),
@@ -212,9 +215,10 @@ class ProductsServicesScreen extends StatelessWidget {
           runSpacing: 8,
           children: list.map((loc) {
             final subtitle = [loc.country, loc.city].where((s) => s.isNotEmpty).join(', ');
+            final name = loc.locationName.trim();
             return Chip(
               label: Text(
-                subtitle.isEmpty ? loc.locationName : '${loc.locationName} • $subtitle',
+                subtitle.isEmpty ? name : '$name • $subtitle',
                 style: AppTextStyles.businessInfoHelper.copyWith(fontSize: 13),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

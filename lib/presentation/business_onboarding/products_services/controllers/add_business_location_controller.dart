@@ -1,6 +1,7 @@
 // lib/presentation/business_onboarding/products_services/controllers/add_business_location_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../constants/business_category_options.dart';
 import '../models/business_location_model.dart';
 
 class AddBusinessLocationController extends GetxController {
@@ -16,23 +17,16 @@ class AddBusinessLocationController extends GetxController {
   final descriptionController = TextEditingController();
   final operatingHoursController = TextEditingController();
 
-  final RxString selectedCategory = ''.obs;
+  /// Multi-select: at least one category required.
+  final RxList<String> selectedCategories = <String>[].obs;
   final RxDouble priceRangeValue = 2.0.obs;
   final RxList<String> selectedDeliveryTypes = <String>[].obs;
   final RxString logoFilePath = ''.obs;
+  /// Prevents double-tap from calling Get.back twice (second pop would close the screen below and show blank).
+  final RxBool isSubmitting = false.obs;
 
-  static const List<Map<String, String>> categories = [
-    {'value': 'gifts', 'label': 'Gifts & Personalized Items'},
-    {'value': 'food', 'label': 'Food & Dining Experiences'},
-    {'value': 'wellness', 'label': 'Wellness & Self-Care Services'},
-    {'value': 'entertainment', 'label': 'Entertainment & Leisure'},
-    {'value': 'fashion', 'label': 'Fashion & Style'},
-    {'value': 'home', 'label': 'Home & Lifestyle'},
-    {'value': 'travel', 'label': 'Travel & Getaways'},
-    {'value': 'memories', 'label': 'Memories & Creative Services'},
-    {'value': 'family', 'label': 'Family & Children Services'},
-    {'value': 'learning', 'label': 'Learning & Personal Growth'},
-  ];
+  /// Same list as product registration; selection behavior is multi-select here.
+  static List<Map<String, String>> get categories => List<Map<String, String>>.from(businessLocationCategoryOptions);
 
   static final List<String> countries = [
     'United States', 'Canada', 'United Kingdom', 'Australia', 'Germany',
@@ -65,12 +59,22 @@ class AddBusinessLocationController extends GetxController {
     if (cityController.text.trim().isEmpty) return 'City is required';
     if (postalCodeController.text.trim().isEmpty) return 'Postal Code is required';
     if (contactPersonController.text.trim().isEmpty) return 'Contact Person is required';
-    if (selectedCategory.value.isEmpty) return 'Product or Services Category is required';
+    if (selectedCategories.isEmpty) return 'Product or Services Category is required';
     if (selectedDeliveryTypes.isEmpty) return 'Select at least one Delivery Type';
     return null;
   }
 
+  void toggleCategory(String value) {
+    if (selectedCategories.contains(value)) {
+      selectedCategories.remove(value);
+    } else {
+      selectedCategories.add(value);
+    }
+    selectedCategories.refresh();
+  }
+
   BusinessLocationModel buildModel() {
+    final cats = List<String>.from(selectedCategories);
     return BusinessLocationModel(
       locationName: locationNameController.text.trim(),
       country: selectedCountry.value,
@@ -81,7 +85,8 @@ class AddBusinessLocationController extends GetxController {
       contactPerson: contactPersonController.text.trim(),
       email: emailController.text.trim(),
       tel: telController.text.trim(),
-      category: selectedCategory.value,
+      category: cats.isEmpty ? '' : cats.first,
+      categories: cats,
       description: descriptionController.text.trim(),
       priceRangeValue: priceRangeValue.value,
       operatingHours: operatingHoursController.text.trim(),
@@ -91,11 +96,13 @@ class AddBusinessLocationController extends GetxController {
   }
 
   void submit() {
+    if (isSubmitting.value) return;
     final err = validate();
     if (err != null) {
       Get.snackbar('Validation', err, snackPosition: SnackPosition.BOTTOM);
       return;
     }
+    isSubmitting.value = true;
     Get.back(result: buildModel());
   }
 

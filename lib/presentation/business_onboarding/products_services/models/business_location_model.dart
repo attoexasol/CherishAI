@@ -13,6 +13,7 @@ class BusinessLocationModel {
     this.email = '',
     this.tel = '',
     required this.category,
+    this.categories = const [],
     this.description = '',
     required this.priceRangeValue,
     this.operatingHours = '',
@@ -29,7 +30,10 @@ class BusinessLocationModel {
   final String contactPerson;
   final String email;
   final String tel;
+  /// First/primary category (backward compatibility).
   final String category;
+  /// All selected categories (multi-select).
+  final List<String> categories;
   final String description;
   final double priceRangeValue;
   final String operatingHours;

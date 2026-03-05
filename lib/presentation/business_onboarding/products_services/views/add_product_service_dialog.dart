@@ -94,6 +94,11 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
       selectedOccasions.addAll(p.tags);
       selectedImages.addAll(p.images);
     }
+    // Ensure selected location exists in current list (e.g. after locations list changed or legacy 'main' id).
+    if (selectedLocation.isNotEmpty &&
+        widget.locations.every((e) => e['id'] != selectedLocation)) {
+      selectedLocation = widget.locations.isNotEmpty ? (widget.locations.first['id'] ?? '') : '';
+    }
   }
 
   @override
@@ -354,16 +359,60 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
         fontWeight: FontWeight.w400,
       );
 
+  bool get _hasNoLocations =>
+      widget.locations.length == 1 && (widget.locations.first['id'] ?? '').isEmpty;
+
   Widget _buildLocationDropdown() {
+    if (_hasNoLocations) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Location Name *', style: AppTextStyles.businessInfoLabel),
+          SizedBox(height: _kLabelMb),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: _kInputPaddingH - 4, vertical: _kInputPaddingV),
+            decoration: BoxDecoration(
+              color: AppColors.businessInfoInputBg,
+              borderRadius: BorderRadius.circular(_kInputRadius),
+              border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'No business locations available. Add a business location first.',
+                    style: _dropdownHintStyle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+    final items = widget.locations
+        .map((e) => DropdownMenuItem<String>(
+              value: e['id'] ?? '',
+              child: Text(
+                e['label'] ?? '',
+                style: _dropdownTextStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ))
+        .toList();
+    final valueInItems = selectedLocation.isNotEmpty && widget.locations.any((e) => e['id'] == selectedLocation);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Location Name *', style: AppTextStyles.businessInfoLabel),
         SizedBox(height: _kLabelMb),
         _dropdown(
-          value: selectedLocation,
+          value: valueInItems ? selectedLocation : '',
           hint: 'Select a location',
-          items: widget.locations.map((e) => DropdownMenuItem<String>(value: e['id'], child: Text(e['label']!, style: _dropdownTextStyle))).toList(),
+          items: items,
           onChanged: (v) => setState(() => selectedLocation = v ?? ''),
         ),
       ],
@@ -371,15 +420,26 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
   }
 
   Widget _buildCategoryDropdown() {
+    final categoryValueInItems = selectedCategory.isNotEmpty && widget.categories.any((e) => e['value'] == selectedCategory);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Product/Service Category *', style: AppTextStyles.businessInfoLabel),
         SizedBox(height: _kLabelMb),
         _dropdown(
-          value: selectedCategory,
+          value: categoryValueInItems ? selectedCategory : '',
           hint: 'Select a category',
-          items: widget.categories.map((e) => DropdownMenuItem<String>(value: e['value'], child: Text(e['label']!, style: _dropdownTextStyle))).toList(),
+          items: widget.categories
+              .map((e) => DropdownMenuItem<String>(
+                    value: e['value'] ?? '',
+                    child: Text(
+                      e['label'] ?? '',
+                      style: _dropdownTextStyle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
+              .toList(),
           onChanged: (v) => setState(() => selectedCategory = v ?? ''),
         ),
       ],
