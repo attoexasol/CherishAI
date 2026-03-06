@@ -1,5 +1,6 @@
 // lib/presentation/personal_note/views/personal_note_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_text_styles.dart';
@@ -150,17 +151,6 @@ class PersonalNoteScreen extends StatelessWidget {
               _buildUnderline(),
             ],
           ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: c.onSkip,
-              borderRadius: BorderRadius.circular(8),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                child: Text('Skip', style: AppTextStyles.noteSkip),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -243,6 +233,7 @@ class PersonalNoteScreen extends StatelessWidget {
           TextField(
             controller: c.noteController,
             maxLength: PersonalNoteController.maxLength,
+            inputFormatters: [LengthLimitingTextInputFormatter(PersonalNoteController.maxLength)],
             maxLines: 5,
             minLines: 4,
             style: AppTextStyles.noteInput,

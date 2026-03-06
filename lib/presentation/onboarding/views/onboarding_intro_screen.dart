@@ -103,9 +103,22 @@ class OnboardingIntroScreen extends StatelessWidget {
               _buildBulletRow('Emotional labor, &', Icons.psychology),
                const SizedBox(height: 12),
               _buildBulletRow("Obliges loved one’s participation", Icons.group_add_rounded, maxLines: 2),
-              const SizedBox(height: 20),
-              _buildBulletRow('MEET', Icons.people),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'MEET',
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.onboardingBullet.copyWith(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF333333),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               const Center(child: _AnimatedHeroLogo()),
               const SizedBox(height: 20),
               const SizedBox(height: 6),
@@ -178,9 +191,9 @@ class OnboardingIntroScreen extends StatelessWidget {
           'it thinks for you, makes efforts for you and helps you love and care better.',
           textAlign: TextAlign.center,
           style: AppTextStyles.onboardingInfoPill.copyWith(
-            fontSize: 14,
-            color: const Color(0xFF8B4789),
-            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

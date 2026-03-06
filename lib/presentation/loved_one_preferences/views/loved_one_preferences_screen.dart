@@ -41,6 +41,14 @@ const double _kOccasionRowPaddingH = 14;
 const double _kOccasionRowRadius = 10;
 const double _kOccasionRowGap = 8;
 const double _kOccasionDeleteIconSize = 20;
+const double _kFormCardRadius = 16;
+const double _kFormCardPadding = 20;
+const double _kFormTitleBottom = 16;
+const double _kFormFieldGap = 16;
+const double _kFormInputRadius = 12;
+const double _kFormButtonHeight = 48;
+const double _kFormButtonRadius = 12;
+const double _kFormButtonGap = 12;
 const double _kCtaHeight = 56;
 const double _kCtaBottomPadding = 16;
 const double _kHorizontalPadding = 24;
@@ -349,60 +357,230 @@ class LovedOnePreferencesScreen extends StatelessWidget {
               child: _buildCategoryCard(context, cat),
             )),
         Obx(() {
-          final length = c.customHobbies.length;
-          return Wrap(
-            spacing: _kChipGap,
-            runSpacing: _kChipRunSpacing,
-            children: List.generate(length, (index) {
-              final hobby = c.customHobbies[index];
-              return _buildCustomHobbyChip(
-                label: hobby,
-                onRemove: () => c.removeCustomHobby(hobby),
-              );
-            }),
+          if (c.customHobbies.isEmpty) {
+            return const SizedBox.shrink();
+          }
+          return Padding(
+            padding: EdgeInsets.only(bottom: _kCategoryGap),
+            child: _buildCustomHobbyCategoryCard(context, c),
           );
         }),
-        SizedBox(height: _kChipRunSpacing),
-        Obx(() {
-          final disabled = c.customHobbies.length >= 2;
-          return _buildDashedAddButton(
-            label: 'Add Custom Hobby',
-            onTap: c.onAddCustomHobby,
-            enabled: !disabled,
-          );
-        }),
+        _buildAddCustomHobbySection(context),
       ],
     );
   }
 
-  Widget _buildCustomHobbyChip({
-    required String label,
-    required VoidCallback onRemove,
-  }) {
-    return Container(
-      padding: const EdgeInsets.only(left: _kChipPaddingH, top: _kChipPaddingV, bottom: _kChipPaddingV, right: 4),
-      decoration: BoxDecoration(
-        color: AppColors.prefsChipBg,
-        borderRadius: BorderRadius.circular(_kChipRadius),
-        border: Border.all(color: AppColors.prefsChipBorder, width: 1),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(label, style: AppTextStyles.prefsChip),
-          const SizedBox(width: 4),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onRemove,
-              borderRadius: BorderRadius.circular(999),
-              child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: Icon(Icons.close, size: _kOccasionDeleteIconSize, color: AppColors.prefsSectionDesc),
+  /// Custom hobbies as selectable chips in a card (same design as category cards / dislikes custom chips).
+  Widget _buildCustomHobbyCategoryCard(BuildContext context, LovedOnePreferencesController c) {
+    return Obx(() {
+      final customList = c.customHobbies.toList();
+      if (customList.isEmpty) return const SizedBox.shrink();
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(_kCategoryCardPadding),
+        decoration: BoxDecoration(
+          color: AppColors.prefsCategoryCardTech,
+          borderRadius: BorderRadius.circular(_kCategoryCardRadius),
+          boxShadow: AppShadows.prefsCategoryCard,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Custom', style: AppTextStyles.prefsCategoryTitle),
+            SizedBox(height: _kCategoryTitleBottom),
+            Wrap(
+              spacing: _kChipGap,
+              runSpacing: _kChipRunSpacing,
+              children: customList.map((label) {
+                final selected = c.selectedByCategory[LovedOnePreferencesController.customHobbyCategoryKey] == label;
+                return _buildChip(
+                  label: label,
+                  selected: selected,
+                  onTap: () => c.onToggleChip(LovedOnePreferencesController.customHobbyCategoryKey, label),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  /// Inline Add Custom Hobby: form or button (same design as dislikes).
+  Widget _buildAddCustomHobbySection(BuildContext context) {
+    final c = Get.find<LovedOnePreferencesController>();
+    return Obx(() {
+      if (c.showCustomHobbyForm.value) {
+        return _buildCustomHobbyForm(context, c);
+      }
+      return _buildAddCustomHobbyButton(context, c);
+    });
+  }
+
+  Widget _buildAddCustomHobbyButton(BuildContext context, LovedOnePreferencesController c) {
+    final disabled = c.customHobbies.length >= 2;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isNarrow = constraints.maxWidth < 360;
+        final label = disabled
+            ? (isNarrow ? 'Max 2 reached' : 'Add Custom Hobby (Max 2 reached)')
+            : 'Add Custom Hobby';
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: disabled ? null : c.onAddCustomHobby,
+            borderRadius: BorderRadius.circular(_kAddButtonRadius),
+            child: SizedBox(
+              width: double.infinity,
+              height: _kAddButtonHeight,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: disabled ? AppColors.prefsChipBorder : AppColors.prefsSectionBubbleBg,
+                  borderRadius: BorderRadius.circular(_kAddButtonRadius),
+                  border: Border.all(color: AppColors.prefsAddButtonBorder, width: 1),
+                  boxShadow: AppShadows.prefsCategoryCard,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(Icons.add, size: 22, color: disabled ? AppColors.prefsSectionDesc : AppColors.prefsAddButtonText),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        label,
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.prefsAddButton.copyWith(
+                          color: disabled ? AppColors.prefsSectionDesc : AppColors.prefsAddButtonText,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCustomHobbyForm(BuildContext context, LovedOnePreferencesController c) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(_kFormCardPadding),
+      decoration: BoxDecoration(
+        color: AppColors.prefsSectionBubbleBg,
+        borderRadius: BorderRadius.circular(_kFormCardRadius),
+        border: Border.all(color: AppColors.prefsDialogInputBorder),
+        boxShadow: AppShadows.prefsCategoryCard,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Add Custom Hobby', style: AppTextStyles.prefsDialogTitle.copyWith(color: AppColors.prefsSectionTitle)),
+          const SizedBox(height: _kFormTitleBottom),
+          TextField(
+            controller: c.customHobbyController,
+            style: AppTextStyles.prefsDialogInput.copyWith(color: AppColors.prefsSectionTitle),
+            decoration: InputDecoration(
+              hintText: 'e.g., Stargazing, Collecting vinyl, Urban gardening',
+              hintStyle: AppTextStyles.prefsDialogInputPlaceholder,
+              filled: true,
+              fillColor: AppColors.prefsDialogBg,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(_kFormInputRadius),
+                borderSide: const BorderSide(color: AppColors.prefsDialogInputBorder),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(_kFormInputRadius),
+                borderSide: const BorderSide(color: AppColors.prefsDialogInputBorder),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(_kFormInputRadius),
+                borderSide: const BorderSide(color: AppColors.prefsChipSelectedBorder, width: 1.5),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            ),
+          ),
+          const SizedBox(height: _kFormFieldGap),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              if (width < 280) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildAddHobbyPrimaryButton(c),
+                    const SizedBox(height: _kFormButtonGap),
+                    _buildCancelHobbyButton(c),
+                  ],
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(child: _buildAddHobbyPrimaryButton(c)),
+                  const SizedBox(width: _kFormButtonGap),
+                  _buildCancelHobbyButton(c),
+                ],
+              );
+            },
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAddHobbyPrimaryButton(LovedOnePreferencesController c) {
+    return Obx(() {
+      final text = c.customHobbyInput.value.trim();
+      final enabled = text.isNotEmpty && c.customHobbies.length < 2;
+      return Opacity(
+        opacity: enabled ? 1 : 0.5,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: enabled ? c.addCustomHobby : null,
+            borderRadius: BorderRadius.circular(_kFormButtonRadius),
+            child: Container(
+              height: _kFormButtonHeight,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: AppGradients.prefsCta,
+                borderRadius: BorderRadius.circular(_kFormButtonRadius),
+                boxShadow: AppShadows.prefsCta,
+              ),
+              alignment: Alignment.center,
+              child: Text('Add Hobby', style: AppTextStyles.prefsDialogPrimaryBtn),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildCancelHobbyButton(LovedOnePreferencesController c) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: c.cancelCustomHobbyForm,
+        borderRadius: BorderRadius.circular(_kFormButtonRadius),
+        child: Container(
+          height: _kFormButtonHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: AppColors.prefsDialogBg,
+            borderRadius: BorderRadius.circular(_kFormButtonRadius),
+            border: Border.all(color: AppColors.prefsDialogCancelBorder),
+          ),
+          alignment: Alignment.center,
+          child: Text('Cancel', style: AppTextStyles.prefsDialogCancelBtn),
+        ),
       ),
     );
   }

@@ -130,7 +130,7 @@ class IndividualStep4SecondaryGoalsScreen extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Text(
-              'Choose up to 3 goals to deepen your connection',
+              ' Choose up to 3 secondary goals to add context ',
               style: AppTextStyles.secGoalsSubtitle,
               textAlign: TextAlign.center,
               softWrap: true,

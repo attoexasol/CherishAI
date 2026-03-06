@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/routes/app_routes.dart';
 
-/// Minimal UI state for Add a Personal Note. Back/Skip/Continue match React.
-/// Note required; max 300 chars. Continue enabled when note is non-empty and <= 300.
+/// Minimal UI state for Add a Personal Note. Back/Continue (mandatory step).
+/// Note required; max 200 chars. Continue enabled when note is non-empty and <= 200.
 class PersonalNoteController extends GetxController {
-  static const int maxLength = 300;
+  static const int maxLength = 200;
 
   final noteController = TextEditingController();
   final RxInt charCount = 0.obs;
@@ -47,9 +47,9 @@ class PersonalNoteController extends GetxController {
     showExamples.toggle();
   }
 
-  /// Fill textarea with [text], then collapse examples.
+  /// Fill textarea with [text] (truncated to maxLength), then collapse examples.
   void applyExample(String text) {
-    noteController.text = text;
+    noteController.text = text.length > maxLength ? text.substring(0, maxLength) : text;
     _updateFromNote();
     showExamples.value = false;
   }
