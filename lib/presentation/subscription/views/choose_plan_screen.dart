@@ -271,7 +271,8 @@ class ChoosePlanScreen extends StatelessWidget {
 
   Widget _buildPlanCard(BuildContext context, PlanModel plan) {
     final c = Get.find<ChoosePlanController>();
-    final isSelected = c.selectedPlanId.value == plan.id;
+    // Plan card is only selected if it matches selectedPlanId AND trial is not selected
+    final isSelected = !c.isTrialSelected.value && c.selectedPlanId.value == plan.id;
 
     return Stack(
       clipBehavior: Clip.none,

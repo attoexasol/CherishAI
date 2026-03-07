@@ -6,7 +6,6 @@ import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_shadows.dart';
 import '../controllers/checkout_controller.dart';
-import '../models/plan_summary_model.dart';
 
 const double _kTopInset = 16;
 const double _kBackIconSize = 20;
@@ -770,20 +769,36 @@ class CheckoutScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Flexible(
-                            child: Text(
-                              plan.priceDisplay,
-                              style: AppTextStyles.checkoutOrderPrice,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  plan.headerPriceDisplay,
+                                  style: AppTextStyles.checkoutOrderPrice,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              if (!plan.isTrialActive) ...[
+                                const SizedBox(width: 4),
+                                Text(plan.periodSlash, style: AppTextStyles.checkoutOrderPricePeriod),
+                              ],
+                            ],
+                          ),
+                          if (plan.isTrialActive && plan.thenPriceText != null) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              plan.thenPriceText!,
+                              style: AppTextStyles.checkoutOrderPricePeriod,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          const SizedBox(width: 4),
-                          Text(plan.periodSlash, style: AppTextStyles.checkoutOrderPricePeriod),
+                          ],
                         ],
                       ),
                     ],
@@ -827,7 +842,7 @@ class CheckoutScreen extends StatelessWidget {
                   blendMode: BlendMode.srcIn,
                   shaderCallback: (bounds) => AppGradients.checkoutAccent.createShader(bounds),
                   child: Text(
-                    plan.priceDisplay,
+                    plan.isTrialActive ? '\$0' : plan.priceDisplay,
                     style: AppTextStyles.checkoutOrderPrice.copyWith(fontSize: 28),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -843,7 +858,9 @@ class CheckoutScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                "You'll be billed ${plan.priceDisplay} monthly. Cancel anytime from your account settings.",
+                plan.isTrialActive && plan.planPrice != null
+                    ? "Start your 4-day free trial. After the trial, you'll be billed ${plan.planPrice} monthly. Cancel anytime from your account settings."
+                    : "You'll be billed ${plan.priceDisplay} monthly. Cancel anytime from your account settings.",
                 style: AppTextStyles.checkoutDisclaimer,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,

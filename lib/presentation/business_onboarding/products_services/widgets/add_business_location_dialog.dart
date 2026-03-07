@@ -40,7 +40,9 @@ const double _kThumbSize = 72;
 const double _kThumbRadius = 12;
 
 class AddBusinessLocationDialog extends StatefulWidget {
-  const AddBusinessLocationDialog({super.key});
+  const AddBusinessLocationDialog({super.key, this.initialImagePaths});
+
+  final List<String>? initialImagePaths;
 
   @override
   State<AddBusinessLocationDialog> createState() => _AddBusinessLocationDialogState();
@@ -49,6 +51,26 @@ class AddBusinessLocationDialog extends StatefulWidget {
 class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
   final ImagePicker _picker = ImagePicker();
   final List<XFile> _selectedImages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Load initial images if provided (for edit mode)
+    if (widget.initialImagePaths != null && widget.initialImagePaths!.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            for (final path in widget.initialImagePaths!) {
+              final file = File(path);
+              if (file.existsSync() && _selectedImages.length < _kMaxImages) {
+                _selectedImages.add(XFile(path));
+              }
+            }
+          });
+        }
+      });
+    }
+  }
 
   void _showUploadSourceSheet() {
     showModalBottomSheet<void>(
@@ -336,7 +358,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.businessInfoInputBg,
       builder: (ctx) => DraggableScrollableSheet(
         initialChildSize: 0.6,
         minChildSize: 0.3,
@@ -408,7 +430,10 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                                           const SizedBox(height: 2),
                                           Text(
                                             description,
-                                            style: AppTextStyles.businessInfoHelper.copyWith(fontSize: 12, color: AppColors.businessInfoPlaceholder),
+                                            style: AppTextStyles.businessInfoHelper.copyWith(
+                                              fontSize: 12,
+                                              color: AppColors.businessInfoInputText.withValues(alpha: 0.8),
+                                            ),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -533,14 +558,55 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
               onChanged: (val) => c.priceRangeValue.value = val.clamp(1.0, 4.0),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('\$ Budget', style: TextStyle(fontSize: 12, color: v <= 1 ? const Color(0xFF059669) : AppColors.businessInfoDeliveryDesc)),
-              Text('\$\$ Moderate', style: TextStyle(fontSize: 12, color: v >= 1.5 && v <= 2.5 ? const Color(0xFF4F46E5) : AppColors.businessInfoDeliveryDesc)),
-              Text('\$\$\$ Upscale', style: TextStyle(fontSize: 12, color: v >= 2.5 && v <= 3.5 ? AppColors.businessInfoDeliveryIcon : AppColors.businessInfoDeliveryDesc)),
-              Text('\$\$\$\$ Luxury', style: TextStyle(fontSize: 12, color: v >= 3.5 ? const Color(0xFFE11D48) : AppColors.businessInfoDeliveryDesc)),
-            ],
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final screenWidth = constraints.maxWidth;
+              final fontSize = screenWidth < 300 ? 10.0 : 12.0;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      '\$ Budget',
+                      style: TextStyle(fontSize: fontSize, color: v <= 1 ? const Color(0xFF059669) : AppColors.businessInfoDeliveryDesc),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      '\$\$ Moderate',
+                      style: TextStyle(fontSize: fontSize, color: v >= 1.5 && v <= 2.5 ? const Color(0xFF4F46E5) : AppColors.businessInfoDeliveryDesc),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      '\$\$\$ Upscale',
+                      style: TextStyle(fontSize: fontSize, color: v >= 2.5 && v <= 3.5 ? AppColors.businessInfoDeliveryIcon : AppColors.businessInfoDeliveryDesc),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      '\$\$\$\$ Luxury',
+                      style: TextStyle(fontSize: fontSize, color: v >= 3.5 ? const Color(0xFFE11D48) : AppColors.businessInfoDeliveryDesc),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 16),
           Container(
@@ -694,6 +760,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
 
   void _onAddLocationTap(AddBusinessLocationController c) {
     c.logoFilePath.value = _selectedImages.isNotEmpty ? _selectedImages.first.path : '';
+    c.imagePaths.value = _selectedImages.map((img) => img.path).toList();
     c.submit();
   }
 

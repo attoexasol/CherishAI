@@ -41,14 +41,20 @@ class CheckoutController extends GetxController {
       final price = args['price'] as String?;
       var period = args['period'] as String?;
       final tagline = args['tagline'] as String?;
+      final isTrialActive = args['isTrialActive'] as bool? ?? false;
+      final planPrice = args['planPrice'] as String?;
       if (id != null && name != null && price != null) {
         if (period != null && period.startsWith('/')) period = period.replaceFirst('/', '').trim();
+        // When trial is active, show $0 as priceDisplay, otherwise use the plan price
+        final displayPrice = isTrialActive ? '\$0' : price;
         selectedPlan.value = PlanSummaryModel(
           id: id,
           name: name,
-          priceDisplay: price,
+          priceDisplay: displayPrice,
           period: period ?? 'month',
           tagline: tagline,
+          isTrialActive: isTrialActive,
+          planPrice: planPrice,
         );
         return;
       }
@@ -59,6 +65,8 @@ class CheckoutController extends GetxController {
       priceDisplay: '\$16',
       period: 'month',
       tagline: null,
+      isTrialActive: false,
+      planPrice: null,
     );
   }
 

@@ -11,6 +11,8 @@ class ChoosePlanController extends GetxController {
   final RxString selectedPlanPrice = '\$16'.obs;
   final RxBool isTrialSelected = false.obs;
   final RxBool isLoadingPurchase = false.obs;
+  final RxBool isTrialActive = false.obs;
+  final RxString planPrice = '\$16'.obs; // Store the original plan price
 
   /// When true, show active subscription card at top (from existing data source).
   /// Default false so new users see the 4-day trial section; set true when user has an active plan.
@@ -42,14 +44,20 @@ class ChoosePlanController extends GetxController {
 
   void onSelectPlan(String planId) {
     isTrialSelected.value = false;
+    isTrialActive.value = false;
     selectedPlanId.value = planId;
     final plan = plans.firstWhere((p) => p.id == planId, orElse: () => PlansData.plus);
     selectedPlanName.value = plan.ctaDisplayName;
     selectedPlanPrice.value = plan.price;
+    planPrice.value = plan.price;
   }
 
   void onSelectTrial() {
     isTrialSelected.value = true;
+    isTrialActive.value = true;
+    // Store the current selected plan's price
+    final plan = plans.firstWhere((p) => p.id == selectedPlanId.value, orElse: () => PlansData.plus);
+    planPrice.value = plan.price;
   }
 
   void onStartSelectedPlan() {
@@ -66,6 +74,8 @@ class ChoosePlanController extends GetxController {
       'price': plan.price,
       'period': plan.period,
       'tagline': plan.subtitle,
+      'isTrialActive': isTrialActive.value,
+      'planPrice': planPrice.value, // Original plan price for "Then $X/month" display
     });
     isLoadingPurchase.value = false;
   }

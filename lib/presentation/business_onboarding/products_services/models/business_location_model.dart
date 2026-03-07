@@ -19,6 +19,7 @@ class BusinessLocationModel {
     this.operatingHours = '',
     required this.deliveryTypes,
     this.logoPath,
+    this.imagePaths = const [],
   });
 
   final String locationName;
@@ -39,4 +40,6 @@ class BusinessLocationModel {
   final String operatingHours;
   final List<String> deliveryTypes;
   final String? logoPath;
+  /// All selected image paths (up to 3 images)
+  final List<String> imagePaths;
 }

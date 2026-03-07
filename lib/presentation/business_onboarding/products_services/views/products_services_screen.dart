@@ -210,24 +210,16 @@ class ProductsServicesScreen extends StatelessWidget {
       if (list.isEmpty) return const SizedBox.shrink();
       return Padding(
         padding: const EdgeInsets.only(top: 12),
-        child: Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: list.map((loc) {
-            final subtitle = [loc.country, loc.city].where((s) => s.isNotEmpty).join(', ');
-            final name = loc.locationName.trim();
-            return Chip(
-              label: Text(
-                subtitle.isEmpty ? name : '$name • $subtitle',
-                style: AppTextStyles.businessInfoHelper.copyWith(fontSize: 13),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              backgroundColor: AppColors.businessInfoAddLocationBg,
-              side: BorderSide(color: AppColors.businessInfoAddLocationBorder),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            );
-          }).toList(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: list.map((loc) => Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: _LocationCard(
+                  location: loc,
+                  onEdit: () => c.openEditBusinessLocationDialog(loc),
+                  onDelete: () => c.deleteBusinessLocation(loc),
+                ),
+              )).toList(),
         ),
       );
     });
@@ -390,5 +382,95 @@ class _ProductImage extends StatelessWidget {
       );
     }
     return Image.file(file, fit: BoxFit.cover);
+  }
+}
+
+class _LocationImage extends StatelessWidget {
+  const _LocationImage({required this.path});
+  final String path;
+
+  @override
+  Widget build(BuildContext context) {
+    final file = File(path);
+    if (!file.existsSync()) {
+      return ColoredBox(
+        color: AppColors.businessInfoPriceBadgeBgStart,
+        child: Icon(Icons.image_not_supported_outlined, size: 24, color: AppColors.businessInfoDeliveryDesc),
+      );
+    }
+    return Image.file(file, fit: BoxFit.cover);
+  }
+}
+
+class _LocationCard extends StatelessWidget {
+  const _LocationCard({
+    required this.location,
+    required this.onEdit,
+    required this.onDelete,
+  });
+  final BusinessLocationModel location;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitle = [location.country, location.city].where((s) => s.isNotEmpty).join(', ');
+    final name = location.locationName.trim();
+    final hasImage = location.logoPath != null && location.logoPath!.isNotEmpty;
+    return Container(
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AppColors.white.withValues(alpha: 0.8),
+        borderRadius: BorderRadius.circular(_kAddCardRadius),
+        border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
+        boxShadow: AppShadows.businessInfoUploadCard,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (hasImage) ...[
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                SizedBox(
+                  width: _kProductCardThumbSize,
+                  height: _kProductCardThumbSize,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(_kProductCardThumbRadius),
+                    child: _LocationImage(path: location.logoPath!),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(width: 16),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: AppTextStyles.businessInfoDeliveryTitle.copyWith(fontSize: 16)),
+                if (subtitle.isNotEmpty) ...[
+                  SizedBox(height: 4),
+                  Text(subtitle, style: AppTextStyles.businessInfoUploadHint, maxLines: 2, overflow: TextOverflow.ellipsis),
+                ],
+              ],
+            ),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.edit_outlined, size: 20, color: AppColors.businessInfoDeliveryDesc),
+                onPressed: onEdit,
+              ),
+              IconButton(
+                icon: Icon(Icons.delete_outline_rounded, size: 20, color: AppColors.businessInfoDeliveryDesc),
+                onPressed: onDelete,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

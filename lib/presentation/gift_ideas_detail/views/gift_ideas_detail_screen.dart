@@ -16,8 +16,6 @@ const double _kEventIconSize = 64;
 const double _kEventIconRadius = 16;
 const double _kGiftIconSize = 56;
 const double _kGiftIconRadius = 14;
-const double _kDropdownHeight = 48;
-const double _kDropdownRadius = 12;
 const double _kFindNearYouHeight = 48;
 const double _kFindNearYouRadius = 14;
 const double _kSecondaryBtnRadius = 12;
@@ -95,8 +93,6 @@ class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             _buildEventCard(context, ev, isNarrow),
-                            const SizedBox(height: 20),
-                            _buildFilterCard(context, c, isNarrow),
                             const SizedBox(height: 24),
                             Text(
                               'Perfect Gift Ideas',
@@ -228,159 +224,6 @@ class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
             "Carefully selected by Cherish AI, with your loved one's interests in mind.",
             style: AppTextStyles.giftIdeasDetailEventDesc,
             textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterCard(BuildContext context, GiftIdeasDetailController c, [bool isNarrow = false]) {
-    return Container(
-      padding: EdgeInsets.all(isNarrow ? 14 : 20),
-      decoration: BoxDecoration(
-        color: AppColors.giftIdeasDetailCardBg,
-        borderRadius: BorderRadius.circular(_kCardRadius),
-        border: Border.all(color: AppColors.giftIdeasDetailCardBorder),
-        boxShadow: AppShadows.giftIdeasCard,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: AppColors.giftIdeasDetailEventTitleGradientMid,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.attach_money, size: 16, color: Colors.white),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Price Range',
-                style: AppTextStyles.giftIdeasDetailFilterLabel.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Container(
-            height: _kDropdownHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(_kDropdownRadius),
-              border: Border.all(color: AppColors.giftIdeasDetailFilterBorder),
-            ),
-            child: Obx(
-              () {
-                final dropdownStyle = TextStyle(
-                  fontSize: isNarrow ? 13 : 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.giftIdeasDetailFilterLabel,
-                );
-                return DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: c.selectedPriceRange.value,
-                    isExpanded: true,
-                    icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.giftIdeasDetailFilterLabel),
-                    style: dropdownStyle,
-                    items: GiftIdeasDetailController.priceRanges
-                        .map((s) => DropdownMenuItem<String>(
-                              value: s,
-                              child: Text(
-                                s,
-                                style: dropdownStyle,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (v) {
-                      if (v != null) c.onSelectPriceRange(v);
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: AppColors.giftIdeasDetailEventTitleGradientMid,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.card_giftcard, size: 16, color: Colors.white),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Category',
-                style: AppTextStyles.giftIdeasDetailFilterLabel.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Container(
-            height: _kDropdownHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(_kDropdownRadius),
-              border: Border.all(color: AppColors.giftIdeasDetailFilterBorder),
-            ),
-            child: Obx(
-              () {
-                final dropdownStyle = TextStyle(
-                  fontSize: isNarrow ? 13 : 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.giftIdeasDetailFilterLabel,
-                );
-                return DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: c.selectedCategory.value,
-                    isExpanded: true,
-                    icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.giftIdeasDetailFilterLabel),
-                    style: dropdownStyle,
-                    items: GiftIdeasDetailController.categories
-                        .map((s) => DropdownMenuItem<String>(
-                              value: s,
-                              child: Text(
-                                s,
-                                style: dropdownStyle,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (v) {
-                      if (v != null) c.onSelectCategory(v);
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 16),
-          Center(
-            child: Obx(
-              () => RichText(
-                text: TextSpan(
-                  style: AppTextStyles.giftIdeasDetailShowing,
-                  children: [
-                    const TextSpan(text: 'Showing '),
-                    TextSpan(
-                      text: '${c.gifts.length} gifts',
-                      style: AppTextStyles.giftIdeasDetailShowingCount,
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ),
         ],
       ),
@@ -538,8 +381,8 @@ class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildSecondaryAction(
-                icon: saved ? Icons.favorite : Icons.favorite_border,
-                label: 'Save',
+                icon: saved ? Icons.thumb_up : Icons.thumb_up_outlined,
+                label: 'Like',
                 isSaved: saved,
                 onTap: () => c.onSaveGift(g.id),
                 isNarrow: isNarrow,
@@ -549,13 +392,6 @@ class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
                 label: 'Share',
                 isSaved: false,
                 onTap: () => c.onShareGift(g.id),
-                isNarrow: isNarrow,
-              ),
-              _buildSecondaryAction(
-                icon: Icons.visibility_outlined,
-                label: 'Visit',
-                isSaved: false,
-                onTap: () => c.onVisitGift(g.id),
                 isNarrow: isNarrow,
               ),
             ],

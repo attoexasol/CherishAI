@@ -1,5 +1,6 @@
 // lib/presentation/help_feedback/controllers/help_feedback_controller.dart
 import 'package:get/get.dart';
+import '../../../app/routes/app_routes.dart';
 
 /// Topic option for "What would you like to share?"
 class HelpFeedbackTopic {
@@ -25,6 +26,7 @@ class HelpFeedbackController extends GetxController {
   final RxString selectedTopicId = ''.obs;
   final RxString message = ''.obs;
   final RxBool allowContact = false.obs;
+  final RxBool showThankYou = false.obs;
 
   bool get hasValidTopic => selectedTopicId.value.isNotEmpty;
   bool get hasValidMessage => message.value.trim().isNotEmpty;
@@ -46,9 +48,11 @@ class HelpFeedbackController extends GetxController {
     Get.back();
   }
 
-  void onSubmit() {
+  void onSubmit() async {
     if (!canSubmit) return;
     // TODO: call same API/support handler as React (no logic change)
-    Get.back();
+    showThankYou.value = true;
+    await Future.delayed(const Duration(seconds: 2));
+    Get.offAllNamed(AppRoutes.home);
   }
 }

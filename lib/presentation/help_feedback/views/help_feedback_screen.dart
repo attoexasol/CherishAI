@@ -55,6 +55,9 @@ class HelpFeedbackScreen extends StatelessWidget {
                       constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
                       child: Obx(() {
                         final c = Get.find<HelpFeedbackController>();
+                        if (c.showThankYou.value) {
+                          return _buildThankYouScreen(context);
+                        }
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -290,6 +293,64 @@ class HelpFeedbackScreen extends StatelessWidget {
         'Visit our website to learn more about Cherish AI, your love assistant.',
         style: AppTextStyles.helpFeedbackFooter,
         textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _buildThankYouScreen(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              gradient: AppGradients.helpFeedbackSubmitBtn,
+              shape: BoxShape.circle,
+              boxShadow: AppShadows.helpFeedbackSubmitBtn,
+            ),
+            child: const Icon(
+              Icons.favorite,
+              size: 60,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Thank You!',
+                style: AppTextStyles.helpFeedbackTitle,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                '❤️',
+                style: TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "Your feedback means the world to us.",
+            style: AppTextStyles.helpFeedbackSubtitle.copyWith(
+              color: AppColors.helpFeedbackSectionTitle,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            "We're committed to making Cherish AI better for you.",
+            style: AppTextStyles.helpFeedbackTitle.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

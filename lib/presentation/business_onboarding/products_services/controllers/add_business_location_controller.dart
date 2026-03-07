@@ -22,6 +22,7 @@ class AddBusinessLocationController extends GetxController {
   final RxDouble priceRangeValue = 2.0.obs;
   final RxList<String> selectedDeliveryTypes = <String>[].obs;
   final RxString logoFilePath = ''.obs;
+  final RxList<String> imagePaths = <String>[].obs;
   /// Prevents double-tap from calling Get.back twice (second pop would close the screen below and show blank).
   final RxBool isSubmitting = false.obs;
 
@@ -92,6 +93,7 @@ class AddBusinessLocationController extends GetxController {
       operatingHours: operatingHoursController.text.trim(),
       deliveryTypes: List<String>.from(selectedDeliveryTypes),
       logoPath: logoFilePath.value.isEmpty ? null : logoFilePath.value,
+      imagePaths: List<String>.from(imagePaths),
     );
   }
 

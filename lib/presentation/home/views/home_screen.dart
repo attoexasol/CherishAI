@@ -618,6 +618,38 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _buildLikeDislikeButton(
+                            icon: Icons.copy_outlined,
+                            label: 'Copy',
+                            isActive: false,
+                            activeBgColor: AppColors.homeLikeGreenBg,
+                            activeBorderColor: AppColors.homeLikeGreenBorder,
+                            activeTextColor: AppColors.homeLikeGreenText,
+                            onTap: () => c.onCopyMessage(msg.id),
+                            iconSize: likeDislikeIconSize.toDouble(),
+                            paddingV: likeDislikePaddingV,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _buildLikeDislikeButton(
+                            icon: Icons.share_outlined,
+                            label: 'Share',
+                            isActive: false,
+                            activeBgColor: AppColors.homeDislikeRedBg,
+                            activeBorderColor: AppColors.homeDislikeRedBorder,
+                            activeTextColor: AppColors.homeDislikeRedText,
+                            onTap: () => c.onShareMessage(msg.id),
+                            iconSize: likeDislikeIconSize.toDouble(),
+                            paddingV: likeDislikePaddingV,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: msgGapBetweenRows - 2),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildLikeDislikeButton(
                             icon: Icons.thumb_up_outlined,
                             label: 'Like',
                             isActive: isLiked,
@@ -837,9 +869,9 @@ class HomeScreen extends StatelessWidget {
               'to see all events',
               style: TextStyle(
                 fontSize: 11,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 height: 1.3,
-                color: AppColors.homeSwipeHint.withValues(alpha: 0.75),
+                color: AppColors.homeSwipeHint,
               ),
             ),
           ),
@@ -869,9 +901,9 @@ class HomeScreen extends StatelessWidget {
                   'to see all events',
                   style: TextStyle(
                     fontSize: 11,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     height: 1.3,
-                    color: AppColors.homeSwipeHint.withValues(alpha: 0.75),
+                    color: AppColors.homeSwipeHint,
                   ),
                 ),
               ),

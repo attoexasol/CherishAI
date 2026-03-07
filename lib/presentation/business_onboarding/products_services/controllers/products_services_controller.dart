@@ -30,17 +30,63 @@ class ProductsServicesController extends GetxController {
 
   void onBack() => Get.back();
 
-  Future<BusinessLocationModel?> openAddBusinessLocationDialog() async {
+  Future<BusinessLocationModel?> openAddBusinessLocationDialog({BusinessLocationModel? initialLocation}) async {
     Get.put(AddBusinessLocationController());
+    if (initialLocation != null) {
+      final controller = Get.find<AddBusinessLocationController>();
+      controller.locationNameController.text = initialLocation.locationName;
+      controller.selectedCountry.value = initialLocation.country;
+      controller.cityController.text = initialLocation.city;
+      controller.postalCodeController.text = initialLocation.postalCode;
+      controller.stateRegionController.text = initialLocation.stateRegion;
+      controller.streetAddressController.text = initialLocation.streetAddress;
+      controller.contactPersonController.text = initialLocation.contactPerson;
+      controller.emailController.text = initialLocation.email;
+      controller.telController.text = initialLocation.tel;
+      controller.selectedCategories.value = List<String>.from(initialLocation.categories);
+      controller.descriptionController.text = initialLocation.description;
+      controller.priceRangeValue.value = initialLocation.priceRangeValue;
+      controller.operatingHoursController.text = initialLocation.operatingHours;
+      controller.selectedDeliveryTypes.value = List<String>.from(initialLocation.deliveryTypes);
+      controller.logoFilePath.value = initialLocation.logoPath ?? '';
+      // Use imagePaths if available, otherwise fall back to logoPath for backward compatibility
+      final paths = initialLocation.imagePaths.isNotEmpty 
+          ? initialLocation.imagePaths 
+          : (initialLocation.logoPath != null && initialLocation.logoPath!.isNotEmpty 
+              ? [initialLocation.logoPath!] 
+              : []);
+      controller.imagePaths.value = List<String>.from(paths);
+    }
     try {
       final result = await Get.dialog<BusinessLocationModel>(
-        const AddBusinessLocationDialog(),
+        AddBusinessLocationDialog(
+          initialImagePaths: initialLocation != null 
+              ? (initialLocation.imagePaths.isNotEmpty 
+                  ? initialLocation.imagePaths 
+                  : (initialLocation.logoPath != null && initialLocation.logoPath!.isNotEmpty 
+                      ? [initialLocation.logoPath!] 
+                      : []))
+              : null,
+        ),
         barrierDismissible: true,
         barrierColor: const Color(0x66000000),
       );
       // Only add valid location; empty/invalid entries would render as empty chips and cause blank white block.
       if (result != null && result.locationName.trim().isNotEmpty) {
-        locationsAdded.add(result);
+        if (initialLocation != null) {
+          // Update existing location
+          final index = locationsAdded.indexWhere((loc) => 
+            loc.locationName == initialLocation.locationName && 
+            loc.city == initialLocation.city &&
+            loc.country == initialLocation.country
+          );
+          if (index >= 0) {
+            locationsAdded[index] = result;
+          }
+        } else {
+          // Add new location
+          locationsAdded.add(result);
+        }
       }
       return result;
     } finally {
@@ -53,6 +99,14 @@ class ProductsServicesController extends GetxController {
         });
       }
     }
+  }
+
+  void openEditBusinessLocationDialog(BusinessLocationModel location) {
+    openAddBusinessLocationDialog(initialLocation: location);
+  }
+
+  void deleteBusinessLocation(BusinessLocationModel location) {
+    locationsAdded.remove(location);
   }
 
   /// Location Name dropdown: Main Location + saved business locations from Add Business Location.

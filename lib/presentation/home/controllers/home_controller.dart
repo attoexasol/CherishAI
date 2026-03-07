@@ -1,6 +1,7 @@
 // lib/presentation/home/controllers/home_controller.dart
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter/services.dart';
 import '../models/daily_message_item.dart';
 import '../models/upcoming_event_item.dart';
 import '../../../app/routes/app_routes.dart';
@@ -173,6 +174,27 @@ class HomeController extends GetxController {
       dislikedMessages.add(lovedOneId);
       likedMessages.remove(lovedOneId);
     }
+  }
+
+  Future<void> onCopyMessage(int lovedOneId) async {
+    final msg = dailyMessages.firstWhereOrNull((m) => m.id == lovedOneId);
+    if (msg == null) return;
+    final currentIdx = currentMessageIndex(lovedOneId);
+    final text = msg.messages[currentIdx.clamp(0, msg.messages.length - 1)];
+    await Clipboard.setData(ClipboardData(text: text));
+    Get.snackbar('Copied!', 'Message copied to clipboard');
+  }
+
+  Future<void> onShareMessage(int lovedOneId) async {
+    final msg = dailyMessages.firstWhereOrNull((m) => m.id == lovedOneId);
+    if (msg == null) return;
+    final currentIdx = currentMessageIndex(lovedOneId);
+    final text = msg.messages[currentIdx.clamp(0, msg.messages.length - 1)];
+    await onShareText(
+      text: text,
+      subject: 'Daily Message from CherishAI',
+      lovedOneName: msg.lovedOneName,
+    );
   }
 
   void onOpenGiftIdeas(UpcomingEventItem event) {
