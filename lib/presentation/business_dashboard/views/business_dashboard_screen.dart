@@ -77,6 +77,8 @@ class BusinessDashboardScreen extends StatelessWidget {
                                 SizedBox(height: _kContentSpacing),
                                 _buildViewToggle(context, c),
                                 SizedBox(height: 16),
+                                _buildSearchField(c),
+                                SizedBox(height: 16),
                                 Obx(() {
                                   if (c.selectedTab.value == 'products') {
                                     return _buildYourProductsSection(context, c);
@@ -260,6 +262,28 @@ class BusinessDashboardScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildSearchField(BusinessDashboardController c) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      child: Obx(() => TextField(
+        controller: c.searchController,
+        onChanged: c.onSearchChanged,
+        decoration: InputDecoration(
+          hintText: c.selectedTab.value == 'products'
+              ? 'Search products...'
+              : 'Search locations...',
+          prefixIcon: const Icon(Icons.search),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      )),
+    );
+  }
+
   Widget _buildViewToggle(BuildContext context, BusinessDashboardController c) {
     return Container(
       padding: EdgeInsets.all(4),
@@ -274,7 +298,7 @@ class BusinessDashboardScreen extends StatelessWidget {
             child: Obx(() => Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () => c.selectedTab.value = 'products',
+                    onTap: () => c.switchTab('products'),
                     borderRadius: BorderRadius.circular(8),
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -309,7 +333,7 @@ class BusinessDashboardScreen extends StatelessWidget {
             child: Obx(() => Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () => c.selectedTab.value = 'locations',
+                    onTap: () => c.switchTab('locations'),
                     borderRadius: BorderRadius.circular(8),
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -466,7 +490,7 @@ class BusinessDashboardScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Obx(() {
-                  final count = c.products.length;
+                  final count = c.filteredProducts.length;
                   return Text(
                     count > 0 ? '$count active ${count == 1 ? 'listing' : 'listings'}' : 'No products yet',
                     style: AppTextStyles.businessDashboardSectionSubtitle,
@@ -496,7 +520,7 @@ class BusinessDashboardScreen extends StatelessWidget {
         ),
         SizedBox(height: 16),
         Obx(() {
-          final products = c.products;
+          final products = c.filteredProducts;
           if (products.isEmpty) {
             return Container(
               width: double.infinity,
@@ -644,7 +668,7 @@ class BusinessDashboardScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Obx(() {
-                  final count = c.locations.length;
+                  final count = c.filteredLocations.length;
                   return Text(
                     count > 0 ? '$count ${count == 1 ? 'location' : 'locations'}' : 'No locations yet',
                     style: AppTextStyles.businessDashboardSectionSubtitle,
@@ -656,7 +680,7 @@ class BusinessDashboardScreen extends StatelessWidget {
         ),
         SizedBox(height: 16),
         Obx(() {
-          final locations = c.locations.where((loc) => (loc['locationName'] as String? ?? '').trim().isNotEmpty).toList();
+          final locations = c.filteredLocations;
           if (locations.isEmpty) {
             return Container(
               width: double.infinity,

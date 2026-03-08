@@ -20,7 +20,6 @@ const double _kGreetingCardRadius = 24;
 const double _kGreetingCardPadding = 16;
 const double _kGreetingTitleSubtitleGap = 6;
 const double _kGreetingSubtitleChipsGap = 10;
-const double _kGreetingNarrowBreakpoint = 340;
 const double _kPillPaddingH = 12;
 const double _kPillPaddingV = 6;
 const double _kPillIconSize = 16;
@@ -268,59 +267,31 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: _kGreetingSubtitleChipsGap),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final maxWidth = constraints.maxWidth;
-              if (maxWidth < _kGreetingNarrowBreakpoint) {
-                return Wrap(
-                  spacing: _kPillGap,
-                  runSpacing: _kPillGap,
-                  children: [
-                    _buildPill(
-                      icon: Icons.favorite,
-                      iconColor: AppColors.homeBellIcon,
-                      label: '${c.lovedOnesCount} Loved Ones',
-                      bgColor: AppColors.homePillRoseBg,
-                      borderColor: AppColors.homePillRoseBorder,
-                      onTap: c.onNavigateToLovedOnes,
-                    ),
-                    _buildPill(
-                      icon: Icons.calendar_today,
-                      iconColor: AppColors.homeSwipeHint,
-                      label: '${c.eventsSoonCount} Events Soon',
-                      bgColor: AppColors.homePillPurpleBg,
-                      borderColor: AppColors.homePillPurpleBorder,
-                      onTap: c.onNavigateToAllEvents,
-                    ),
-                  ],
-                );
-              }
-              return Row(
-                children: [
-                  Expanded(
-                    child: _buildPill(
-                      icon: Icons.favorite,
-                      iconColor: AppColors.homeBellIcon,
-                      label: '${c.lovedOnesCount} Loved Ones',
-                      bgColor: AppColors.homePillRoseBg,
-                      borderColor: AppColors.homePillRoseBorder,
-                      onTap: c.onNavigateToLovedOnes,
-                    ),
-                  ),
-                  const SizedBox(width: _kPillGap),
-                  Expanded(
-                    child: _buildPill(
-                      icon: Icons.calendar_today,
-                      iconColor: AppColors.homeSwipeHint,
-                      label: '${c.eventsSoonCount} Events Soon',
-                      bgColor: AppColors.homePillPurpleBg,
-                      borderColor: AppColors.homePillPurpleBorder,
-                      onTap: c.onNavigateToAllEvents,
-                    ),
-                  ),
-                ],
-              );
-            },
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildPill(
+                  icon: Icons.favorite,
+                  iconColor: AppColors.homeBellIcon,
+                  label: '${c.lovedOnesCount} Loved Ones',
+                  bgColor: AppColors.homePillRoseBg,
+                  borderColor: AppColors.homePillRoseBorder,
+                  onTap: c.onNavigateToLovedOnes,
+                ),
+                const SizedBox(width: _kPillGap),
+                _buildPill(
+                  icon: Icons.calendar_today,
+                  iconColor: AppColors.homeSwipeHint,
+                  label: '${c.eventsSoonCount} Events Soon',
+                  bgColor: AppColors.homePillPurpleBg,
+                  borderColor: AppColors.homePillPurpleBorder,
+                  onTap: c.onNavigateToAllEvents,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -388,25 +359,25 @@ class HomeScreen extends StatelessWidget {
             children: [
               const TextSpan(text: 'Personalized for each loved one. '),
               TextSpan(
-                text: '• SWIPE HORIZONTALLY',
+                text: '• SWIPE HORIZONTALLY to see all loved ones',
                 style: AppTextStyles.homeSwipeHint.copyWith(color: AppColors.homeSwipeHint),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 4),
-        GestureDetector(
-          onTap: c.onNavigateToLovedOnes,
-          child: Text(
-            'to see all loved ones',
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w400,
-              height: 1.3,
-              color: AppColors.homeSwipeHint.withAlpha(((0.75 * 255).toInt())),
-            ),
-          ),
-        ),
+        // const SizedBox(height: 4),
+        // GestureDetector(
+        //   onTap: c.onNavigateToLovedOnes,
+        //   child: Text(
+        //     'to see all loved ones',
+        //     style: TextStyle(
+        //       fontSize: 11,
+        //       fontWeight: FontWeight.w400,
+        //       height: 1.3,
+        //       color: AppColors.homeSwipeHint.withAlpha(((0.75 * 255).toInt())),
+        //     ),
+        //   ),
+        // ),
         const SizedBox(height: 20),
         SizedBox(
           height: sectionHeight,
@@ -607,7 +578,8 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(height: msgGapBetweenRows),
                     _buildGradientButton(
                       icon: Icons.refresh,
-                      label: 'Regenerate Message (Max 2/day)',
+                      // label: 'Regenerate Message (Max 2/day)',
+                      label: 'Regenerate Message',
                       onTap: () => c.onRegenerateMessage(msg.id),
                       iconSize: regenerateIconSize.toDouble(),
                       paddingV: regeneratePaddingV,

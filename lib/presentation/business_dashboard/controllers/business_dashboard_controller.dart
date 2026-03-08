@@ -20,6 +20,36 @@ class BusinessDashboardController extends GetxController {
   final RxList<Map<String, dynamic>> products = <Map<String, dynamic>>[].obs;
   final RxList<Map<String, dynamic>> locations = <Map<String, dynamic>>[].obs;
 
+  final TextEditingController searchController = TextEditingController();
+  final RxString searchQuery = ''.obs;
+
+  List<Map<String, dynamic>> get filteredProducts {
+    if (searchQuery.value.isEmpty) return products;
+    final q = searchQuery.value;
+    return products.where((p) {
+      return ((p['name'] as String? ?? '').toLowerCase().contains(q));
+    }).toList();
+  }
+
+  List<Map<String, dynamic>> get filteredLocations {
+    final withName = locations.where((loc) => (loc['locationName'] as String? ?? '').trim().isNotEmpty).toList();
+    if (searchQuery.value.isEmpty) return withName;
+    final q = searchQuery.value;
+    return withName.where((l) {
+      return (l['locationName'] as String? ?? '').toLowerCase().contains(q);
+    }).toList();
+  }
+
+  void onSearchChanged(String value) {
+    searchQuery.value = value.trim().toLowerCase();
+  }
+
+  void switchTab(String tab) {
+    selectedTab.value = tab;
+    searchController.clear();
+    searchQuery.value = '';
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -118,8 +148,14 @@ class BusinessDashboardController extends GetxController {
     }
   }
 
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
+  }
+
   void onToggleViewMode() {
-    selectedTab.value = selectedTab.value == 'products' ? 'locations' : 'products';
+    switchTab(selectedTab.value == 'products' ? 'locations' : 'products');
   }
 
   /// Open edit product dialog

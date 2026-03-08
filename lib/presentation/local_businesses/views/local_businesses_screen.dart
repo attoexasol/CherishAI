@@ -5,6 +5,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_shadows.dart';
+import '../../business_products/views/business_products_screen.dart';
 import '../controllers/local_businesses_controller.dart';
 import '../models/local_business_item.dart';
 
@@ -13,11 +14,12 @@ const double _kCardRadius = 20;
 const double _kBottomNavPadding = 88;
 const double _kBreakpointNarrow = 360;
 
-// Action button colors (Tel=green, Website=blue, Location=pink, Social=purple)
+// Action button colors (Tel=green, Website=blue, Location=pink, Social=purple, Products=amber)
 const Color _kTelBg = Color(0xFF22C55E);
 const Color _kWebsiteBg = Color(0xFF3B82F6);
 const Color _kLocationBg = Color(0xFFE11D48);
 const Color _kSocialBg = Color(0xFFA855F7);
+const Color _kProductsBg = Color(0xFFD97706);
 
 class LocalBusinessesScreen extends StatefulWidget {
   const LocalBusinessesScreen({Key? key}) : super(key: key);
@@ -351,57 +353,98 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
                 _buildInfoBlock(Icons.location_on, 'ADDRESS', b.address, isNarrow),
                 const SizedBox(height: 10),
                 _buildInfoBlock(Icons.access_time, 'HOURS', b.hours, isNarrow),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.shopping_bag),
+                    label: const Text('Products'),
+                    onPressed: () {
+                      Get.to(BusinessProductsScreen(businessId: b.id));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 16),
                 LayoutBuilder(
                   builder: (context, constraints) {
                     final btnFontSize = isNarrow ? 11.0 : 12.0;
                     final btnIconSize = isNarrow ? 16.0 : 18.0;
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: _buildActionBtn(
-                            icon: Icons.phone,
-                            label: 'Tel',
-                            color: _kTelBg,
-                            onTap: () => c.onTapTel(b),
-                            iconSize: btnIconSize,
-                            fontSize: btnFontSize,
+                    const btnMinWidth = 64.0;
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: btnMinWidth,
+                            child: _buildActionBtn(
+                              icon: Icons.phone,
+                              label: 'Tel',
+                              color: _kTelBg,
+                              onTap: () => c.onTapTel(b),
+                              iconSize: btnIconSize,
+                              fontSize: btnFontSize,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: _buildActionBtn(
-                            icon: Icons.language,
-                            label: 'Website',
-                            color: _kWebsiteBg,
-                            onTap: () => c.onTapWebsite(b),
-                            iconSize: btnIconSize,
-                            fontSize: btnFontSize,
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: btnMinWidth,
+                            child: _buildActionBtn(
+                              icon: Icons.language,
+                              label: 'Website',
+                              color: _kWebsiteBg,
+                              onTap: () => c.onTapWebsite(b),
+                              iconSize: btnIconSize,
+                              fontSize: btnFontSize,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: _buildActionBtn(
-                            icon: Icons.location_on,
-                            label: 'Location',
-                            color: _kLocationBg,
-                            onTap: () => c.onTapLocation(b),
-                            iconSize: btnIconSize,
-                            fontSize: btnFontSize,
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: btnMinWidth,
+                            child: _buildActionBtn(
+                              icon: Icons.location_on,
+                              label: 'Location',
+                              color: _kLocationBg,
+                              onTap: () => c.onTapLocation(b),
+                              iconSize: btnIconSize,
+                              fontSize: btnFontSize,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: _buildActionBtn(
-                            icon: Icons.chat_bubble_outline,
-                            label: 'Social',
-                            color: _kSocialBg,
-                            onTap: () => c.onTapSocial(b),
-                            iconSize: btnIconSize,
-                            fontSize: btnFontSize,
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: btnMinWidth,
+                            child: _buildActionBtn(
+                              icon: Icons.chat_bubble_outline,
+                              label: 'Social',
+                              color: _kSocialBg,
+                              onTap: () => c.onTapSocial(b),
+                              iconSize: btnIconSize,
+                              fontSize: btnFontSize,
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: btnMinWidth,
+                            child: _buildActionBtn(
+                              icon: Icons.shopping_bag,
+                              label: 'Products',
+                              color: _kProductsBg,
+                              onTap: () {
+                                Get.to(BusinessProductsScreen(businessId: b.id));
+                              },
+                              iconSize: btnIconSize,
+                              fontSize: btnFontSize,
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

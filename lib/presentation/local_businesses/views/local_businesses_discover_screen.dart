@@ -5,6 +5,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_gradients.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../app/theme/app_shadows.dart';
+import '../../business_products/views/business_products_screen.dart';
 import '../controllers/local_businesses_discover_controller.dart';
 import '../models/discover_business_item.dart';
 import '../models/local_business_item.dart';
@@ -411,6 +412,25 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
                 ],
               );
             },
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              icon: Icon(Icons.shopping_bag, size: 20, color: Colors.white),
+              label: Text('Products'),
+              onPressed: () {
+                Get.to(BusinessProductsScreen(businessId: b.id));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD97706),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+            ),
           ),
           Obx(() {
             if (c.expandedSocialBusinessId.value != b.id) return const SizedBox.shrink();

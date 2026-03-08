@@ -102,7 +102,7 @@ class OnboardingIntroScreen extends StatelessWidget {
               const SizedBox(height: 12),
               _buildBulletRow('Emotional labor, &', Icons.psychology),
                const SizedBox(height: 12),
-              _buildBulletRow("Obliges loved one’s participation", Icons.group_add_rounded, maxLines: 2),
+              _buildBulletRow("Obliges your loved one’s participation", Icons.group_add_rounded, maxLines: 2),
               const SizedBox(height: 10),
               Center(
                 child: Padding(
@@ -124,7 +124,7 @@ class OnboardingIntroScreen extends StatelessWidget {
               const SizedBox(height: 6),
               Center(
                 child: Text(
-                  'Personalized Love and Care, Powered by Emotional Intelligence',
+                  'Thoughtful Love and Care, Powered by Emotional Intelligence',
                   textAlign: TextAlign.center,
                   style: AppTextStyles.onboardingNotCoach.copyWith(
                     fontSize: 15,
@@ -402,15 +402,15 @@ class OnboardingIntroScreen extends StatelessWidget {
           _buildHeavyBullet(
             'Cherish remembers important dates so you can focus on being present',
           ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const Text('🎁', style: TextStyle(fontSize: 22)),
-              const SizedBox(width: 6),
-              const Text('🎀', style: TextStyle(fontSize: 22)),
-            ],
-          ),
+          // const SizedBox(height: 16),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     const Text('🎁', style: TextStyle(fontSize: 22)),
+          //     const SizedBox(width: 6),
+          //     const Text('🎀', style: TextStyle(fontSize: 22)),
+          //   ],
+          // ),
         ],
       ),
     );
