@@ -15,7 +15,7 @@ const double _kIconSize = 16;
 const double _kDotSize = 8;
 
 class SortPanel extends StatelessWidget {
-  const SortPanel({super.key});
+  const SortPanel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class SortPanel extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 24),
         padding: const EdgeInsets.all(_kPanelPadding),
         decoration: BoxDecoration(
-          color: AppColors.giftIdeasStatCardBg.withValues(alpha: 0.95),
+          color: AppColors.giftIdeasStatCardBg.withAlpha(((0.95 * 255).toInt())),
           borderRadius: BorderRadius.circular(_kPanelRadius),
           border: Border.all(color: const Color(0x80FBCFE8)),
           boxShadow: AppShadows.giftIdeasCard,

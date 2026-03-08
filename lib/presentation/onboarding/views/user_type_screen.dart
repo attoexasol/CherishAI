@@ -28,7 +28,7 @@ const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 1024;
 
 class UserTypeScreen extends StatelessWidget {
-  const UserTypeScreen({super.key});
+  const UserTypeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class UserTypeScreen extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: AppGradients.userTypeBackButton,
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.userTypeCardBorderSelected.withValues(alpha: 0.4), width: 2),
+            border: Border.all(color: AppColors.userTypeCardBorderSelected.withAlpha(((0.4 * 255).toInt())), width: 2),
             boxShadow: AppShadows.userTypeBackButton,
           ),
           alignment: Alignment.center,
@@ -190,11 +190,11 @@ class _ImagePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.userTypeCardBorder.withValues(alpha: 0.2),
+        color: AppColors.userTypeCardBorder.withAlpha(((0.2 * 255).toInt())),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Center(
-        child: Icon(Icons.image_outlined, size: 48, color: AppColors.userTypeCardDesc.withValues(alpha: 0.5)),
+        child: Icon(Icons.image_outlined, size: 48, color: AppColors.userTypeCardDesc.withAlpha(((0.5 * 255).toInt()))),
       ),
     );
   }
@@ -260,7 +260,7 @@ class _UserTypeCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(_kIllustrationRadius),
                     placeholder: Container(
                       decoration: BoxDecoration(
-                        color: AppColors.userTypeCardBorder.withValues(alpha: 0.15),
+                        color: AppColors.userTypeCardBorder.withAlpha(((0.15 * 255).toInt())),
                         borderRadius: BorderRadius.circular(_kIllustrationRadius),
                         boxShadow: AppShadows.userTypeIllustrationShadow,
                       ),
@@ -268,7 +268,7 @@ class _UserTypeCard extends StatelessWidget {
                         child: Icon(
                           isBusiness ? Icons.store_rounded : Icons.favorite_rounded,
                           size: 64,
-                          color: AppColors.userTypeCardDesc.withValues(alpha: 0.4),
+                          color: AppColors.userTypeCardDesc.withAlpha(((0.4 * 255).toInt())),
                         ),
                       ),
                     ),
@@ -298,7 +298,7 @@ class _UserTypeCard extends StatelessWidget {
                       BoxShadow(
                         offset: const Offset(0, 4),
                         blurRadius: 20,
-                        color: AppColors.userTypeTitleAccent.withValues(alpha: 0.4),
+                        color: AppColors.userTypeTitleAccent.withAlpha(((0.4 * 255).toInt())),
                       ),
                     ],
                   ),

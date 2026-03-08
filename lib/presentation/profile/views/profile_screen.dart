@@ -44,12 +44,12 @@ const double _kContentOverlapHeader = 32;
 const double _kScrollBottomPadding = 24;
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<ProfileController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -645,7 +645,7 @@ class ProfileScreen extends StatelessWidget {
     ProfileController c,
     bool showLabels,
   ) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.only(
         left: _kBottomNavPaddingH,

@@ -15,7 +15,7 @@ abstract class Breakpoints {
 const double kMaxContentWidth = 1152;
 
 extension ResponsiveContext on BuildContext {
-  double get width => MediaQuery.sizeOf(this).width;
+  double get width => MediaQuery.of(this).size.width;
 
   bool get isXs => width < Breakpoints.sm;
   bool get isSm => width >= Breakpoints.sm && width < Breakpoints.md;
@@ -27,7 +27,7 @@ extension ResponsiveContext on BuildContext {
 /// Returns value for current breakpoint. [values] order: xs, sm, md, lg, xl.
 T valueByBreakpoint<T>(BuildContext context, List<T> values) {
   assert(values.length == 5, 'Provide 5 values: [xs, sm, md, lg, xl]');
-  final w = MediaQuery.sizeOf(context).width;
+  final w = MediaQuery.of(context).size.width;
   if (w >= Breakpoints.xl) return values[4];
   if (w >= Breakpoints.lg) return values[3];
   if (w >= Breakpoints.md) return values[2];

@@ -52,7 +52,7 @@ const double _kViewPlansRadius = 12;
 const double _kTextAreaMinHeight = 100;
 
 class BusinessInformationScreen extends StatelessWidget {
-  const BusinessInformationScreen({super.key});
+  const BusinessInformationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class BusinessInformationScreen extends StatelessWidget {
               _kPaddingH,
               _kPaddingTop,
               _kPaddingH,
-              _kPaddingBottom + MediaQuery.paddingOf(context).bottom,
+              _kPaddingBottom + MediaQuery.of(context).padding.bottom,
             ),
             child: Center(
               child: ConstrainedBox(
@@ -534,7 +534,7 @@ class BusinessInformationScreen extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
-                  color: AppColors.white.withValues(alpha: 0.8),
+                  color: AppColors.white.withAlpha(((0.8 * 255).toInt())),
                   borderRadius: BorderRadius.circular(_kInputRadius),
                   border: Border.all(color: AppColors.businessInfoUploadBorder, width: 2, style: BorderStyle.solid),
                   boxShadow: AppShadows.businessInfoUploadCard,

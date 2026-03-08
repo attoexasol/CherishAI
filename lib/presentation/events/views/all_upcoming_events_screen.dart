@@ -34,12 +34,12 @@ const double _kBackIconSize = 20;
 const double _kBottomPadding = 96;
 
 class AllUpcomingEventsScreen extends StatelessWidget {
-  const AllUpcomingEventsScreen({super.key});
+  const AllUpcomingEventsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<AllUpcomingEventsController>();
-    final bottomSafe = MediaQuery.paddingOf(context).bottom;
+    final bottomSafe = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       backgroundColor: AppColors.eventsPageBg,
       body: SafeArea(
@@ -175,8 +175,7 @@ class AllUpcomingEventsScreen extends StatelessWidget {
   static const Color _kBorderRose200 = Color(0x80FECDD3);
 
   Widget _buildSortToggle(BuildContext context, AllUpcomingEventsController c, String sortBy) {
-    return MediaQuery.withNoTextScaling(
-      child: Row(
+    return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text('Sort by:', style: AppTextStyles.eventsSortLabel.copyWith(fontSize: 14)),
@@ -191,7 +190,7 @@ class AllUpcomingEventsScreen extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(_kTogglePadding),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.8),
+                      color: Colors.white.withAlpha(((0.8 * 255).toInt())),
                       borderRadius: BorderRadius.circular(_kToggleRadius),
                       border: Border.all(color: _kBorderPink200, width: 2),
                       boxShadow: AppShadows.eventsCard,
@@ -210,7 +209,6 @@ class AllUpcomingEventsScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
     );
   }
 

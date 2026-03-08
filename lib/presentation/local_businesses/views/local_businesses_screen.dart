@@ -20,7 +20,7 @@ const Color _kLocationBg = Color(0xFFE11D48);
 const Color _kSocialBg = Color(0xFFA855F7);
 
 class LocalBusinessesScreen extends StatefulWidget {
-  const LocalBusinessesScreen({super.key});
+  const LocalBusinessesScreen({Key? key}) : super(key: key);
 
   @override
   State<LocalBusinessesScreen> createState() => _LocalBusinessesScreenState();
@@ -30,7 +30,7 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       Get.find<LocalBusinessesController>().applyArguments(Get.arguments as Map<String, dynamic>?);
     });
   }
@@ -38,8 +38,8 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
   @override
   Widget build(BuildContext context) {
     final c = Get.find<LocalBusinessesController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
-    final screenWidth = MediaQuery.sizeOf(context).width;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < _kBreakpointNarrow;
     final paddingH = isNarrow ? 16.0 : _kPaddingH;
 
@@ -220,7 +220,7 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
           Container(
             padding: EdgeInsets.all(isNarrow ? 12 : 16),
             decoration: BoxDecoration(
-              color: AppColors.giftIdeasDetailWhyPerfectBgStart.withValues(alpha: 0.5),
+              color: AppColors.giftIdeasDetailWhyPerfectBgStart.withAlpha(((0.5 * 255).toInt())),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(_kCardRadius)),
             ),
             child: Column(
@@ -488,9 +488,9 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: isNarrow ? 10 : 12, vertical: 10),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
+              color: color.withAlpha(((0.12 * 255).toInt())),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: color.withValues(alpha: 0.4)),
+              border: Border.all(color: color.withAlpha(((0.4 * 255).toInt()))),
             ),
             child: Row(
               children: [
@@ -648,9 +648,9 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.15),
+            color: color.withAlpha(((0.15 * 255).toInt())),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: color.withValues(alpha: 0.5)),
+            border: Border.all(color: color.withAlpha(((0.5 * 255).toInt()))),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

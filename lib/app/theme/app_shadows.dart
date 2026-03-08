@@ -97,7 +97,7 @@ abstract class AppShadows {
         offset: const Offset(0, 12),
         blurRadius: 32,
         spreadRadius: 0,
-        color: color.withValues(alpha: 0.25),
+        color: color.withAlpha(((0.25 * 255).toInt())),
       );
 
   /// Onboarding Intro: card 0 8px 32px rgba(236, 72, 153, 0.12)

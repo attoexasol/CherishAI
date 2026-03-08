@@ -31,12 +31,12 @@ const double _kEmptyIconSize = 96;
 const double _kMaxContentWidthNotif = 896; // React max-w-4xl
 
 class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({super.key});
+  const NotificationsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<NotificationsController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -504,7 +504,7 @@ class NotificationsScreen extends StatelessWidget {
     NotificationsController c,
     bool showLabels,
   ) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.only(
         left: _kBottomNavPaddingH,

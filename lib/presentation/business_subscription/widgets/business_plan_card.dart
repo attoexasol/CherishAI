@@ -22,11 +22,11 @@ const double _kFeatureGap = 8;
 
 class BusinessPlanCard extends StatelessWidget {
   const BusinessPlanCard({
-    super.key,
+    Key? key,
     required this.plan,
     required this.currentPlanId,
     required this.onUpgradeToPlus,
-  });
+  }) : super(key: key);
 
   final BusinessPlan plan;
   final String currentPlanId;

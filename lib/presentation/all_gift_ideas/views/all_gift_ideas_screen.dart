@@ -24,13 +24,13 @@ const double _kSortIconSize = 16;
 const double _kBottomNavHeight = 88;
 
 class AllGiftIdeasScreen extends StatelessWidget {
-  const AllGiftIdeasScreen({super.key});
+  const AllGiftIdeasScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<AllGiftIdeasController>();
-    final topPad = MediaQuery.paddingOf(context).top;
-    final bottomPad = MediaQuery.paddingOf(context).bottom;
+    final topPad = MediaQuery.of(context).padding.top;
+    final bottomPad = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -163,7 +163,7 @@ class AllGiftIdeasScreen extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(_kStatsCardPadding),
         decoration: BoxDecoration(
-          color: AppColors.giftIdeasStatCardBg.withValues(alpha: 0.95),
+          color: AppColors.giftIdeasStatCardBg.withAlpha(((0.95 * 255).toInt())),
           borderRadius: BorderRadius.circular(_kStatsCardRadius),
           border: Border.all(color: const Color(0x80FBCFE8)),
           boxShadow: AppShadows.giftIdeasCard,
@@ -291,7 +291,7 @@ class AllGiftIdeasScreen extends StatelessWidget {
             horizontal: _kSortBarPaddingH,
           ),
           decoration: BoxDecoration(
-            color: AppColors.giftIdeasStatCardBg.withValues(alpha: 0.95),
+            color: AppColors.giftIdeasStatCardBg.withAlpha(((0.95 * 255).toInt())),
             borderRadius: BorderRadius.circular(_kSortBarRadius),
             border: Border.all(color: const Color(0x80FBCFE8)),
             boxShadow: AppShadows.giftIdeasCard,

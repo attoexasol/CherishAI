@@ -24,11 +24,11 @@ const Color _kBorderPink200 = Color(0x80FBCFE8);
 
 class EventCard extends StatelessWidget {
   const EventCard({
-    super.key,
+    Key? key,
     required this.event,
     required this.showLovedOneInTitle,
     required this.onViewGiftIdeas,
-  });
+  }) : super(key: key);
 
   final AllUpcomingEventItem event;
   final bool showLovedOneInTitle;

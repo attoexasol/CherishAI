@@ -23,7 +23,7 @@ const double _kChevronSize = 20;
 const double _kMaxDialogWidth = 448;
 
 class AccountSettingsDialog extends StatelessWidget {
-  const AccountSettingsDialog({super.key});
+  const AccountSettingsDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

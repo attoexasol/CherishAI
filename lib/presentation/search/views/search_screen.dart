@@ -44,12 +44,12 @@ const double _kBottomNavHideLabelWidth = 280;
 const double _kScrollBottomPadding = 24;
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<search_feature.SearchController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -463,7 +463,7 @@ class SearchScreen extends StatelessWidget {
     search_feature.SearchController c,
     bool showLabels,
   ) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.only(
         left: _kBottomNavPaddingH,

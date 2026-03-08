@@ -24,7 +24,7 @@ const double _kBtnPaddingV = 12;
 const double _kBtnPaddingH = 24;
 
 class BusinessUnsubscribeDialog extends StatelessWidget {
-  const BusinessUnsubscribeDialog({super.key});
+  const BusinessUnsubscribeDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class BusinessUnsubscribeDialog extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.beforeYouGoIconBubbleBg,
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.beforeYouGoIconBubbleIcon.withValues(alpha: 0.4), width: 1),
+                    border: Border.all(color: AppColors.beforeYouGoIconBubbleIcon.withAlpha(((0.4 * 255).toInt())), width: 1),
                   ),
                   child: Icon(Icons.warning_amber_rounded, size: _kIconSize, color: AppColors.beforeYouGoIconBubbleIcon),
                 ),

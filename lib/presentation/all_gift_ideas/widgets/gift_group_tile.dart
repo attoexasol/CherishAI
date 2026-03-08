@@ -18,10 +18,10 @@ const int _kExpandDurationMs = 280;
 
 class GiftGroupTile extends StatelessWidget {
   const GiftGroupTile({
-    super.key,
+    Key? key,
     required this.groupKey,
     required this.gifts,
-  });
+  }) : super(key: key);
 
   final String groupKey;
   final List<GiftIdeaItem> gifts;
@@ -42,7 +42,7 @@ class GiftGroupTile extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(_kTilePadding),
                 decoration: BoxDecoration(
-                  color: AppColors.giftIdeasStatCardBg.withValues(alpha: 0.95),
+                  color: AppColors.giftIdeasStatCardBg.withAlpha(((0.95 * 255).toInt())),
                   borderRadius: BorderRadius.circular(_kTileRadius),
                   border: Border.all(color: const Color(0x80FBCFE8)),
                   boxShadow: AppShadows.giftIdeasCard,

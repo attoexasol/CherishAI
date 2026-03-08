@@ -20,7 +20,7 @@ const double _kSubmitBtnRadius = 14;
 const double _kMaxContentWidth = 480;
 
 class HelpFeedbackScreen extends StatelessWidget {
-  const HelpFeedbackScreen({super.key});
+  const HelpFeedbackScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +148,7 @@ class HelpFeedbackScreen extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: _kOptionPadding, horizontal: 14),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.helpFeedbackOptionBorder.withValues(alpha: 0.2) : null,
+                      color: isSelected ? AppColors.helpFeedbackOptionBorder.withAlpha(((0.2 * 255).toInt())) : null,
                       borderRadius: BorderRadius.circular(_kOptionRadius),
                       border: Border.all(
                         color: isSelected ? AppColors.helpFeedbackSectionTitle : AppColors.helpFeedbackOptionBorder,

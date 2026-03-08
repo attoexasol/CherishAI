@@ -38,12 +38,12 @@ const double _kBottomNavHideLabelWidth = 280;
 const double _kListBottomPadding = 24;
 
 class LovedOnesScreen extends StatelessWidget {
-  const LovedOnesScreen({super.key});
+  const LovedOnesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<LovedOnesController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -321,7 +321,7 @@ class LovedOnesScreen extends StatelessWidget {
     LovedOnesController c,
     bool showLabels,
   ) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.only(
         left: _kBottomNavPaddingH,

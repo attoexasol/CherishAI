@@ -31,12 +31,12 @@ const double _kButtonGap = 12;
 const double _kSubCardGap = 16;
 
 class OldMessagesScreen extends StatelessWidget {
-  const OldMessagesScreen({super.key});
+  const OldMessagesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<OldMessagesController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -127,43 +127,43 @@ class OldMessagesScreen extends StatelessWidget {
   Widget _buildFilterChips(BuildContext context, OldMessagesController c,
       String activeFilter) {
     final chips = [
-      (filter: filterAll, label: 'All Messages'),
-      (filter: filterSarah, label: 'Sarah'),
-      (filter: filterMom, label: 'Mom'),
-      (filter: filterAlex, label: 'Alex'),
+      {'filter': filterAll, 'label': 'All Messages'},
+      {'filter': filterSarah, 'label': 'Sarah'},
+      {'filter': filterMom, 'label': 'Mom'},
+      {'filter': filterAlex, 'label': 'Alex'},
     ];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
           for (final chip in chips) ...[
-            if (chip.filter != chips.first.filter)
+            if (chips.indexOf(chip) > 0)
               const SizedBox(width: _kChipGap),
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () => c.onSelectFilter(chip.filter),
+                onTap: () => c.onSelectFilter(chip['filter'] as String),
                 borderRadius: BorderRadius.circular(_kChipRadius),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: _kChipPaddingH, vertical: _kChipPaddingV),
                   decoration: BoxDecoration(
-                    gradient: activeFilter == chip.filter
+                    gradient: activeFilter == chip['filter']
                         ? AppGradients.oldMessagesChipSelected
                         : null,
-                    color: activeFilter == chip.filter
+                    color: activeFilter == chip['filter']
                         ? null
                         : AppColors.oldMessagesChipUnselectedBg,
                     border: Border.all(
-                      color: activeFilter == chip.filter
+                      color: activeFilter == chip['filter']
                           ? Colors.transparent
                           : AppColors.oldMessagesChipUnselectedBorder,
                     ),
                     borderRadius: BorderRadius.circular(_kChipRadius),
                   ),
                   child: Text(
-                    chip.label,
-                    style: activeFilter == chip.filter
+                    chip['label'] as String,
+                    style: activeFilter == chip['filter']
                         ? AppTextStyles.oldMessagesChipSelected
                         : AppTextStyles.oldMessagesChipUnselected,
                   ),
@@ -364,7 +364,6 @@ class OldMessagesScreen extends StatelessWidget {
                         icon: const Icon(Icons.copy_rounded, size: 18),
                         label: const Text('Copy'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFFEC4899),
                           side: const BorderSide(color: Color(0xFFFBCFE8)),
                           padding: const EdgeInsets.symmetric(
                               vertical: _kButtonPaddingV),
@@ -379,7 +378,6 @@ class OldMessagesScreen extends StatelessWidget {
                         icon: const Icon(Icons.share_rounded, size: 18),
                         label: const Text('Share'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFFEC4899),
                           side: const BorderSide(color: Color(0xFFFBCFE8)),
                           padding: const EdgeInsets.symmetric(
                               vertical: _kButtonPaddingV),

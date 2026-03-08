@@ -14,7 +14,7 @@ const double _kChipRadius = 999;
 const double _kChipGap = 8;
 
 class GiftItemCard extends StatelessWidget {
-  const GiftItemCard({super.key, required this.gift});
+  const GiftItemCard({Key? key, required this.gift}) : super(key: key);
 
   final GiftIdeaItem gift;
 
@@ -197,7 +197,7 @@ class _Chip extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: gradient,
         borderRadius: BorderRadius.circular(_kChipRadius),
-        border: Border.all(color: textColor.withValues(alpha: 0.3)),
+        border: Border.all(color: textColor.withAlpha(((0.3 * 255).toInt()))),
       ),
       child: Text(
         label,

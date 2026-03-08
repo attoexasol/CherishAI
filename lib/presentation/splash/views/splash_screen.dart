@@ -9,7 +9,7 @@ import '../../../app/theme/app_animations.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _onScroll() {
     final offset = _scrollController.offset;
-    final viewportHeight = MediaQuery.sizeOf(context).height;
+    final viewportHeight = MediaQuery.of(context).size.height;
     final heroHeight = viewportHeight > 0 ? viewportHeight : _heroSectionMinHeight;
     final progress = (offset / heroHeight).clamp(0.0, 1.0);
     setState(() {
@@ -134,7 +134,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildContent() {
-    final viewportHeight = MediaQuery.sizeOf(context).height;
+    final viewportHeight = MediaQuery.of(context).size.height;
     final heroHeight = viewportHeight > 0 ? viewportHeight : _heroSectionMinHeight;
     return SingleChildScrollView(
       controller: _scrollController,
@@ -238,7 +238,6 @@ class _SplashScreenState extends State<SplashScreen>
                       Icons.favorite,
                       size: 80,
                       color: AppColors.white,
-                      fill: 1.0,
                     ),
                   ),
                 ],
@@ -251,7 +250,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildBrandName() {
-    final width = MediaQuery.sizeOf(context).width;
+    final width = MediaQuery.of(context).size.width;
     final fontSize = (width * 0.1).clamp(42.0, 56.0);
     return ShaderMask(
       blendMode: BlendMode.srcIn,
@@ -479,7 +478,7 @@ class _SplashScreenState extends State<SplashScreen>
                 color: AppColors.white70,
                 borderRadius: BorderRadius.circular(32),
                 border: Border.all(
-                  color: AppColors.primaryPink.withValues(alpha: 0.15),
+                  color: AppColors.primaryPink.withAlpha(((0.15 * 255).toInt())),
                   width: 2,
                 ),
                 boxShadow: AppShadows.trustCard,
@@ -507,10 +506,10 @@ class _SplashScreenState extends State<SplashScreen>
                             height: 56,
                             margin: const EdgeInsets.only(bottom: 12),
                             decoration: BoxDecoration(
-                              color: e.color.withValues(alpha: 0.08),
+                              color: e.color.withAlpha(((0.08 * 255).toInt())),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: e.color.withValues(alpha: 0.2),
+                                color: e.color.withAlpha(((0.2 * 255).toInt())),
                                 width: 1.5,
                               ),
                             ),
@@ -589,7 +588,7 @@ class _StatCard extends StatelessWidget {
         color: AppColors.white70,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: AppColors.primaryPink.withValues(alpha: 0.15),
+          color: AppColors.primaryPink.withAlpha(((0.15 * 255).toInt())),
           width: 1,
         ),
         boxShadow: AppShadows.statCard,
@@ -654,7 +653,7 @@ class _FeatureCard extends StatelessWidget {
         color: AppColors.white60,
         borderRadius: BorderRadius.circular(32),
         border: Border.all(
-          color: AppColors.primaryPink.withValues(alpha: 0.15),
+          color: AppColors.primaryPink.withAlpha(((0.15 * 255).toInt())),
           width: 2,
         ),
         boxShadow: AppShadows.featureCard,
@@ -742,7 +741,7 @@ class _CtaButton extends StatelessWidget {
                         shaderCallback: (bounds) => LinearGradient(
                           colors: [
                             Colors.transparent,
-                            Colors.white.withValues(alpha: 0.4),
+                            Colors.white.withAlpha(((0.4 * 255).toInt())),
                             Colors.transparent,
                           ],
                           stops: [
@@ -840,7 +839,7 @@ class _FloatingOrbState extends State<_FloatingOrb>
             shape: BoxShape.circle,
             gradient: RadialGradient(
               colors: [
-                widget.color.withValues(alpha: 0.19),
+                widget.color.withAlpha(((0.19 * 255).toInt())),
                 Colors.transparent,
               ],
               stops: const [0.0, 0.7],

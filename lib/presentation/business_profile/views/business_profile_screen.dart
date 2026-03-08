@@ -31,13 +31,13 @@ const double _kBottomBtnRadius = 16;
 const double _kBottomAreaPadding = 96;
 
 class BusinessProfileScreen extends StatelessWidget {
-  const BusinessProfileScreen({super.key});
+  const BusinessProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<BusinessProfileController>();
-    final topPad = MediaQuery.paddingOf(context).top;
-    final bottomPad = MediaQuery.paddingOf(context).bottom;
+    final topPad = MediaQuery.of(context).padding.top;
+    final bottomPad = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: AppGradients.businessDashboardPageBg),
@@ -159,9 +159,9 @@ class BusinessProfileScreen extends StatelessWidget {
                         width: _kEditBtnSize,
                         height: _kEditBtnSize,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: Colors.white.withAlpha(((0.2 * 255).toInt())),
                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 2),
+                          border: Border.all(color: Colors.white.withAlpha(((0.3 * 255).toInt())), width: 2),
                         ),
                         alignment: Alignment.center,
                         child: Icon(Icons.edit_rounded, size: 20, color: Colors.white),
@@ -199,7 +199,7 @@ class BusinessProfileScreen extends StatelessWidget {
               SizedBox(height: 4),
               Text(
                 c.contactPersonController.text.isEmpty ? 'Username' : c.contactPersonController.text,
-                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8)),
+                style: TextStyle(fontSize: 14, color: Colors.white.withAlpha(((0.8 * 255).toInt()))),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12),

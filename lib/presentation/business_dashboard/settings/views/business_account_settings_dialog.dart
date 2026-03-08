@@ -26,7 +26,7 @@ const double _kBarrierOpacity = 0.5;
 const double _kBlurSigma = 2;
 
 class BusinessAccountSettingsDialog extends StatelessWidget {
-  const BusinessAccountSettingsDialog({super.key});
+  const BusinessAccountSettingsDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class BusinessAccountSettingsDialog extends StatelessWidget {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: _kBlurSigma, sigmaY: _kBlurSigma),
               child: Container(
-                color: Color(0xFF000000).withValues(alpha: _kBarrierOpacity),
+                color: Color(0xFF000000).withAlpha(((_kBarrierOpacity * 255).toInt())),
               ),
             ),
           ),

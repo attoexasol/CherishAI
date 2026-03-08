@@ -48,7 +48,7 @@ const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
 
 class IndividualStep2AddLovedOneScreen extends StatelessWidget {
-  const IndividualStep2AddLovedOneScreen({super.key});
+  const IndividualStep2AddLovedOneScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kTopBarHeight + _kScrollTopPadding,
-                  bottom: 24 + MediaQuery.paddingOf(context).bottom,
+                  bottom: 24 + MediaQuery.of(context).padding.bottom,
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -564,7 +564,7 @@ class IndividualStep2AddLovedOneScreen extends StatelessWidget {
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<IndividualStep2AddLovedOneController>();
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Obx(() => Material(
             color: Colors.transparent,
             child: InkWell(

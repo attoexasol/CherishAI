@@ -32,7 +32,7 @@ const double _kMaxDialogWidth = 448;
 const double _kTextAreaMinHeight = 80;
 
 class AddBusinessLocationDialog extends StatefulWidget {
-  const AddBusinessLocationDialog({super.key});
+  const AddBusinessLocationDialog({Key? key}) : super(key: key);
 
   @override
   State<AddBusinessLocationDialog> createState() => _AddBusinessLocationDialogState();
@@ -416,7 +416,8 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          c.onSubmitAddLocation();
+          // TODO: Implement location submission for BusinessInformationController
+          Get.back();
         },
         borderRadius: BorderRadius.circular(_kCtaRadius),
         child: Container(

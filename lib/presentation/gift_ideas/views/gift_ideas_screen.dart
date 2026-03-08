@@ -26,12 +26,12 @@ const double _kMaxWidth = 480;
 const double _kBottomNavPadding = 88;
 
 class GiftIdeasScreen extends StatelessWidget {
-  const GiftIdeasScreen({super.key});
+  const GiftIdeasScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<GiftIdeasController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(

@@ -30,7 +30,7 @@ const double _kBackHelpSize = 40;
 const double _kBackHelpIconSize = 20;
 
 class ManageSubscriptionScreen extends StatelessWidget {
-  const ManageSubscriptionScreen({super.key});
+  const ManageSubscriptionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +247,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                 onUpgradeToUnlimited: c.onUpgradeToUnlimited,
               ),
             )),
-        SizedBox(height: MediaQuery.paddingOf(context).bottom + _kSectionSpacing),
+        SizedBox(height: MediaQuery.of(context).padding.bottom + _kSectionSpacing),
       ],
     );
   }

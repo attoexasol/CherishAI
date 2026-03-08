@@ -37,12 +37,12 @@ const LinearGradient _kBadgeMostPopularGradient = LinearGradient(
 
 class SubscriptionPlanCard extends StatelessWidget {
   const SubscriptionPlanCard({
-    super.key,
+    Key? key,
     required this.plan,
     required this.currentPlanId,
     required this.onDowngradeToEssential,
     required this.onUpgradeToUnlimited,
-  });
+  }) : super(key: key);
 
   final ManageSubPlan plan;
   final String currentPlanId;

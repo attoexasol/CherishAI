@@ -33,7 +33,7 @@ const double _kBenefitTitleMb = 8;
 const double _kMaxContentWidth = 1024;
 
 class BusinessChoosePlanScreen extends StatelessWidget {
-  const BusinessChoosePlanScreen({super.key});
+  const BusinessChoosePlanScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -188,9 +188,9 @@ class BusinessChoosePlanScreen extends StatelessWidget {
 
   Widget _buildBenefitCards(BuildContext context) {
     final benefits = [
-      (icon: Icons.gps_fixed, title: 'Smart Matching', desc: 'Connect with customers at the perfect moment'),
-      (icon: Icons.people_outline, title: 'Grow Your Business', desc: 'Reach more customers who need your services'),
-      (icon: Icons.bar_chart, title: 'Premium Analytics', desc: 'Track performance and optimize your offerings'),
+      {'icon': Icons.gps_fixed, 'title': 'Smart Matching', 'desc': 'Connect with customers at the perfect moment'},
+      {'icon': Icons.people_outline, 'title': 'Grow Your Business', 'desc': 'Reach more customers who need your services'},
+      {'icon': Icons.bar_chart, 'title': 'Premium Analytics', 'desc': 'Track performance and optimize your offerings'},
     ];
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -199,12 +199,12 @@ class BusinessChoosePlanScreen extends StatelessWidget {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              for (int i = 0; i < 3; i++) Expanded(child: Padding(padding: EdgeInsets.only(left: i > 0 ? _kBenefitsGap / 2 : 0, right: i < 2 ? _kBenefitsGap / 2 : 0), child: _benefitCard(benefits[i].icon, benefits[i].title, benefits[i].desc))),
+              for (int i = 0; i < 3; i++) Expanded(child: Padding(padding: EdgeInsets.only(left: i > 0 ? _kBenefitsGap / 2 : 0, right: i < 2 ? _kBenefitsGap / 2 : 0), child: _benefitCard(benefits[i]['icon'] as IconData, benefits[i]['title'] as String, benefits[i]['desc'] as String))),
             ],
           );
         }
         return Column(
-          children: benefits.map((b) => Padding(padding: const EdgeInsets.only(bottom: _kBenefitsGap), child: _benefitCard(b.icon, b.title, b.desc))).toList(),
+          children: benefits.map((b) => Padding(padding: const EdgeInsets.only(bottom: _kBenefitsGap), child: _benefitCard(b['icon'] as IconData, b['title'] as String, b['desc'] as String))).toList(),
         );
       },
     );

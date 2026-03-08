@@ -19,7 +19,7 @@ const double _kMaxDialogWidth = 400;
 
 /// Modal dialog: Add Custom Hobby. Uses controller's customHobbyController and addCustomHobby().
 class AddCustomHobbyDialog extends StatelessWidget {
-  const AddCustomHobbyDialog({super.key});
+  const AddCustomHobbyDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

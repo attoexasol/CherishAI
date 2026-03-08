@@ -28,11 +28,11 @@ const double _kBadgeIconSize = 16;
 
 class BusinessChoosePlanCard extends StatelessWidget {
   const BusinessChoosePlanCard({
-    super.key,
+    Key? key,
     required this.plan,
     required this.isCurrentPlan,
     required this.onUpgradeToPlus,
-  });
+  }) : super(key: key);
 
   final BusinessChoosePlanModel plan;
   final bool isCurrentPlan;

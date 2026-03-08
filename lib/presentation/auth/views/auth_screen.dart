@@ -11,7 +11,7 @@ import '../../../core/widgets/asset_image_with_fallback.dart';
 import '../controllers/auth_controller.dart';
 
 class AuthScreen extends StatelessWidget {
-  const AuthScreen({super.key});
+  const AuthScreen({Key? key}) : super(key: key);
 
   static const double _horizontalPadding = 24;
   static const double _segmentHeight = 52;
@@ -174,7 +174,7 @@ class AuthScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(2),
                 child: Container(
-                  width: (MediaQuery.sizeOf(context).width - _horizontalPadding * 2 - 12 - 4) / 2,
+                  width: (MediaQuery.of(context).size.width - _horizontalPadding * 2 - 12 - 4) / 2,
                   decoration: BoxDecoration(
                     gradient: AppGradients.authTabAndCta,
                     borderRadius: BorderRadius.circular(_segmentRadius - 8),
@@ -419,7 +419,7 @@ class AuthScreen extends StatelessWidget {
                     height: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white.withValues(alpha: 0.9)),
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white.withAlpha(((0.9 * 255).toInt()))),
                     ),
                   )
                 : Text(

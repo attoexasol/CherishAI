@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 /// In debug mode, logs the failing asset path for easier debugging.
 class AssetImageWithFallback extends StatefulWidget {
   const AssetImageWithFallback({
-    super.key,
+    Key? key,
     required this.assetPath,
     required this.placeholder,
     this.width,
@@ -19,7 +19,7 @@ class AssetImageWithFallback extends StatefulWidget {
     this.color,
     this.colorBlendMode,
     this.padding,
-  });
+  }) : super(key: key);
 
   final String assetPath;
   final Widget placeholder;

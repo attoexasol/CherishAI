@@ -9,7 +9,7 @@ void main() {
 }
 
 class CherishApp extends StatelessWidget {
-  const CherishApp({super.key});
+  const CherishApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

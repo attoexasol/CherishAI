@@ -28,7 +28,7 @@ const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
 
 class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
-  const IndividualStep3RelationshipGoalsScreen({super.key});
+  const IndividualStep3RelationshipGoalsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kTopInset + _kBackBtnSize + _kScrollTopPadding,
-                  bottom: 24 + MediaQuery.paddingOf(context).bottom,
+                  bottom: 24 + MediaQuery.of(context).padding.bottom,
                 ),
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -191,7 +191,7 @@ class IndividualStep3RelationshipGoalsScreen extends StatelessWidget {
   Widget _buildBottomSection(BuildContext context) {
     final c = Get.find<IndividualStep3RelationshipGoalsController>();
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

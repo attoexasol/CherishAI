@@ -24,7 +24,7 @@ const double _kBottomNavPadding = 88;
 const double _kBreakpointNarrow = 360;
 
 class GiftIdeasDetailScreen extends StatefulWidget {
-  const GiftIdeasDetailScreen({super.key});
+  const GiftIdeasDetailScreen({Key? key}) : super(key: key);
 
   @override
   State<GiftIdeasDetailScreen> createState() => _GiftIdeasDetailScreenState();
@@ -34,7 +34,7 @@ class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       final c = Get.find<GiftIdeasDetailController>();
       c.applyArguments(Get.arguments as Map<String, dynamic>?);
     });
@@ -43,8 +43,8 @@ class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final c = Get.find<GiftIdeasDetailController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
-    final screenWidth = MediaQuery.sizeOf(context).width;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < _kBreakpointNarrow;
     final paddingH = isNarrow ? 16.0 : _kPaddingH;
     final bottomPaddingTotal = _kBottomNavPadding + bottomPadding;
@@ -262,7 +262,7 @@ class _GiftIdeasDetailScreenState extends State<GiftIdeasDetailScreen> {
           Container(
             padding: EdgeInsets.symmetric(vertical: isNarrow ? 14 : 18, horizontal: cardPadding),
             decoration: BoxDecoration(
-              color: AppColors.giftIdeasDetailWhyPerfectBgStart.withValues(alpha: 0.6),
+              color: AppColors.giftIdeasDetailWhyPerfectBgStart.withAlpha(((0.6 * 255).toInt())),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(_kCardRadius)),
             ),
             child: Column(

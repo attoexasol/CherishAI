@@ -35,7 +35,7 @@ const double _kCardMb = 16;
 const double _kScrollBottom = 48;
 
 class YourApproachScreen extends StatelessWidget {
-  const YourApproachScreen({super.key});
+  const YourApproachScreen({Key? key}) : super(key: key);
 
   static String _capitalize(String s) {
     if (s.isEmpty) return s;
@@ -45,8 +45,8 @@ class YourApproachScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.find<YourApproachController>();
-    final topPad = MediaQuery.paddingOf(context).top;
-    final bottomPad = MediaQuery.paddingOf(context).bottom;
+    final topPad = MediaQuery.of(context).padding.top;
+    final bottomPad = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: AppGradients.homePageBg),

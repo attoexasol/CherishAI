@@ -61,12 +61,12 @@ double _responsive(double width, double veryNarrow, double narrow, double normal
 }
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<HomeController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -154,7 +154,7 @@ class HomeScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.homeTopBarBg,
         border: Border(
-          bottom: BorderSide(color: AppColors.homeIconButtonBorder.withValues(alpha: 0.5)),
+          bottom: BorderSide(color: AppColors.homeIconButtonBorder.withAlpha(((0.5 * 255).toInt()))),
         ),
       ),
       child: Row(
@@ -403,7 +403,7 @@ class HomeScreen extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w400,
               height: 1.3,
-              color: AppColors.homeSwipeHint.withValues(alpha: 0.75),
+              color: AppColors.homeSwipeHint.withAlpha(((0.75 * 255).toInt())),
             ),
           ),
         ),
@@ -1205,7 +1205,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBottomNav(BuildContext context, HomeController c, bool showLabels) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.only(
         left: _kBottomNavPaddingH,

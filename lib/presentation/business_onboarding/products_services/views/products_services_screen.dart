@@ -29,12 +29,12 @@ const double _kCtaPaddingV = 16;
 const double _kCtaRadius = 16;
 
 class ProductsServicesScreen extends StatelessWidget {
-  const ProductsServicesScreen({super.key});
+  const ProductsServicesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<ProductsServicesController>();
-    final bottomPad = MediaQuery.paddingOf(context).bottom;
+    final bottomPad = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       // Avoid keyboard insets leaving blank white space after Add Business Location dialog closes.
       resizeToAvoidBottomInset: false,
@@ -137,7 +137,7 @@ class ProductsServicesScreen extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: _kAddCardPaddingV),
             decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.8),
+              color: AppColors.white.withOpacity(0.8),
               borderRadius: BorderRadius.circular(_kAddCardRadius),
               border: Border.all(
                 color: canAdd ? AppColors.businessInfoUploadBorder : AppColors.businessInfoSliderInactive,
@@ -297,7 +297,7 @@ class _ProductCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.8),
+        color: AppColors.white.withAlpha(((0.8 * 255).toInt())),
         borderRadius: BorderRadius.circular(_kAddCardRadius),
         border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
         boxShadow: AppShadows.businessInfoUploadCard,
@@ -420,7 +420,7 @@ class _LocationCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.8),
+        color: AppColors.white.withAlpha(((0.8 * 255).toInt())),
         borderRadius: BorderRadius.circular(_kAddCardRadius),
         border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
         boxShadow: AppShadows.businessInfoUploadCard,

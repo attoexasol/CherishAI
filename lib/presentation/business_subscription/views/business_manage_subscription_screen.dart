@@ -32,7 +32,7 @@ const double _kMaxContentWidth = 600;
 const double _kHelperBottom = 96;
 
 class BusinessManageSubscriptionScreen extends StatelessWidget {
-  const BusinessManageSubscriptionScreen({super.key});
+  const BusinessManageSubscriptionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +247,7 @@ class BusinessManageSubscriptionScreen extends StatelessWidget {
                 onUpgradeToPlus: plan.id == 'plus' ? c.onUpgradeToPlus : null,
               ),
             )),
-        SizedBox(height: MediaQuery.paddingOf(context).bottom + _kSectionSpacing),
+        SizedBox(height: MediaQuery.of(context).padding.bottom + _kSectionSpacing),
       ],
     );
   }

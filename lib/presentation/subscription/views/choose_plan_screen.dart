@@ -24,7 +24,7 @@ const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
 
 class ChoosePlanScreen extends StatelessWidget {
-  const ChoosePlanScreen({super.key});
+  const ChoosePlanScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class ChoosePlanScreen extends StatelessWidget {
                     left: _kHorizontalPadding,
                     right: _kHorizontalPadding,
                     top: 16,
-                    bottom: 24 + MediaQuery.paddingOf(context).bottom,
+                    bottom: 24 + MediaQuery.of(context).padding.bottom,
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
@@ -438,7 +438,7 @@ class ChoosePlanScreen extends StatelessWidget {
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<ChoosePlanController>();
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Obx(() {
         final loading = c.isLoadingPurchase.value;
         final label = c.dynamicButtonText;

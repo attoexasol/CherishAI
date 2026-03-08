@@ -70,7 +70,7 @@ const Color _kPink500 = Color(0xFFEC4899);
 const Color _kPurple500 = Color(0xFFA855F7);
 
 class BusinessSplashScreen extends StatelessWidget {
-  const BusinessSplashScreen({super.key});
+  const BusinessSplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +138,7 @@ class BusinessSplashScreen extends StatelessWidget {
               ),
               shape: BoxShape.circle,
               boxShadow: [
-                BoxShadow(offset: Offset(0, 10), blurRadius: 15, color: Colors.black.withValues(alpha: 0.15)),
+                BoxShadow(offset: Offset(0, 10), blurRadius: 15, color: Colors.black.withAlpha(((0.15 * 255).toInt()))),
               ],
             ),
             child: Icon(Icons.store_rounded, size: _kBadgeIconSize, color: Colors.white),
@@ -262,7 +262,7 @@ class _BenefitCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(_kCardPadding),
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.8),
+        color: AppColors.white.withAlpha(((0.8 * 255).toInt())),
         borderRadius: BorderRadius.circular(_kCardRadius),
         boxShadow: _kCardShadow,
       ),

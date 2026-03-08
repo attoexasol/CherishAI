@@ -20,13 +20,13 @@ const Color _kDividerColor = Color(0x80FBCFE8);
 
 class LovedOneGroupCard extends StatelessWidget {
   const LovedOneGroupCard({
-    super.key,
+    Key? key,
     required this.lovedOneName,
     required this.avatar,
     required this.relationship,
     required this.events,
     required this.onViewGiftIdeas,
-  });
+  }) : super(key: key);
 
   final String lovedOneName;
   final String avatar;

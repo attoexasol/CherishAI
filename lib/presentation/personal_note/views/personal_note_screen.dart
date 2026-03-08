@@ -37,7 +37,7 @@ const List<String> _kExampleTexts = [
 ];
 
 class PersonalNoteScreen extends StatelessWidget {
-  const PersonalNoteScreen({super.key});
+  const PersonalNoteScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class PersonalNoteScreen extends StatelessWidget {
                     left: _kHorizontalPadding,
                     right: _kHorizontalPadding,
                     top: 24,
-                    bottom: 24 + MediaQuery.paddingOf(context).bottom,
+                    bottom: 24 + MediaQuery.of(context).padding.bottom,
                   ),
                   child: Align(
                     alignment: Alignment.topCenter,
@@ -352,7 +352,7 @@ class PersonalNoteScreen extends StatelessWidget {
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<PersonalNoteController>();
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Obx(() {
         final enabled = c.canContinue.value && !c.isSubmitting.value;
         return Material(

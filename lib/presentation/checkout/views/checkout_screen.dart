@@ -25,11 +25,11 @@ const double _kDetailsCardIconSize = 72;
 const double _kDetailsCardSecureRadius = 16;
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key});
+  const CheckoutScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -876,7 +876,7 @@ class CheckoutScreen extends StatelessWidget {
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<CheckoutController>();
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

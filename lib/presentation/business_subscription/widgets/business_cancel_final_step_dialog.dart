@@ -34,7 +34,7 @@ const List<String> _kLoseAccessItems = [
 ];
 
 class BusinessCancelFinalStepDialog extends StatelessWidget {
-  const BusinessCancelFinalStepDialog({super.key});
+  const BusinessCancelFinalStepDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ const double _kCancelBtnPaddingV = 12;
 const double _kCancelBtnPaddingH = 24;
 
 class UnsubscribeDialog extends StatelessWidget {
-  const UnsubscribeDialog({super.key});
+  const UnsubscribeDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

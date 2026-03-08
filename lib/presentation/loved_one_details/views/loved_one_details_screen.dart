@@ -40,12 +40,12 @@ const double _kBottomNavHideLabelWidth = 280;
 const double _kScrollBottomPadding = 24;
 
 class LovedOneDetailsScreen extends StatelessWidget {
-  const LovedOneDetailsScreen({super.key});
+  const LovedOneDetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<LovedOneDetailsController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -56,7 +56,7 @@ class LovedOneDetailsScreen extends StatelessWidget {
             final screenWidth = constraints.maxWidth;
             final showBottomNavLabels = screenWidth >= _kBottomNavHideLabelWidth;
             final paddingH = screenWidth < Breakpoints.sm ? 16.0 : _kPaddingH;
-            final topSafe = MediaQuery.paddingOf(context).top;
+            final topSafe = MediaQuery.of(context).padding.top;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -558,7 +558,7 @@ class LovedOneDetailsScreen extends StatelessWidget {
     LovedOneDetailsController c,
     bool showLabels,
   ) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.only(
         left: _kBottomNavPaddingH,

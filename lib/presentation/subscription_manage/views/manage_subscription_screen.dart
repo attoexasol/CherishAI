@@ -27,7 +27,7 @@ const double _kBadgeRadius = 999;
 const double _kFeatureIconSize = 18;
 
 class ManageSubscriptionScreen extends StatelessWidget {
-  const ManageSubscriptionScreen({super.key});
+  const ManageSubscriptionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

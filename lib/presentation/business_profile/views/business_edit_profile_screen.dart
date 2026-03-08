@@ -37,13 +37,13 @@ const double _kCtaBottomPadding = 24;
 const double _kScrollBottomPadding = 120;
 
 class BusinessEditProfileScreen extends StatelessWidget {
-  const BusinessEditProfileScreen({super.key});
+  const BusinessEditProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<BusinessProfileController>();
-    final topPad = MediaQuery.paddingOf(context).top;
-    final bottomPad = MediaQuery.paddingOf(context).bottom;
+    final topPad = MediaQuery.of(context).padding.top;
+    final bottomPad = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: AppGradients.businessDashboardPageBg),
@@ -193,7 +193,7 @@ class BusinessEditProfileScreen extends StatelessWidget {
               SizedBox(height: 4),
               Text(
                 c.contactPersonController.text,
-                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8)),
+                style: TextStyle(fontSize: 14, color: Colors.white.withAlpha(((0.8 * 255).toInt()))),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12),
@@ -574,7 +574,7 @@ class BusinessEditProfileScreen extends StatelessWidget {
   Widget _buildSaveCta(BuildContext context, BusinessProfileController c, double bottomPad) {
     return Container(
       padding: EdgeInsets.fromLTRB(_kContentPaddingH, 16, _kContentPaddingH, _kCtaBottomPadding + bottomPad),
-      decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.01)),
+      decoration: BoxDecoration(color: Colors.white.withAlpha(((0.01 * 255).toInt()))),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: _kMaxWidth),

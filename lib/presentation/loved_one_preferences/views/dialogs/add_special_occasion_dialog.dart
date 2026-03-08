@@ -21,7 +21,7 @@ const double _kMaxDialogWidth = 400;
 /// Modal dialog: Add Special Occasion. Uses controller's occasionNameController,
 /// selectedOccasionDate, addOccasion(), pickOccasionDate(context).
 class AddSpecialOccasionDialog extends StatelessWidget {
-  const AddSpecialOccasionDialog({super.key});
+  const AddSpecialOccasionDialog({Key? key}) : super(key: key);
 
   static String _formatDate(DateTime d) {
     return '${d.month.toString().padLeft(2, '0')}/${d.day.toString().padLeft(2, '0')}/${d.year}';

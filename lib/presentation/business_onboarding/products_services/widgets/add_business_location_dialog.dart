@@ -18,7 +18,6 @@ const double _kCloseSize = 32;
 const double _kContentPadding = 24;
 const double _kContentSpacing = 20;
 const double _kLabelMb = 8;
-const double _kHelperMb = 4;
 const double _kInputPaddingH = 24;
 const double _kInputPaddingV = 16;
 const double _kInputRadius = 16;
@@ -40,7 +39,7 @@ const double _kThumbSize = 72;
 const double _kThumbRadius = 12;
 
 class AddBusinessLocationDialog extends StatefulWidget {
-  const AddBusinessLocationDialog({super.key, this.initialImagePaths});
+  const AddBusinessLocationDialog({Key? key, this.initialImagePaths}) : super(key: key);
 
   final List<String>? initialImagePaths;
 
@@ -251,12 +250,12 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
               children: [
                 Text('Add Business Location', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
                 const SizedBox(height: 4),
-                Text('Add a new business location', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.9))),
+                Text('Add a new business location', style: TextStyle(fontSize: 14, color: Colors.white.withAlpha(((0.9 * 255).toInt())))),
               ],
             ),
           ),
           Material(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: Colors.white.withAlpha(((0.2 * 255).toInt())),
             borderRadius: BorderRadius.circular(_kCloseSize / 2),
             child: InkWell(
               onTap: () => Get.back(),
@@ -432,7 +431,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                                             description,
                                             style: AppTextStyles.businessInfoHelper.copyWith(
                                               fontSize: 12,
-                                              color: AppColors.businessInfoInputText.withValues(alpha: 0.8),
+                                              color: AppColors.businessInfoInputText.withAlpha(((0.8 * 255).toInt())),
                                             ),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
@@ -518,9 +517,9 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: _kHeaderPurple.withValues(alpha: 0.12),
+        color: _kHeaderPurple.withAlpha(((0.12 * 255).toInt())),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _kHeaderPurple.withValues(alpha: 0.4)),
+        border: Border.all(color: _kHeaderPurple.withAlpha(((0.4 * 255).toInt()))),
       ),
       child: Text(
         label,

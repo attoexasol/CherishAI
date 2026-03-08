@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.10.4
+  sdk: '>=2.19.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,19 +36,22 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.3
 
   # SVG assets (e.g. Google logo from React auth)
-  flutter_svg: ^2.0.10+1
+  flutter_svg: ^2.0.10
 
   # Profile photo: gallery & camera
   image_picker: ^1.0.7
 
   # Native share sheet (WhatsApp, Messenger, etc.)
-  share_plus: ^10.0.0
+  share_plus: ^4.0.0
 
   # Launch URLs (tel, https, maps)
   url_launcher: ^6.2.5
+
+  # Local storage
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +62,15 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^6.0.0
+  flutter_lints: ^1.0.0
+
+# Force v2 Android embedding–compatible plugins (avoids PluginRegistry.Registrar error).
+dependency_overrides:
+  flutter_plugin_android_lifecycle: ^2.0.20
+  image_picker_android: ^0.8.13
+  image_picker_platform_interface: ^2.11.0
+  shared_preferences_android: ^2.4.0
+  url_launcher_android: ^6.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

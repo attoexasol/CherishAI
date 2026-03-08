@@ -46,14 +46,14 @@ const List<String> _kOccasions = [
 
 class AddProductServiceDialog extends StatefulWidget {
   const AddProductServiceDialog({
-    super.key,
+    Key? key,
     required this.locations,
     required this.categories,
     required this.onAdd,
     required this.onCancel,
     this.initialProduct,
     this.onUpdate,
-  });
+  }) : super(key: key);
 
   final List<Map<String, String>> locations;
   final List<Map<String, String>> categories;
@@ -171,10 +171,11 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
   Future<void> _pickFromGallery() async {
     try {
       final int remaining = _kMaxImages - selectedImages.length;
-      final List<XFile> files = await _imagePicker.pickMultiImage(
+      final List<XFile>? pickedFiles = await _imagePicker.pickMultiImage(
         imageQuality: 85,
-        limit: remaining,
       );
+      if (pickedFiles == null) return;
+      final List<XFile> files = pickedFiles.take(remaining).toList();
       if (files.isEmpty) return;
       if (!mounted) return;
       setState(() {
@@ -251,7 +252,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(_kModalRadius),
             boxShadow: [
-              BoxShadow(offset: Offset(0, 20), blurRadius: 40, color: Colors.black.withValues(alpha: 0.2)),
+              BoxShadow(offset: Offset(0, 20), blurRadius: 40, color: Colors.black.withAlpha(((0.2 * 255).toInt()))),
             ],
           ),
           child: Column(
@@ -306,7 +307,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
             width: _kHeaderIconSize,
             height: _kHeaderIconSize,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: Colors.white.withAlpha(((0.2 * 255).toInt())),
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
@@ -319,7 +320,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
               children: [
                 Text(_isEditMode ? 'Edit Product/Service' : 'Add Product/Service', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
                 SizedBox(height: 4),
-                Text(_isEditMode ? 'Update your product details' : 'Tell us what you offer', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8))),
+                Text(_isEditMode ? 'Update your product details' : 'Tell us what you offer', style: TextStyle(fontSize: 14, color: Colors.white.withAlpha(((0.8 * 255).toInt())))),
               ],
             ),
           ),
@@ -332,7 +333,7 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
                 width: _kCloseSize,
                 height: _kCloseSize,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: Colors.white.withAlpha(((0.2 * 255).toInt())),
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,

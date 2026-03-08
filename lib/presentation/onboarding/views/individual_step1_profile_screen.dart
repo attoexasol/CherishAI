@@ -38,7 +38,7 @@ const double _kRequiredHintTop = 8;
 const double _kHorizontalPadding = 24;
 
 class IndividualStep1ProfileScreen extends StatelessWidget {
-  const IndividualStep1ProfileScreen({super.key});
+  const IndividualStep1ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
                   left: _kHorizontalPadding,
                   right: _kHorizontalPadding,
                   top: _kBackBtnInset + _kBackBtnSize + 12,
-                  bottom: 24 + MediaQuery.paddingOf(context).bottom,
+                  bottom: 24 + MediaQuery.of(context).padding.bottom,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -625,7 +625,7 @@ class IndividualStep1ProfileScreen extends StatelessWidget {
   Widget _buildBottomCta(BuildContext context) {
     final c = Get.find<IndividualStep1ProfileController>();
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

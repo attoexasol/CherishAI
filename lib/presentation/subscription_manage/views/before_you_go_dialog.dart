@@ -21,7 +21,7 @@ const double _kKeepLinkPadding = 16;
 const double _kMaxDialogWidth = 400;
 
 class BeforeYouGoDialog extends StatelessWidget {
-  const BeforeYouGoDialog({super.key});
+  const BeforeYouGoDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import '../../../core/widgets/asset_image_with_fallback.dart';
 import '../controllers/onboarding_intro_controller.dart';
 
 class OnboardingIntroScreen extends StatelessWidget {
-  const OnboardingIntroScreen({super.key});
+  const OnboardingIntroScreen({Key? key}) : super(key: key);
 
   static const double _continueButtonHeight = 56;
   static const double _bottomPadding = 24;
@@ -286,11 +286,11 @@ class OnboardingIntroScreen extends StatelessWidget {
 
   Widget _buildHowCard1() {
     const steps = [
-      (1, 'You add yourself'),
-      (2, 'You add your loved one'),
-      (3, 'You set your relationship goal'),
-      (4, 'You share their preferences'),
-      (5, 'You share important dates (birthdays, first date, etc.)'),
+      {'num': 1, 'text': 'You add yourself'},
+      {'num': 2, 'text': 'You add your loved one'},
+      {'num': 3, 'text': 'You set your relationship goal'},
+      {'num': 4, 'text': 'You share their preferences'},
+      {'num': 5, 'text': 'You share important dates (birthdays, first date, etc.)'},
     ];
     return Container(
       padding: const EdgeInsets.all(24),
@@ -315,7 +315,7 @@ class OnboardingIntroScreen extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    '${s.$1}',
+                    '${s['num']}',
                     style: AppTextStyles.onboardingStepNum.copyWith(
                       fontSize: 16,
                       color: AppColors.white,
@@ -327,7 +327,7 @@ class OnboardingIntroScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      s.$2,
+                      s['text'] as String,
                       style: AppTextStyles.onboardingStepText.copyWith(
                         color: const Color(0xFF333333),
                         fontWeight: FontWeight.w400,
@@ -424,7 +424,6 @@ class OnboardingIntroScreen extends StatelessWidget {
           Icons.favorite,
           size: 18,
           color: AppColors.onboardingPinkFill,
-          fill: 1.0,
         ),
         const SizedBox(width: 10),
         Expanded(
@@ -570,7 +569,7 @@ class OnboardingIntroScreen extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.9),
+            color: Colors.white.withAlpha(((0.9 * 255).toInt())),
             shape: BoxShape.circle,
             border: Border.all(color: const Color(0xFFB587D8), width: 1.5),
           ),
@@ -765,7 +764,7 @@ class _AnimatedHeroLogoState extends State<_AnimatedHeroLogo>
           width: _logoSize,
           height: _logoSize,
           decoration: BoxDecoration(
-            color: AppColors.onboardingCardBorder.withValues(alpha: 0.25),
+            color: AppColors.onboardingCardBorder.withAlpha(((0.25 * 255).toInt())),
             shape: BoxShape.circle,
             boxShadow: const [
               BoxShadow(
@@ -778,7 +777,7 @@ class _AnimatedHeroLogoState extends State<_AnimatedHeroLogo>
           child: Icon(
             Icons.people,
             size: 80,
-            color: AppColors.onboardingBulletText.withValues(alpha: 0.6),
+            color: AppColors.onboardingBulletText.withAlpha(((0.6 * 255).toInt())),
           ),
         ),
       ],
@@ -837,7 +836,7 @@ class _AnimatedHeroLogoState extends State<_AnimatedHeroLogo>
                         BoxShadow(
                           offset: const Offset(0, 8),
                           blurRadius: 24,
-                          color: AppColors.primaryPink.withValues(alpha: 0.2),
+                          color: AppColors.primaryPink.withAlpha(((0.2 * 255).toInt())),
                         ),
                       ],
                     ),

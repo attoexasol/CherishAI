@@ -1,4 +1,5 @@
 // lib/presentation/business_dashboard/views/business_dashboard_screen.dart
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../app/theme/app_colors.dart';
@@ -8,7 +9,6 @@ import '../../../../app/theme/app_shadows.dart';
 import '../controllers/business_dashboard_controller.dart';
 
 const double _kMaxContentWidth = 600;
-const double _kHeaderPaddingH = 24;
 const double _kHeaderPaddingTop = 48;
 const double _kHeaderPaddingBottom = 80;
 const double _kHeaderRadius = 30;
@@ -39,13 +39,13 @@ const double _kViewPlansRadius = 16;
 const double _kBottomPadding = 96;
 
 class BusinessDashboardScreen extends StatelessWidget {
-  const BusinessDashboardScreen({super.key});
+  const BusinessDashboardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<BusinessDashboardController>();
-    final topPad = MediaQuery.paddingOf(context).top;
-    final bottomPad = MediaQuery.paddingOf(context).bottom;
+    final topPad = MediaQuery.of(context).padding.top;
+    final bottomPad = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: AppGradients.businessDashboardPageBg),
@@ -75,7 +75,15 @@ class BusinessDashboardScreen extends StatelessWidget {
                               children: [
                                 _buildMetricsCards(c),
                                 SizedBox(height: _kContentSpacing),
-                                _buildYourProductsSection(context, c),
+                                _buildViewToggle(context, c),
+                                SizedBox(height: 16),
+                                Obx(() {
+                                  if (c.selectedTab.value == 'products') {
+                                    return _buildYourProductsSection(context, c);
+                                  } else {
+                                    return _buildBusinessLocationsSection(context, c);
+                                  }
+                                }),
                                 SizedBox(height: _kContentSpacing),
                                 _buildAddBusinessLocationButton(context, c),
                                 SizedBox(height: _kContentSpacing),
@@ -252,6 +260,91 @@ class BusinessDashboardScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildViewToggle(BuildContext context, BusinessDashboardController c) {
+    return Container(
+      padding: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: AppColors.businessDashboardCardBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.businessDashboardStatBoxBorder),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Obx(() => Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => c.selectedTab.value = 'products',
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      decoration: BoxDecoration(
+                        gradient: c.selectedTab.value == 'products' ? AppGradients.businessDashboardAddProductBtn : null,
+                        color: c.selectedTab.value == 'products' ? null : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.auto_awesome_rounded,
+                            size: 18,
+                            color: c.selectedTab.value == 'products' ? Colors.white : AppColors.businessDashboardManageLink,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            'Products',
+                            style: AppTextStyles.businessDashboardSectionTitle.copyWith(
+                              fontSize: 14,
+                              color: c.selectedTab.value == 'products' ? Colors.white : AppColors.businessDashboardManageLink,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )),
+          ),
+          Expanded(
+            child: Obx(() => Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => c.selectedTab.value = 'locations',
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      decoration: BoxDecoration(
+                        gradient: c.selectedTab.value == 'locations' ? AppGradients.businessDashboardAddProductBtn : null,
+                        color: c.selectedTab.value == 'locations' ? null : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.location_on_rounded,
+                            size: 18,
+                            color: c.selectedTab.value == 'locations' ? Colors.white : AppColors.businessDashboardManageLink,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            'Locations',
+                            style: AppTextStyles.businessDashboardSectionTitle.copyWith(
+                              fontSize: 14,
+                              color: c.selectedTab.value == 'locations' ? Colors.white : AppColors.businessDashboardManageLink,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildMetricsCards(BusinessDashboardController c) {
     return Obx(() => Column(
       children: [
@@ -372,10 +465,13 @@ class BusinessDashboardScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 4),
-                Obx(() => Text(
-                  c.hasProducts.value ? 'Active listings' : 'No products yet',
-                  style: AppTextStyles.businessDashboardSectionSubtitle,
-                )),
+                Obx(() {
+                  final count = c.products.length;
+                  return Text(
+                    count > 0 ? '$count active ${count == 1 ? 'listing' : 'listings'}' : 'No products yet',
+                    style: AppTextStyles.businessDashboardSectionSubtitle,
+                  );
+                }),
               ],
             ),
             Material(
@@ -400,55 +496,276 @@ class BusinessDashboardScreen extends StatelessWidget {
         ),
         SizedBox(height: 16),
         Obx(() {
-          if (c.hasProducts.value) {
-            return SizedBox.shrink();
-          }
-          return Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 32, horizontal: _kCardPadding),
-            decoration: BoxDecoration(
-              color: AppColors.businessDashboardCardBg,
-              borderRadius: BorderRadius.circular(_kCardRadius),
-              boxShadow: AppShadows.businessDashboardCard,
-            ),
-            child: Column(
-              children: [
-                Container(
-                  width: _kEmptyIconSize,
-                  height: _kEmptyIconSize,
-                  decoration: BoxDecoration(
-                    color: AppColors.businessDashboardEmptyIconBg,
-                    shape: BoxShape.circle,
+          final products = c.products;
+          if (products.isEmpty) {
+            return Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 32, horizontal: _kCardPadding),
+              decoration: BoxDecoration(
+                color: AppColors.businessDashboardCardBg,
+                borderRadius: BorderRadius.circular(_kCardRadius),
+                boxShadow: AppShadows.businessDashboardCard,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: _kEmptyIconSize,
+                    height: _kEmptyIconSize,
+                    decoration: BoxDecoration(
+                      color: AppColors.businessDashboardEmptyIconBg,
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(Icons.auto_awesome_rounded, size: _kEmptyIconInner, color: AppColors.businessDashboardEmptyIcon),
                   ),
-                  alignment: Alignment.center,
-                  child: Icon(Icons.auto_awesome_rounded, size: _kEmptyIconInner, color: AppColors.businessDashboardEmptyIcon),
-                ),
-                SizedBox(height: 16),
-                Text('No Products Yet', style: AppTextStyles.businessDashboardEmptyTitle),
-                SizedBox(height: 8),
-                Text('Add your first product or service to get started', style: AppTextStyles.businessDashboardEmptyDesc),
-                SizedBox(height: 16),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: c.onAddProduct,
-                    borderRadius: BorderRadius.circular(_kAddProductBtnRadius),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: _kAddProductBtnPaddingV, horizontal: _kAddProductBtnPaddingH),
-                      decoration: BoxDecoration(
-                        gradient: AppGradients.businessDashboardAddProductBtn,
-                        borderRadius: BorderRadius.circular(_kAddProductBtnRadius),
-                        boxShadow: AppShadows.businessDashboardCtaBtn,
+                  SizedBox(height: 16),
+                  Text('No Products Yet', style: AppTextStyles.businessDashboardEmptyTitle),
+                  SizedBox(height: 8),
+                  Text('Add your first product or service to get started', style: AppTextStyles.businessDashboardEmptyDesc),
+                  SizedBox(height: 16),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: c.onAddProduct,
+                      borderRadius: BorderRadius.circular(_kAddProductBtnRadius),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: _kAddProductBtnPaddingV, horizontal: _kAddProductBtnPaddingH),
+                        decoration: BoxDecoration(
+                          gradient: AppGradients.businessDashboardAddProductBtn,
+                          borderRadius: BorderRadius.circular(_kAddProductBtnRadius),
+                          boxShadow: AppShadows.businessDashboardCtaBtn,
+                        ),
+                        child: Text('Add Product', style: AppTextStyles.businessDashboardAddProductBtn),
                       ),
-                      child: Text('Add Product', style: AppTextStyles.businessDashboardAddProductBtn),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            );
+          }
+          return ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: products.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              return _buildProductCard(context, c, products[index]);
+            },
           );
         }),
       ],
+    );
+  }
+
+  Widget _buildProductCard(BuildContext context, BusinessDashboardController c, Map<String, dynamic> productMap) {
+    final images = List<String>.from(productMap['images'] as List? ?? []);
+    final hasImages = images.isNotEmpty;
+    final name = productMap['name'] as String? ?? '';
+    final description = productMap['description'] as String? ?? '';
+    final priceMin = (productMap['priceMin'] as num?)?.toDouble() ?? 0.0;
+    final priceMax = (productMap['priceMax'] as num?)?.toDouble() ?? 0.0;
+    return Container(
+      padding: EdgeInsets.all(_kCardPadding),
+      decoration: BoxDecoration(
+        color: AppColors.businessDashboardCardBg,
+        borderRadius: BorderRadius.circular(_kCardRadius),
+        boxShadow: AppShadows.businessDashboardCard,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (hasImages) ...[
+            SizedBox(
+              width: 72,
+              height: 72,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.file(
+                  File(images.first),
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    color: AppColors.businessDashboardEmptyIconBg,
+                    child: Icon(Icons.image_not_supported_outlined, size: 24, color: AppColors.businessDashboardEmptyIcon),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 16),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: AppTextStyles.businessDashboardSectionTitle.copyWith(fontSize: 16)),
+                if (description.isNotEmpty) ...[
+                  SizedBox(height: 4),
+                  Text(description, style: AppTextStyles.businessDashboardSectionSubtitle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                ],
+                SizedBox(height: 4),
+                Text('\$${priceMin.round()} - \$${priceMax.round()}', style: AppTextStyles.businessDashboardManageLink),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.edit_outlined, size: 20, color: AppColors.businessDashboardManageLink),
+                onPressed: () => c.onEditProduct(productMap),
+              ),
+              IconButton(
+                icon: Icon(Icons.delete_outline_rounded, size: 20, color: AppColors.businessDashboardManageLink),
+                onPressed: () => c.onDeleteProduct(productMap),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBusinessLocationsSection(BuildContext context, BusinessDashboardController c) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text('Business Locations', style: AppTextStyles.businessDashboardSectionTitle),
+                    SizedBox(width: 8),
+                    Icon(Icons.location_on_rounded, size: 20, color: AppColors.businessInfoBadgeStart),
+                  ],
+                ),
+                SizedBox(height: 4),
+                Obx(() {
+                  final count = c.locations.length;
+                  return Text(
+                    count > 0 ? '$count ${count == 1 ? 'location' : 'locations'}' : 'No locations yet',
+                    style: AppTextStyles.businessDashboardSectionSubtitle,
+                  );
+                }),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 16),
+        Obx(() {
+          final locations = c.locations.where((loc) => (loc['locationName'] as String? ?? '').trim().isNotEmpty).toList();
+          if (locations.isEmpty) {
+            return Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 32, horizontal: _kCardPadding),
+              decoration: BoxDecoration(
+                color: AppColors.businessDashboardCardBg,
+                borderRadius: BorderRadius.circular(_kCardRadius),
+                boxShadow: AppShadows.businessDashboardCard,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: _kEmptyIconSize,
+                    height: _kEmptyIconSize,
+                    decoration: BoxDecoration(
+                      color: AppColors.businessDashboardEmptyIconBg,
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(Icons.location_on_rounded, size: _kEmptyIconInner, color: AppColors.businessDashboardEmptyIcon),
+                  ),
+                  SizedBox(height: 16),
+                  Text('No Locations Yet', style: AppTextStyles.businessDashboardEmptyTitle),
+                  SizedBox(height: 8),
+                  Text('Add your first business location to get started', style: AppTextStyles.businessDashboardEmptyDesc),
+                ],
+              ),
+            );
+          }
+          return ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: locations.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              return _buildLocationCard(context, c, locations[index]);
+            },
+          );
+        }),
+      ],
+    );
+  }
+
+  Widget _buildLocationCard(BuildContext context, BusinessDashboardController c, Map<String, dynamic> locationMap) {
+    final country = locationMap['country'] as String? ?? '';
+    final city = locationMap['city'] as String? ?? '';
+    final subtitle = [country, city].where((s) => s.isNotEmpty).join(', ');
+    final name = (locationMap['locationName'] as String? ?? '').trim();
+    final imagePaths = List<String>.from(locationMap['imagePaths'] as List? ?? []);
+    final logoPath = locationMap['logoPath'] as String?;
+    final imagePath = imagePaths.isNotEmpty 
+        ? imagePaths.first 
+        : (logoPath != null && logoPath.isNotEmpty ? logoPath : null);
+    final hasImage = imagePath != null;
+    return Container(
+      padding: EdgeInsets.all(_kCardPadding),
+      decoration: BoxDecoration(
+        color: AppColors.businessDashboardCardBg,
+        borderRadius: BorderRadius.circular(_kCardRadius),
+        boxShadow: AppShadows.businessDashboardCard,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (hasImage) ...[
+            SizedBox(
+              width: 72,
+              height: 72,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.file(
+                  File(imagePath),
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    color: AppColors.businessDashboardEmptyIconBg,
+                    child: Icon(Icons.image_not_supported_outlined, size: 24, color: AppColors.businessDashboardEmptyIcon),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 16),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: AppTextStyles.businessDashboardSectionTitle.copyWith(fontSize: 16)),
+                if (subtitle.isNotEmpty) ...[
+                  SizedBox(height: 4),
+                  Text(subtitle, style: AppTextStyles.businessDashboardSectionSubtitle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                ],
+              ],
+            ),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.edit_outlined, size: 20, color: AppColors.businessDashboardManageLink),
+                onPressed: () => c.onEditLocation(locationMap),
+              ),
+              IconButton(
+                icon: Icon(Icons.delete_outline_rounded, size: 20, color: AppColors.businessDashboardManageLink),
+                onPressed: () => c.onDeleteLocation(locationMap),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

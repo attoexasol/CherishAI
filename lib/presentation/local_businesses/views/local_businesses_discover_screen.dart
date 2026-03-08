@@ -20,13 +20,13 @@ const Color _kLocationBg = Color(0xFFE11D48);
 const Color _kSocialBg = Color(0xFFA855F7);
 
 class LocalBusinessesDiscoverScreen extends StatelessWidget {
-  const LocalBusinessesDiscoverScreen({super.key});
+  const LocalBusinessesDiscoverScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<LocalBusinessesDiscoverController>();
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
-    final screenWidth = MediaQuery.sizeOf(context).width;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < _kBreakpointNarrow;
     final paddingH = isNarrow ? 16.0 : _kPaddingH;
 
@@ -89,7 +89,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.giftIdeasDetailWhyPerfectBgStart.withValues(alpha: 0.6),
+            AppColors.giftIdeasDetailWhyPerfectBgStart.withAlpha(((0.6 * 255).toInt())),
             Colors.white,
           ],
         ),
@@ -170,7 +170,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
   Widget _buildLocationPill(BuildContext context, LocalBusinessesDiscoverController c) {
     return Obx(() => Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width - 32),
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 32),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
@@ -205,7 +205,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
       onChanged: c.setSearchQuery,
       decoration: InputDecoration(
         hintText: 'Search businesses...',
-        hintStyle: TextStyle(color: AppColors.giftIdeasDetailFilterLabel.withValues(alpha: 0.7), fontSize: 14),
+        hintStyle: TextStyle(color: AppColors.giftIdeasDetailFilterLabel.withAlpha(((0.7 * 255).toInt())), fontSize: 14),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
@@ -227,7 +227,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
     return Obx(() => Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
           decoration: BoxDecoration(
-            color: AppColors.giftIdeasDetailWhyPerfectBgStart.withValues(alpha: 0.5),
+            color: AppColors.giftIdeasDetailWhyPerfectBgStart.withAlpha(((0.5 * 255).toInt())),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: AppColors.giftIdeasDetailCardBorder),
           ),
@@ -318,7 +318,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: AppColors.giftIdeasDetailWhyPerfectBgStart.withValues(alpha: 0.5),
+                        color: AppColors.giftIdeasDetailWhyPerfectBgStart.withAlpha(((0.5 * 255).toInt())),
                         borderRadius: BorderRadius.circular(999),
                         border: Border.all(color: AppColors.giftIdeasDetailCardBorder),
                       ),
@@ -449,7 +449,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: AppColors.giftIdeasDetailWhyPerfectBgStart.withValues(alpha: 0.6),
+        color: AppColors.giftIdeasDetailWhyPerfectBgStart.withAlpha(((0.6 * 255).toInt())),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.giftIdeasDetailCardBorder),
       ),
@@ -493,7 +493,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [color, color.withValues(alpha: 0.8)],
+              colors: [color, color.withAlpha(((0.8 * 255).toInt()))],
             ),
             borderRadius: BorderRadius.circular(10),
             boxShadow: AppShadows.homeCard,
@@ -573,9 +573,9 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: isNarrow ? 10 : 12, vertical: 10),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
+              color: color.withAlpha(((0.12 * 255).toInt())),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: color.withValues(alpha: 0.4)),
+              border: Border.all(color: color.withAlpha(((0.4 * 255).toInt()))),
             ),
             child: Row(
               children: [

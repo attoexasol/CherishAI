@@ -49,11 +49,11 @@ const double _kHorizontalPadding = 24;
 const double _kMaxContentWidth = 480;
 
 class DislikesScreen extends StatelessWidget {
-  const DislikesScreen({super.key});
+  const DislikesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -418,7 +418,7 @@ class DislikesScreen extends StatelessWidget {
   Widget _buildBottomSection(BuildContext context) {
     final c = Get.find<DislikesController>();
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

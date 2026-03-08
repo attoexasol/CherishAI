@@ -128,8 +128,11 @@ class GiftIdeasDetailController extends GetxController {
         iconType: 'gift',
       ),
     ];
-    return events.where((e) => e.id == eventId).firstOrNull ??
-        events.first;
+    final found = events.where((e) => e.id == eventId).toList();
+    if (found.isNotEmpty) {
+      return found.first;
+    }
+    return events.isNotEmpty ? events.first : null;
   }
 
   /// Sample gift ideas matching the Gift Ideas detail UI (same 3 for all events when no backend).
