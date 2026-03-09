@@ -580,10 +580,10 @@ class BusinessInformationScreen extends StatelessWidget {
     if (context == null) return;
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       builder: (ctx) => Container(
         decoration: const BoxDecoration(
-          color: AppColors.businessInfoInputBg,
+          color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),

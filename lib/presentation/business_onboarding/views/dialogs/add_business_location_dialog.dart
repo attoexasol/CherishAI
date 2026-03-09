@@ -31,6 +31,9 @@ const double _kCtaRadius = 16;
 const double _kMaxDialogWidth = 448;
 const double _kTextAreaMinHeight = 80;
 
+/// Solid opaque background for dropdown field and overlay (no transparency).
+const Color _kDropdownSolidBg = Color(0xFFFFFFFF);
+
 class AddBusinessLocationDialog extends StatefulWidget {
   const AddBusinessLocationDialog({Key? key}) : super(key: key);
 
@@ -241,21 +244,63 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: _kInputPaddingH, vertical: 4),
           decoration: BoxDecoration(
-            color: AppColors.businessInfoInputBg,
+            color: _kDropdownSolidBg,
             borderRadius: BorderRadius.circular(_kInputRadius),
             border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: _selectedCategory.isEmpty ? null : _selectedCategory,
-              hint: Text('Select a category', style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder), maxLines: 1, overflow: TextOverflow.ellipsis),
+              hint: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Select a category',
+                      style: AppTextStyles.businessInfoInput.copyWith(
+                        color: AppColors.businessInfoInputText.withOpacity(0.7),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
               isExpanded: true,
               isDense: true,
+              dropdownColor: _kDropdownSolidBg,
+              style: AppTextStyles.businessInfoInput.copyWith(
+                color: AppColors.businessInfoInputText,
+              ),
               items: BusinessInformationController.categories
-                  .map((e) => DropdownMenuItem<String>(value: e['value'], child: Text(e['label']!, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)))
+                  .map((e) => DropdownMenuItem<String>(
+                        value: e['value'],
+                        child: Text(
+                          e['label']!,
+                          style: AppTextStyles.businessInfoInput.copyWith(
+                            color: AppColors.businessInfoInputText,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ))
                   .toList(),
               onChanged: (v) => setState(() => _selectedCategory = v ?? ''),
-              selectedItemBuilder: (context) => BusinessInformationController.categories.map((e) => Text(e['label']!, style: AppTextStyles.businessInfoInput, maxLines: 1, overflow: TextOverflow.ellipsis)).toList(),
+              selectedItemBuilder: (context) => BusinessInformationController.categories
+                  .map((e) => Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              e['label']!,
+                              style: AppTextStyles.businessInfoInput.copyWith(
+                                color: AppColors.businessInfoInputText,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ))
+                  .toList(),
             ),
           ),
         ),

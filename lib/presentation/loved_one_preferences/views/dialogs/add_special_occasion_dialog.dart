@@ -81,27 +81,40 @@ class AddSpecialOccasionDialog extends StatelessWidget {
                   child: Obx(() {
                     final date = c.selectedOccasionDate.value;
                     final text = date != null ? _formatDate(date) : '';
-                    return Container(
-                      height: 48,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      decoration: BoxDecoration(
-                        color: AppColors.prefsDialogBg,
-                        borderRadius: BorderRadius.circular(_kInputRadius),
-                        border: Border.all(color: AppColors.prefsDialogInputBorder),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              text.isEmpty ? 'mm/dd/yyyy' : text,
-                              style: text.isEmpty
-                                  ? AppTextStyles.prefsDialogInputPlaceholder
-                                  : AppTextStyles.prefsDialogInput,
-                            ),
+                    return LayoutBuilder(
+                      builder: (context, constraints) {
+                        final isNarrow = constraints.maxWidth < 280;
+                        final paddingH = isNarrow ? 12.0 : 16.0;
+                        return Container(
+                          height: 48,
+                          padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: AppColors.prefsDialogBg,
+                            borderRadius: BorderRadius.circular(_kInputRadius),
+                            border: Border.all(color: AppColors.prefsDialogInputBorder),
                           ),
-                          Icon(Icons.calendar_today_outlined, size: 20, color: AppColors.prefsDialogPlaceholder),
-                        ],
-                      ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    text.isEmpty ? 'mm/dd/yyyy' : text,
+                                    style: text.isEmpty
+                                        ? AppTextStyles.prefsDialogInputPlaceholder
+                                        : AppTextStyles.prefsDialogInput,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: isNarrow ? 8 : 12),
+                              Icon(Icons.calendar_today_outlined, size: 20, color: AppColors.prefsDialogPlaceholder),
+                            ],
+                          ),
+                        );
+                      },
                     );
                   }),
                 ),

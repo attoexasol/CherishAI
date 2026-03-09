@@ -361,10 +361,17 @@ class OldMessagesScreen extends StatelessWidget {
                     Expanded(
                       child: OutlinedButton.icon(
                         onPressed: () => c.onCopy(msg.text),
-                        icon: const Icon(Icons.copy_rounded, size: 18),
-                        label: const Text('Copy'),
+                        icon: const Icon(Icons.copy_rounded, size: 20),
+                        label: const Text(
+                          'Copy',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Color(0xFFFBCFE8)),
+                          foregroundColor: const Color(0xFF4B5563),
+                          side: const BorderSide(color: Color(0xFFD1D5DB)),
                           padding: const EdgeInsets.symmetric(
                               vertical: _kButtonPaddingV),
                         ),
@@ -375,10 +382,17 @@ class OldMessagesScreen extends StatelessWidget {
                       child: OutlinedButton.icon(
                         onPressed: () => c.onShare(msg.text,
                             lovedOneName: lovedOneName),
-                        icon: const Icon(Icons.share_rounded, size: 18),
-                        label: const Text('Share'),
+                        icon: const Icon(Icons.share_rounded, size: 20),
+                        label: const Text(
+                          'Share',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Color(0xFFFBCFE8)),
+                          foregroundColor: const Color(0xFF4B5563),
+                          side: const BorderSide(color: Color(0xFFD1D5DB)),
                           padding: const EdgeInsets.symmetric(
                               vertical: _kButtonPaddingV),
                         ),

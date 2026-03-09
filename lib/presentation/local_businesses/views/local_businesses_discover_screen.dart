@@ -414,24 +414,25 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              icon: Icon(Icons.shopping_bag, size: 20, color: Colors.white),
-              label: Text('Products'),
-              onPressed: () {
-                Get.to(BusinessProductsScreen(businessId: b.id));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFD97706),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+                SizedBox(
+                  height: 40,
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.shopping_bag, size: 20),
+                    label: const Text('Products'),
+                    onPressed: () {
+                      Get.to(BusinessProductsScreen(businessId: b.id));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
           Obx(() {
             if (c.expandedSocialBusinessId.value != b.id) return const SizedBox.shrink();
             final links = b.socialLinks;

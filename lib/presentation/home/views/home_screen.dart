@@ -576,15 +576,19 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: msgGapBetweenRows),
-                    _buildGradientButton(
-                      icon: Icons.refresh,
-                      // label: 'Regenerate Message (Max 2/day)',
-                      label: 'Regenerate Message',
-                      onTap: () => c.onRegenerateMessage(msg.id),
-                      iconSize: regenerateIconSize.toDouble(),
-                      paddingV: regeneratePaddingV,
-                      screenWidth: screenWidth,
-                    ),
+                    Obx(() {
+                      final remaining = c.regenerateMessageRemaining.value;
+                      final enabled = remaining > 0;
+                      return _buildGradientButton(
+                        icon: Icons.refresh,
+                        label: 'Regenerate Message (Max 2/day)',
+                        onTap: enabled ? () => c.onRegenerateMessage(msg.id) : null,
+                        iconSize: regenerateIconSize.toDouble(),
+                        paddingV: regeneratePaddingV,
+                        screenWidth: screenWidth,
+                        enabled: enabled,
+                      );
+                    }),
                     SizedBox(height: msgGapBetweenRows - 2),
                     Row(
                       children: [
@@ -705,12 +709,15 @@ class HomeScreen extends StatelessWidget {
   Widget _buildGradientButton({
     required IconData icon,
     required String label,
-    required VoidCallback onTap,
+    VoidCallback? onTap,
     double iconSize = 16,
     double paddingV = 12,
     double screenWidth = 400,
+    bool enabled = true,
   }) {
     final fontSize = _responsive(screenWidth, 11.0, 12.0, 14.0);
+    final iconColor = enabled ? Colors.white : AppColors.giftIdeasDetailRegenerateDisabledText;
+    final textColor = enabled ? Colors.white : AppColors.giftIdeasDetailRegenerateDisabledText;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -721,20 +728,21 @@ class HomeScreen extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(vertical: paddingV, horizontal: 12),
           decoration: BoxDecoration(
-            gradient: AppGradients.homeRegenerateBtn,
+            gradient: enabled ? AppGradients.homeRegenerateBtn : null,
+            color: enabled ? null : AppColors.giftIdeasDetailRegenerateDisabledBg,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: AppShadows.homeRegenerateBtn,
+            boxShadow: enabled ? AppShadows.homeRegenerateBtn : null,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: iconSize, color: Colors.white),
+              Icon(icon, size: iconSize, color: iconColor),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
                   label,
-                  style: AppTextStyles.homeRegenerateBtn.copyWith(fontSize: fontSize),
+                  style: AppTextStyles.homeRegenerateBtn.copyWith(fontSize: fontSize, color: textColor),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   textAlign: TextAlign.center,

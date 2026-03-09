@@ -355,15 +355,16 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
                 _buildInfoBlock(Icons.access_time, 'HOURS', b.hours, isNarrow),
                 const SizedBox(height: 12),
                 SizedBox(
+                  height: 40,
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    icon: const Icon(Icons.shopping_bag),
+                    icon: const Icon(Icons.shopping_bag, size: 20),
                     label: const Text('Products'),
                     onPressed: () {
                       Get.to(BusinessProductsScreen(businessId: b.id));
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.zero,
                       backgroundColor: Colors.orange,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -411,7 +412,7 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
                             child: _buildActionBtn(
                               icon: Icons.location_on,
                               label: 'Location',
-                              color: _kLocationBg,
+                              color: _kProductsBg,
                               onTap: () => c.onTapLocation(b),
                               iconSize: btnIconSize,
                               fontSize: btnFontSize,

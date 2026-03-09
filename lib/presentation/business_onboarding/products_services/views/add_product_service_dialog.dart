@@ -410,7 +410,11 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
                     const SizedBox(height: 2),
                     Text(
                       e['description']!,
-                      style: _dropdownTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.businessInfoPlaceholder),
+                      style: _dropdownTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.businessInfoDeliveryDesc,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -419,16 +423,28 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
               ),
             ))
         .toList();
-    final selectedItemBuilder = list.map((e) => Text(
-          e['label'] ?? '',
-          style: _dropdownTextStyle,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+    final selectedItemBuilder = list.map((e) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Text(
+                e['label'] ?? '',
+                style: _dropdownTextStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         )).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Product/Service Category *', style: AppTextStyles.businessInfoLabel),
+        Text(
+          'Product/Service Category *',
+          style: AppTextStyles.businessInfoLabel.copyWith(
+            color: AppColors.businessInfoTitle,
+          ),
+        ),
         SizedBox(height: _kLabelMb),
         _dropdown(
           value: categoryValueInItems || selectedCategory.isNotEmpty ? selectedCategory : '',
@@ -739,11 +755,27 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: value.isEmpty ? null : value,
-          hint: Text(hint, style: _dropdownHintStyle),
+          hint: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: Text(
+                  hint,
+                  style: _dropdownHintStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
           isExpanded: true,
           isDense: true,
           iconSize: 20,
-          style: TextStyle(fontSize: _kDropdownFontSize, color: AppColors.businessInfoInputText, fontWeight: FontWeight.w400),
+          style: TextStyle(
+            fontSize: _kDropdownFontSize,
+            color: AppColors.businessInfoInputText,
+            fontWeight: FontWeight.w400,
+          ),
           items: items,
           selectedItemBuilder: selectedItemBuilder != null ? (_) => selectedItemBuilder! : null,
           onChanged: onChanged,

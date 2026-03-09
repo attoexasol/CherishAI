@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/daily_message_item.dart';
 import '../models/upcoming_event_item.dart';
 import '../../../app/routes/app_routes.dart';
@@ -24,6 +25,12 @@ class HomeController extends GetxController {
 
   /// Regenerating state for loading indicator (optional)
   final RxBool isRegenerating = false.obs;
+
+  /// Regenerate message limit: max 2 per day. Resets at midnight. Persisted.
+  static const int kRegenerateMessageMaxPerDay = 2;
+  final RxInt regenerateMessageRemaining = kRegenerateMessageMaxPerDay.obs;
+  static const String _kPrefKeyRegenerateMessageRemaining = 'regenerate_message_remaining';
+  static const String _kPrefKeyRegenerateMessageDate = 'regenerate_message_date';
 
   /// App link placeholder for share (do not use as real URL)
   static const String shareAppLinkPlaceholder = 'https://cherishai.app';
@@ -107,6 +114,40 @@ class HomeController extends GetxController {
     for (final m in dailyMessages) {
       currentMessageIndexes[m.id] = 0;
     }
+    _loadRegenerateMessageLimit();
+  }
+
+  String get _todayDateString {
+    final n = DateTime.now();
+    return '${n.year}-${n.month.toString().padLeft(2, '0')}-${n.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _loadRegenerateMessageLimit() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final date = prefs.getString(_kPrefKeyRegenerateMessageDate);
+      final today = _todayDateString;
+      if (date != today) {
+        regenerateMessageRemaining.value = kRegenerateMessageMaxPerDay;
+        await prefs.setInt(_kPrefKeyRegenerateMessageRemaining, kRegenerateMessageMaxPerDay);
+        await prefs.setString(_kPrefKeyRegenerateMessageDate, today);
+      } else {
+        final remaining = prefs.getInt(_kPrefKeyRegenerateMessageRemaining);
+        if (remaining != null) {
+          regenerateMessageRemaining.value = remaining.clamp(0, kRegenerateMessageMaxPerDay);
+        }
+      }
+    } catch (_) {
+      regenerateMessageRemaining.value = kRegenerateMessageMaxPerDay;
+    }
+  }
+
+  Future<void> _saveRegenerateMessageLimit() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt(_kPrefKeyRegenerateMessageRemaining, regenerateMessageRemaining.value);
+      await prefs.setString(_kPrefKeyRegenerateMessageDate, _todayDateString);
+    } catch (_) {}
   }
 
   int currentMessageIndex(int lovedOneId) =>
@@ -155,6 +196,9 @@ class HomeController extends GetxController {
   }
 
   void onRegenerateMessage(int lovedOneId) {
+    if (regenerateMessageRemaining.value <= 0) return;
+    regenerateMessageRemaining.value = regenerateMessageRemaining.value - 1;
+    _saveRegenerateMessageLimit();
     onNextMessage(lovedOneId);
   }
 

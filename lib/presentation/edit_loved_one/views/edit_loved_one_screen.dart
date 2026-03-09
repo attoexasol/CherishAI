@@ -1058,7 +1058,7 @@ class EditLovedOneScreen extends StatelessWidget {
         const SizedBox(height: 16),
         _buildInfoCard(
           icon: Icons.flag_outlined,
-          title: 'Personalized Guidance',
+          title: 'Experience Guidance',
           body: 'These goals help Cherish AI understand what matters most in your relationship, so we can provide tailored suggestions and meaningful gift ideas.',
         ),
       ],
