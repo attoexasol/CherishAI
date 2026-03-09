@@ -14,12 +14,12 @@ const double _kCardRadius = 20;
 const double _kBottomNavPadding = 88;
 const double _kBreakpointNarrow = 360;
 
-// Action button colors (Tel=green, Website=blue, Location=pink, Social=purple, Products=amber)
+// Action button colors (Tel=green, Website=blue, Location=pink, Social=purple, Products=purple)
 const Color _kTelBg = Color(0xFF22C55E);
 const Color _kWebsiteBg = Color(0xFF3B82F6);
 const Color _kLocationBg = Color(0xFFE11D48);
 const Color _kSocialBg = Color(0xFFA855F7);
-const Color _kProductsBg = Color(0xFFD97706);
+const Color _kProductsBg = Color(0xFFA855F7);
 
 class LocalBusinessesScreen extends StatefulWidget {
   const LocalBusinessesScreen({Key? key}) : super(key: key);
@@ -365,7 +365,7 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      backgroundColor: Colors.orange,
+                      backgroundColor: _kProductsBg,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -412,7 +412,7 @@ class _LocalBusinessesScreenState extends State<LocalBusinessesScreen> {
                             child: _buildActionBtn(
                               icon: Icons.location_on,
                               label: 'Location',
-                              color: _kProductsBg,
+                              color: _kLocationBg,
                               onTap: () => c.onTapLocation(b),
                               iconSize: btnIconSize,
                               fontSize: btnFontSize,

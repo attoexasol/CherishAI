@@ -425,7 +425,7 @@ class LocalBusinessesDiscoverScreen extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Color(0xFFA855F7),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
