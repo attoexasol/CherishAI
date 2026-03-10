@@ -325,12 +325,12 @@ class BusinessInformationScreen extends StatelessWidget {
     final categories = BusinessInformationController.categories;
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       isScrollControlled: true,
       builder: (ctx) => Container(
         constraints: BoxConstraints(maxHeight: MediaQuery.of(ctx).size.height * 0.6),
         decoration: const BoxDecoration(
-          color: AppColors.businessInfoInputBg,
+          color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: SafeArea(
@@ -371,7 +371,10 @@ class BusinessInformationScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 2),
                                 child: Text(
                                   description,
-                                  style: AppTextStyles.businessInfoHelper.copyWith(fontSize: 12, color: AppColors.businessInfoPlaceholder),
+                                  style: AppTextStyles.businessInfoHelper.copyWith(
+                                    fontSize: 12,
+                                    color: AppColors.businessInfoDeliveryDesc,
+                                  ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),

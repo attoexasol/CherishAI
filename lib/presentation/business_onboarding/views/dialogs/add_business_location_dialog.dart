@@ -1,4 +1,5 @@
 // lib/presentation/business_onboarding/views/dialogs/add_business_location_dialog.dart
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../app/theme/app_colors.dart';
@@ -133,7 +134,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                     SizedBox(height: _kContentSpacing),
                     _buildDeliveryType(),
                     SizedBox(height: _kContentSpacing),
-                    _buildUploadLogo(),
+                    _buildUploadLogo(c),
                     SizedBox(height: _kContentSpacing),
                     _buildCta(c),
                   ],
@@ -414,7 +415,59 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
     );
   }
 
-  Widget _buildUploadLogo() {
+  void _showLogoSourceBottomSheet(BusinessInformationController c) {
+    final context = Get.context;
+    if (context == null) return;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.white,
+      barrierColor: Colors.transparent,
+      builder: (ctx) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: AppColors.businessInfoPriceBadgeBgStart,
+                  child: Icon(Icons.photo_library_outlined, color: AppColors.businessInfoBadgeStart),
+                ),
+                title: Text('Choose from Gallery', style: AppTextStyles.businessInfoInput),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  c.pickLogoFromGallery();
+                },
+              ),
+              if (!kIsWeb)
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: AppColors.businessInfoPriceBadgeBgStart,
+                    child: Icon(Icons.camera_alt_outlined, color: AppColors.businessInfoBadgeStart),
+                  ),
+                  title: Text('Take Photo', style: AppTextStyles.businessInfoInput),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    c.pickLogoFromCamera();
+                  },
+                ),
+              const SizedBox(height: 8),
+              ListTile(
+                title: Text('Cancel', style: AppTextStyles.businessInfoInput.copyWith(color: AppColors.businessInfoPlaceholder)),
+                onTap: () => Navigator.pop(ctx),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUploadLogo(BusinessInformationController c) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -425,7 +478,7 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {},
+            onTap: () => _showLogoSourceBottomSheet(c),
             borderRadius: BorderRadius.circular(_kInputRadius),
             child: Container(
               width: double.infinity,

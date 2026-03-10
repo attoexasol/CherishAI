@@ -150,7 +150,10 @@ class BusinessDashboardController extends GetxController {
 
   @override
   void onClose() {
-    searchController.dispose();
+    // Do not dispose searchController here: the dashboard screen may still be
+    // in the tree (e.g. after closing a dialog), and its TextField would then
+    // use a disposed controller. The controller is only re-created on next
+    // navigation to dashboard, so avoiding dispose prevents "used after dispose".
     super.onClose();
   }
 

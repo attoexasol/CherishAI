@@ -74,10 +74,11 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
   void _showUploadSourceSheet() {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
+      barrierColor: Colors.transparent,
       builder: (ctx) => Container(
         decoration: BoxDecoration(
-          color: AppColors.businessInfoInputBg,
+          color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(_kInputRadius)),
         ),
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
@@ -357,14 +358,15 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.businessInfoInputBg,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.transparent,
       builder: (ctx) => DraggableScrollableSheet(
         initialChildSize: 0.6,
         minChildSize: 0.3,
         maxChildSize: 0.9,
         builder: (_, scrollController) => Container(
           decoration: BoxDecoration(
-            color: AppColors.businessInfoInputBg,
+            color: Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(_kInputRadius)),
             border: Border.all(color: AppColors.businessInfoInputBorder, width: 2),
           ),
@@ -378,7 +380,14 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Select categories', style: AppTextStyles.businessInfoLabel),
+                      Expanded(
+                        child: Text(
+                          'Select categories',
+                          style: AppTextStyles.businessInfoLabel,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       TextButton(
                         onPressed: () => Navigator.pop(ctx),
                         child: Text('Done', style: AppTextStyles.businessInfoInput.copyWith(fontWeight: FontWeight.w600, color: _kHeaderPurple)),
@@ -415,29 +424,32 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          label,
-                                          style: AppTextStyles.businessInfoInput.copyWith(fontWeight: FontWeight.w600),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        if (description.isNotEmpty) ...[
-                                          const SizedBox(height: 2),
+                                    child: ConstrainedBox(
+                                      constraints: const BoxConstraints(minWidth: 0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
                                           Text(
-                                            description,
-                                            style: AppTextStyles.businessInfoHelper.copyWith(
-                                              fontSize: 12,
-                                              color: AppColors.businessInfoInputText.withAlpha(((0.8 * 255).toInt())),
-                                            ),
-                                            maxLines: 2,
+                                            label,
+                                            style: AppTextStyles.businessInfoInput.copyWith(fontWeight: FontWeight.w600),
+                                            maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
+                                          if (description.isNotEmpty) ...[
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              description,
+                                              style: AppTextStyles.businessInfoHelper.copyWith(
+                                                fontSize: 12,
+                                                color: AppColors.businessInfoDeliveryDesc,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
                                         ],
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -514,18 +526,22 @@ class _AddBusinessLocationDialogState extends State<AddBusinessLocationDialog> {
   }
 
   Widget _categoryChip(String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: _kHeaderPurple.withAlpha(((0.12 * 255).toInt())),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _kHeaderPurple.withAlpha(((0.4 * 255).toInt()))),
-      ),
-      child: Text(
-        label,
-        style: AppTextStyles.businessInfoInput.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+    final maxW = MediaQuery.of(context).size.width - _kContentPadding * 2 - 24;
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: maxW.clamp(120.0, 400.0)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: _kHeaderPurple.withAlpha(((0.12 * 255).toInt())),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: _kHeaderPurple.withAlpha(((0.4 * 255).toInt()))),
+        ),
+        child: Text(
+          label,
+          style: AppTextStyles.businessInfoInput.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }

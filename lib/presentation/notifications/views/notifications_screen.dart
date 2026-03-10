@@ -19,7 +19,6 @@ const double _kTabPaddingH = 20;
 const double _kTabPaddingV = 10;
 const double _kCardRadius = 24;
 const double _kCardPadding = 20;
-const double _kUnreadBarWidth = 6;
 const double _kCardIconSize = 56;
 const double _kCardIconIconSize = 28;
 const double _kBottomNavRadius = 28;
@@ -273,21 +272,7 @@ class NotificationsScreen extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(_kCardRadius),
-        child: Stack(
-          children: [
-            if (!n.isRead)
-              Positioned(
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: _kUnreadBarWidth,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: AppGradients.notifUnreadBar,
-                  ),
-                ),
-              ),
-            Padding(
+        child: Padding(
               padding: const EdgeInsets.all(_kCardPadding),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -418,8 +403,6 @@ class NotificationsScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
       ),
     );
   }

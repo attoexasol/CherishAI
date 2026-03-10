@@ -90,6 +90,11 @@ class ProductsServicesController extends GetxController {
   void onBack() => Get.back();
 
   Future<BusinessLocationModel?> openAddBusinessLocationDialog({BusinessLocationModel? initialLocation}) async {
+    // Delete previous instance only when opening again, so we never dispose
+    // TextEditingControllers while the dialog widget might still be in the tree.
+    if (Get.isRegistered<AddBusinessLocationController>()) {
+      Get.delete<AddBusinessLocationController>();
+    }
     Get.put(AddBusinessLocationController());
     if (initialLocation != null) {
       final controller = Get.find<AddBusinessLocationController>();
@@ -116,8 +121,7 @@ class ProductsServicesController extends GetxController {
               : []);
       controller.imagePaths.value = List<String>.from(paths);
     }
-    try {
-      final result = await Get.dialog<BusinessLocationModel>(
+    final result = await Get.dialog<BusinessLocationModel>(
         AddBusinessLocationDialog(
           initialImagePaths: initialLocation != null 
               ? (initialLocation.imagePaths.isNotEmpty 
@@ -155,17 +159,7 @@ class ProductsServicesController extends GetxController {
           _updateDashboardLocation(result, isUpdate: false);
         }
       }
-      return result;
-    } finally {
-      if (Get.isRegistered<AddBusinessLocationController>()) {
-        // Defer delete so the dialog is fully unmounted before controllers are disposed.
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (Get.isRegistered<AddBusinessLocationController>()) {
-            Get.delete<AddBusinessLocationController>();
-          }
-        });
-      }
-    }
+    return result;
   }
 
   void openEditBusinessLocationDialog(BusinessLocationModel location) {
