@@ -62,7 +62,7 @@ class UserTypeScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: _kBackBtnInset,
+              top: 40,
               left: _kBackBtnInset,
               child: _buildBackButton(c),
             ),

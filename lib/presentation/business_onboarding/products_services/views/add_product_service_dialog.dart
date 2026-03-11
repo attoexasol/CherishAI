@@ -386,56 +386,61 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
     );
   }
 
-  Widget _buildCategoryDropdown() {
-    final categoryValueInItems = selectedCategory.isNotEmpty && widget.categories.any((e) => e['value'] == selectedCategory);
-    final list = List<Map<String, String>>.from(widget.categories);
-    if (selectedCategory.isNotEmpty && !list.any((e) => e['value'] == selectedCategory)) {
-      list.insert(0, {'value': selectedCategory, 'label': selectedCategory, 'description': ''});
-    }
-    final items = list
-        .map((e) => DropdownMenuItem<String>(
-              value: e['value'] ?? '',
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    e['label'] ?? '',
-                    style: _dropdownTextStyle.copyWith(fontWeight: FontWeight.w600),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+  void _openCategorySelector(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      builder: (sheetContext) {
+        return Container(
+          height: MediaQuery.of(sheetContext).size.height * 0.75,
+          padding: const EdgeInsets.all(16),
+          child: ListView.builder(
+            itemCount: widget.categories.length,
+            itemBuilder: (context, index) {
+              final category = widget.categories[index];
+              final label = category['label'] ?? category['value'] ?? '';
+              final description = category['description'] ?? '';
+              final value = category['value'] ?? '';
+              return ListTile(
+                title: Text(
+                  label,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
                   ),
-                  if ((e['description'] ?? '').isNotEmpty) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      e['description']!,
-                      style: _dropdownTextStyle.copyWith(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.businessInfoDeliveryDesc,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ],
-              ),
-            ))
-        .toList();
-    final selectedItemBuilder = list.map((e) => Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: Text(
-                e['label'] ?? '',
-                style: _dropdownTextStyle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        )).toList();
+                ),
+                subtitle: description.isNotEmpty
+                    ? Text(
+                        description,
+                        style: const TextStyle(fontSize: 12),
+                      )
+                    : null,
+                onTap: () {
+                  setState(() => selectedCategory = value);
+                  Navigator.pop(sheetContext);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  String? get _selectedCategoryLabel {
+    if (selectedCategory.isEmpty) return null;
+    for (final e in widget.categories) {
+      if (e['value'] == selectedCategory) return e['label'] ?? selectedCategory;
+    }
+    return selectedCategory;
+  }
+
+  Widget _buildCategoryDropdown() {
+    final displayText = _selectedCategoryLabel;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -446,12 +451,39 @@ class _AddProductServiceDialogState extends State<AddProductServiceDialog> {
           ),
         ),
         SizedBox(height: _kLabelMb),
-        _dropdown(
-          value: categoryValueInItems || selectedCategory.isNotEmpty ? selectedCategory : '',
-          hint: 'Select a category',
-          items: items,
-          onChanged: (v) => setState(() => selectedCategory = v ?? ''),
-          selectedItemBuilder: selectedItemBuilder,
+        GestureDetector(
+          onTap: () => _openCategorySelector(context),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 16,
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    displayText?.isNotEmpty == true
+                        ? displayText!
+                        : 'Product/Service Category *',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: (displayText?.isNotEmpty != true)
+                          ? Colors.grey
+                          : Colors.black,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+                const Icon(Icons.keyboard_arrow_down),
+              ],
+            ),
+          ),
         ),
       ],
     );
